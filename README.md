@@ -1,6 +1,6 @@
 # Yuansh0u-labs
 
-## Hello, Internet, This repo is all about networking and container tech lab and even more, the main staff is focusing on networing.
+## Hello, Internet, This repo is all about pysical networking(big boxes)/container(tiny boxes) tech lab and even more, the main staff is focusing on networing.
 ## Inside the repo, including the network tech best design for your production network
 ### Cisco-base platform
 - Enterprise networking 
@@ -10,7 +10,10 @@
 - Docker
 - Kubernetes
 ### Hope you all love it, Have fun!
-#### By the way, I was looking for a job... 
-#### email: 751070874@qq.com
-#### Pre-sales is prefer...
+## By the way, I was looking for a job... 
+## Yuanshou
+## email: 751070874@qq.com
+## Pre-sale is prefer...or instructor
+## company??? whatever,,,cloud provider or network vendor??hahaha
+## where am I? BEIJING.
 # Big thank you~
