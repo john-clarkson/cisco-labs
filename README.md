@@ -16,5 +16,5 @@
 ## Pre-sale is prefer...or instructor
 ## company??? whatever,,,cloud provider or network vendor??hahaha
 ## where am I? BEIJING.
-## if you can help me, plz live a comment, you'r saving a life.
+## if you can help me, plz lv a comment, you'r saving a life.
 # Big thank you~
