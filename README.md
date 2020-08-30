@@ -1,6 +1,6 @@
 # Yuansh0u-labs
 
-## Hello, Internet, This repo is all about pysical networking(big boxes)/container(tiny boxes) tech lab and even more, the main staff is focusing on networing.
+## Hello, Internet, This repo is all about physical networking=(big boxes)/container=(tiny boxes) tech lab and even more, the main staff is focusing on networing.
 ## Inside the repo, including the network tech best design for your production network
 ### Cisco-base platform
 - Enterprise networking 
@@ -16,4 +16,5 @@
 ## Pre-sale is prefer...or instructor
 ## company??? whatever,,,cloud provider or network vendor??hahaha
 ## where am I? BEIJING.
+## if you can help me, plz live a comment, you'r saving a life.
 # Big thank you~
