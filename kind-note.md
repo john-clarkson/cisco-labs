@@ -1,5 +1,30 @@
-# KIND Playgroud k8s v1.18.2
-# Docker installation v19.03.8
+# KIND(kubernetes in docker) Playgroud k8s v1.18.2
+## Docker installation v19.03.8
+## HostOS: UBUNTU 20.04.1TLS
+## kernel-version: 5.4.0
+## sample output
+```sh
+$ cat /etc/os-release 
+NAME="Ubuntu"
+VERSION="20.04.1 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.1 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+~
+$uname -a
+Linux hitler-k8s 5.4.0-42-generic #46-Ubuntu SMP Fri Jul 10 00:24:02 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+~
+$
+
+```
+
 ```sh
 $ sudo apt install docker.io
 ##docker permission fix. without sudo docker
@@ -18,6 +43,7 @@ export PATH=$PATH:~/go/bin
 export GOROOT=~/go
 $go version
 go version go1.14.4 linux/amd64
+### best practice: add export cli to your .bashrc or .zshrc, then source ~/.bashrc to loading them.
 ```
 
 ## Standard CNI pack privelege setting for kind-config-file loading.
@@ -216,7 +242,17 @@ status:
 ##
 $kubectl scale deployment kuard --replicas=10
 ```
-## helm 2 setup, ref link:
+## Helm 3 setup ref link:
+### https://helm.sh/docs/intro/install/
+```sh
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+sudo apt-get install apt-transport-https --yes
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+```
+
+## Helm 2 setup, ref link:
 ### https://helm.sh/docs/intro/install/#from-the-binary-releases
 
 ```sh
