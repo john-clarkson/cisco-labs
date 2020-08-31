@@ -1,0 +1,405 @@
+autostart = False
+version = 0.8.6
+[127.0.0.1:7202]
+    workingdir = C:\Users\JOHNC~1\AppData\Local\Temp
+    udp = 10201
+    [[7200]]
+        image = C:\Users\John C\Desktop\C7200-AD.BIN
+        idlepc = 0x60639c18
+        sparsemem = True
+        ghostios = True
+    [[ROUTER BRANCH3-1]]
+        console = 9006
+        aux = 2506
+        cnfg = configs\BRANCH3-1.cfg
+        slot0 = C7200-IO-2FE
+        f0/0 = SW2 4
+        slot1 = PA-2FE-TX
+        f1/0 = SW4 1
+        slot2 = PA-2FE-TX
+        f2/0 = BRANCH3-SW f1/0
+        x = -67.0
+        y = 136.0
+        z = 1.0
+    [[ROUTER BRANCH2-2]]
+        console = 9005
+        aux = 2505
+        cnfg = configs\BRANCH2-2.cfg
+        slot0 = C7200-IO-2FE
+        slot1 = PA-2FE-TX
+        f1/0 = SW2 3
+        slot2 = PA-2FE-TX
+        f2/0 = INET f2/0
+        x = -163.0
+        y = -47.0
+        z = 1.0
+    [[ETHSW SW2]]
+        1 = access 200 SW3 1
+        2 = dot1q 1 BRANCH2-1 f1/0
+        3 = dot1q 1 BRANCH2-2 f1/0
+        4 = dot1q 1 BRANCH3-1 f0/0
+        x = -318.5
+        y = 137.0
+        z = 1.0
+    [[ETHSW SW3]]
+        1 = dot1q 1 SW2 1
+        2 = access 1 PC2 f0/0
+        x = -547.5
+        y = 144.0
+        z = 1.0
+[127.0.0.1:7203]
+    workingdir = C:\Users\JOHNC~1\AppData\Local\Temp
+    udp = 10301
+    [[7200]]
+        image = C:\Users\John C\Desktop\C7200-AD.BIN
+        idlepc = 0x60639c18
+        sparsemem = True
+        ghostios = True
+    [[ROUTER PC2]]
+        console = 2116
+        aux = 2516
+        cnfg = configs\PC2.cfg
+        slot0 = C7200-IO-2FE
+        f0/0 = SW3 2
+        x = -738.0
+        y = 138.0
+        z = 1.0
+    [[ROUTER BRANCH3-2]]
+        console = 9007
+        aux = 2507
+        cnfg = configs\BRANCH3-2.cfg
+        slot0 = C7200-IO-2FE
+        f0/0 = SW4 2
+        slot1 = PA-2FE-TX
+        f1/1 = INET f1/1
+        slot2 = PA-2FE-TX
+        f2/1 = BRANCH3-SW f1/1
+        x = 87.0
+        y = 132.0
+        z = 1.0
+[127.0.0.1:7200]
+    workingdir = C:\Users\JOHNC~1\AppData\Local\Temp
+    udp = 10001
+    [[7200]]
+        image = C:\Users\John C\Desktop\C7200-AD.BIN
+        idlepc = 0x60639c18
+        sparsemem = True
+        ghostios = True
+    [[ROUTER HQ-2]]
+        console = 9002
+        aux = 2502
+        cnfg = configs\HQ-2.cfg
+        slot0 = C7200-IO-2FE
+        f0/0 = SW1 2
+        f0/1 = INET f0/1
+        slot1 = PA-2FE-TX
+        f1/1 = HQ-SW f1/1
+        slot2 = PA-2FE-TX
+        x = -180.0
+        y = -290.0
+        z = 1.0
+    [[ROUTER HQ-1]]
+        console = 9001
+        aux = 2501
+        cnfg = configs\HQ-1.cfg
+        slot0 = C7200-IO-2FE
+        f0/0 = SW1 1
+        slot1 = PA-2FE-TX
+        f1/0 = HQ-SW f1/0
+        slot2 = PA-2FE-TX
+        x = -341.0
+        y = -290.0
+        z = 1.0
+    [[ETHSW SW1]]
+        1 = dot1q 1 HQ-1 f0/0
+        2 = dot1q 1 HQ-2 f0/0
+        3 = dot1q 1 BRANCH2-1 f0/0
+        x = -335.5
+        y = -166.0
+        z = 1.0
+[127.0.0.1:7201]
+    workingdir = C:\Users\JOHNC~1\AppData\Local\Temp
+    udp = 10101
+    [[7200]]
+        image = C:\Users\John C\Desktop\C7200-AD.BIN
+        idlepc = 0x60639c18
+        sparsemem = True
+        ghostios = True
+    [[ROUTER HQ-SW]]
+        console = 9003
+        aux = 2503
+        cnfg = configs\HQ-SW.cfg
+        slot0 = C7200-IO-2FE
+        slot1 = PA-2FE-TX
+        f1/0 = HQ-1 f1/0
+        f1/1 = HQ-2 f1/1
+        slot2 = PA-2FE-TX
+        x = -269.0
+        y = -408.0
+        z = 1.0
+    [[ROUTER BRANCH2-1]]
+        console = 9004
+        aux = 2504
+        cnfg = configs\BRANCH2-1.cfg
+        slot0 = C7200-IO-2FE
+        f0/0 = SW1 3
+        slot1 = PA-2FE-TX
+        f1/0 = SW2 2
+        slot2 = PA-2FE-TX
+        x = -324.0
+        y = -43.0
+        z = 1.0
+        hx = -66.0
+        hy = -25.0
+[127.0.0.1:7206]
+    workingdir = C:\Users\JOHNC~1\AppData\Local\Temp
+    udp = 10601
+    [[7200]]
+        image = C:\Users\John C\Desktop\C7200-AD.BIN
+        idlepc = 0x60639c18
+        sparsemem = True
+        ghostios = True
+    [[ROUTER BRANCH3-SW]]
+        console = 2117
+        aux = 2517
+        cnfg = configs\BRANCH3-SW.cfg
+        slot0 = C7200-IO-2FE
+        slot1 = PA-2FE-TX
+        f1/0 = BRANCH3-1 f2/0
+        f1/1 = BRANCH3-2 f2/1
+        x = 232.0
+        y = 314.0
+        z = 1.0
+        hx = -11.5
+        hy = 55.0
+[127.0.0.1:7204]
+    workingdir = C:\Users\JOHNC~1\AppData\Local\Temp
+    udp = 10401
+[127.0.0.1:7205]
+    workingdir = C:\Users\JOHNC~1\AppData\Local\Temp
+    udp = 10501
+    [[7200]]
+        image = C:\Users\John C\Desktop\C7200-AD.BIN
+        idlepc = 0x60639c18
+        sparsemem = True
+        ghostios = True
+    [[ROUTER PC3]]
+        console = 2118
+        aux = 2518
+        cnfg = configs\PC3.cfg
+        slot0 = C7200-IO-2FE
+        f0/0 = SW4 3
+        x = -214.0
+        y = 354.0
+        z = 1.0
+    [[ETHSW SW4]]
+        1 = dot1q 1 BRANCH3-1 f1/0
+        2 = dot1q 1 BRANCH3-2 f0/0
+        3 = access 1 PC3 f0/0
+        x = -101.5
+        y = 319.0
+        z = 1.0
+    [[ROUTER INET]]
+        console = 2120
+        aux = 2520
+        cnfg = configs\INET.cfg
+        slot0 = C7200-IO-2FE
+        f0/1 = HQ-2 f0/1
+        slot1 = PA-2FE-TX
+        f1/1 = BRANCH3-2 f1/1
+        slot2 = PA-2FE-TX
+        f2/0 = BRANCH2-2 f2/0
+        slot3 = PA-2FE-TX
+        x = 112.0
+        y = -117.0
+        z = 1.0
+[GNS3-DATA]
+    configs = configs
+    [[NOTE 1]]
+        text = "30.30.1.1 255.255.255.255\n30.31.1.1 255.255.255.255\n30.32.1.1 255.255.255.255\n"
+        x = 315.0
+        y = 298.0
+    [[NOTE 2]]
+        text = "10.10.1.1 255.255.255.255\n10.11.1.1 255.255.255.255\n10.12.1.1 255.255.255.255\n\n"
+        x = -187.0
+        y = -432.0
+    [[NOTE 3]]
+        text = "f1/1"
+        x = 19.0538329126
+        y = -33.1808087642
+        interface = BRANCH3-SW f1/1
+    [[NOTE 4]]
+        text = "f1/0"
+        x = -57.1443115995
+        y = -16.3111012094
+        interface = BRANCH3-SW f1/0
+    [[NOTE 5]]
+        text = "2"
+        x = 60.6768696628
+        y = -15.0825551392
+        interface = SW4 2
+    [[NOTE 6]]
+        text = "1"
+        x = 11.288260719
+        y = -15.8400954928
+        interface = SW4 1
+    [[NOTE 7]]
+        text = "3"
+        x = -2.82876053605
+        y = 27.4414210555
+        interface = SW4 3
+    [[NOTE 8]]
+        text = "2"
+        x = -4.48048304348
+        y = 14.7506099049
+        interface = SW3 2
+    [[NOTE 9]]
+        text = "1"
+        x = 74.9170491972
+        y = 22.8041334924
+        interface = SW3 1
+    [[NOTE 10]]
+        text = "4"
+        x = 75.3014876084
+        y = 12.0198512392
+        interface = SW2 4
+    [[NOTE 11]]
+        text = "3"
+        x = 63.7842712475
+        y = -12.2842712475
+        interface = SW2 3
+    [[NOTE 12]]
+        text = "2"
+        x = 45.2883113147
+        y = -22.7838750205
+        interface = SW2 2
+    [[NOTE 13]]
+        text = "1"
+        x = -3.91704919724
+        y = 9.19586650762
+        interface = SW2 1
+    [[NOTE 14]]
+        text = "3"
+        x = 38.283930514
+        y = 55.9030040334
+        interface = SW1 3
+    [[NOTE 15]]
+        text = "2"
+        x = 67.1741505766
+        y = -8.42842985645
+        interface = SW1 2
+    [[NOTE 16]]
+        text = "1"
+        x = 32.7943465705
+        y = -23.9083880847
+        interface = SW1 1
+    [[NOTE 17]]
+        text = "f2/0"
+        x = -5.76388695692
+        y = 31.8671712254
+        interface = INET f2/0
+    [[NOTE 18]]
+        text = "f0/1"
+        x = -1.41357558497
+        y = 1.61113501301
+        interface = INET f0/1
+    [[NOTE 19]]
+        text = "f1/1"
+        x = 29.0040259138
+        y = 61.7999018982
+        interface = INET f1/1
+    [[NOTE 20]]
+        text = "f1/0"
+        x = 4.71572875254
+        y = 50.2842712475
+        interface = BRANCH2-2 f1/0
+    [[NOTE 21]]
+        text = "f2/0"
+        x = 71.7638869569
+        y = 12.1328287746
+        interface = BRANCH2-2 f2/0
+    [[NOTE 22]]
+        text = "f2/0"
+        x = 56.1443115995
+        y = 52.3111012094
+        interface = BRANCH3-1 f2/0
+    [[NOTE 23]]
+        text = "f1/0"
+        x = -19.788260719
+        y = 51.8400954928
+        interface = BRANCH3-1 f1/0
+    [[NOTE 24]]
+        text = "f0/0"
+        x = -6.8014876084
+        y = 25.9801487608
+        interface = BRANCH3-1 f0/0
+    [[NOTE 25]]
+        text = "f0/0"
+        x = 35.7056534295
+        y = 61.9083880847
+        interface = HQ-1 f0/0
+    [[NOTE 26]]
+        text = "f1/0"
+        x = 53.8345858252
+        y = -12.1455712135
+        interface = HQ-1 f1/0
+    [[NOTE 27]]
+        text = "f0/0"
+        x = 1.32584942341
+        y = 46.4284298565
+        interface = HQ-2 f0/0
+    [[NOTE 28]]
+        text = "f0/1"
+        x = 67.413575585
+        y = 42.388864987
+        interface = HQ-2 f0/1
+    [[NOTE 29]]
+        text = "f1/1"
+        x = 8.91348469102
+        y = -9.93493040966
+        interface = HQ-2 f1/1
+    [[NOTE 30]]
+        text = "f1/0"
+        x = 23.2116886853
+        y = 60.7838750205
+        interface = BRANCH2-1 f1/0
+    [[NOTE 31]]
+        text = "f0/0"
+        x = 30.216069486
+        y = -17.9030040334
+        interface = BRANCH2-1 f0/0
+    [[NOTE 32]]
+        text = "f2/1"
+        x = 64.9461670874
+        y = 47.1808087642
+        interface = BRANCH3-2 f2/1
+    [[NOTE 33]]
+        text = "f0/0"
+        x = -4.17686966278
+        y = 54.0825551392
+        interface = BRANCH3-2 f0/0
+    [[NOTE 34]]
+        text = "f1/1"
+        x = 36.9959740862
+        y = -17.7999018982
+        interface = BRANCH3-2 f1/1
+    [[NOTE 35]]
+        text = "f0/0"
+        x = 71.3287605361
+        y = 10.5585789445
+        interface = PC3 f0/0
+    [[NOTE 36]]
+        text = "f0/0"
+        x = 72.9804830435
+        y = 23.2493900951
+        interface = PC2 f0/0
+    [[NOTE 37]]
+        text = "f1/1"
+        x = 57.086515309
+        y = 53.9349304097
+        interface = HQ-SW f1/1
+    [[NOTE 38]]
+        text = "f1/0"
+        x = 12.1654141748
+        y = 56.1455712135
+        interface = HQ-SW f1/0
