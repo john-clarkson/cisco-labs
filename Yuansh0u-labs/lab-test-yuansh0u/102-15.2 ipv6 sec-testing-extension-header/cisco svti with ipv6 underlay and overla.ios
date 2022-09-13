@@ -1,0 +1,58 @@
+cisco svti with ipv6 underlay and overlay
+!
+config t 
+ipv6 unicast-routing
+crypto isakmp policy 1
+  authentication pre-share
+!
+crypto isakmp key myPreshareKey0 address ipv6 2001::3/128
+crypto isakmp keepalive 30 30
+!
+crypto ipsec transform-set 3des ah-sha-hmac esp-3des 
+!
+crypto ipsec profile profile0
+  set transform-set 3des 
+!
+ipv6 cef
+!
+interface Tunnel0
+  ipv6 address fd00::1/64
+  ipv6 enable
+  ipv6 cef
+  tunnel source 2001::1
+  tunnel destination 2001::3
+  tunnel mode ipsec ipv6
+  tunnel protection ipsec profile profile0
+!
+inter f0/0
+
+ipv6 ospf encryption ipsec spi 1001 esp null sha1 123456789A123456789B123456789C123456789D
+
+
+
+
+  config t 
+ipv6 unicast-routing
+crypto isakmp policy 1
+  authentication pre-share
+!
+crypto isakmp key myPreshareKey0 address ipv6 2001::1/128
+crypto isakmp keepalive 30 30
+!
+crypto ipsec transform-set 3des ah-sha-hmac esp-3des 
+!
+crypto ipsec profile profile0
+  set transform-set 3des 
+!
+ipv6 cef
+!
+interface Tunnel0
+  ipv6 address fd00::3/64
+  ipv6 enable
+  ipv6 cef
+  tunnel source 2001::3
+  tunnel destination 2001::1
+  tunnel mode ipsec ipv6
+  tunnel protection ipsec profile profile0
+
+

@@ -1,0 +1,151 @@
+!Result
+
+R2 as layer2 switch <IOS 15.2 BVI MODE>
+R1/R3
+f0/0 interface setting
+ link-local fe80::1/3
+ mac address cccc.cccc.1111/3333/4444
+ unique local address
+ fc00::1/64
+ fc00::3/64
+ Anycast address fc00::254/64
+R4
+ ipv6 address autoconfig with default route insertion
+!interface config
+R4#sh run int f0/0
+Building configuration...
+
+Current configuration : 150 bytes
+!
+interface FastEthernet0/0
+ mac-address cccc.cccc.4444
+ no ip address
+ ip load-sharing per-packet
+ duplex full
+ ipv6 address autoconfig default
+end
+!auto address EUI-64 generate
+R4#show ipv interface b
+FastEthernet0/0        [up/up]
+    FE80::CECC:CCFF:FECC:4444
+    FC00::CECC:CCFF:FECC:4444
+!rib info
+R4#show ipv route
+IPv6 Routing Table - default - 4 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, H - NHRP, I1 - ISIS L1
+       I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary, D - EIGRP
+       EX - EIGRP external, ND - ND Default, NDp - ND Prefix, DCE - Destination
+       NDr - Redirect, O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1
+       OE2 - OSPF ext 2, ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, l - LISP
+ND  ::/0 [2/0]
+     via FE80::1, FastEthernet0/0
+NDp FC00::/64 [2/0]
+     via FastEthernet0/0, directly connected
+L   FC00::CECC:CCFF:FECC:4444/128 [0/0]
+     via FastEthernet0/0, receive
+L   FF00::/8 [0/0]
+     via Null0, receive
+R4#
+
+!shutdown R1 interface
+R1(config-if)#int f0/0
+R1(config-if)#shut
+R1(config-if)#
+
+!gw pointing to R3
+R4#show ipv route
+IPv6 Routing Table - default - 4 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, H - NHRP, I1 - ISIS L1
+       I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary, D - EIGRP
+       EX - EIGRP external, ND - ND Default, NDp - ND Prefix, DCE - Destination
+       NDr - Redirect, O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1
+       OE2 - OSPF ext 2, ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, l - LISP
+ND  ::/0 [2/0]
+     via FE80::3, FastEthernet0/0
+NDp FC00::/64 [2/0]
+     via FastEthernet0/0, directly connected
+L   FC00::CECC:CCFF:FECC:4444/128 [0/0]
+     via FastEthernet0/0, receive
+L   FF00::/8 [0/0]
+     via Null0, receive
+R4#
+
+R4#ping fc00::1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to FC00::1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 36/69/144 ms
+R4#ping fc00::3
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to FC00::3, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 32/72/220 ms
+R4#
+R4#show ipv nei
+R4#show ipv neighbors 
+IPv6 Address                              Age Link-layer Addr State Interface
+FC00::1                                     0 cccc.cccc.1111  REACH Fa0/0
+FC00::3                                     0 cccc.cccc.3333  REACH Fa0/0
+FE80::1                                     5 cccc.cccc.1111  STALE Fa0/0
+FE80::3                                     5 cccc.cccc.3333  STALE Fa0/0
+FE80::C802:10FF:FECF:39                     3 ca02.10cf.0039  STALE Fa0/0
+
+R4#
+
+
+R2#show bridge 1 
+
+Total of 300 station blocks, 297 free
+Codes: P - permanent, S - self
+
+Bridge Group 1:
+
+    Address       Action   Interface       Age   RX count   TX count
+cccc.cccc.4444   forward   Ethernet2/1       1        169         80
+cccc.cccc.3333   forward   Ethernet2/2       1         85         30
+cccc.cccc.1111   forward   Ethernet2/0       1        109         58
+
+R2#
+R2#show spanning-tree 
+
+Bridge group 1
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32768
+             Address     ca02.10cf.0038
+             This bridge is the root
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32768
+             Address     ca02.10cf.0038
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time 300
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et2/0               Desg FWD 100       128.5    P2p R-L2GP 
+Et2/1               Desg FWD 100       128.6    P2p R-L2GP 
+Et2/2               Desg FWD 100       128.7    P2p R-L2GP 
+
+R2#
+
+!Anycast testing
+R4#ping fc00::254 repeat 4
+Type escape sequence to abort.
+Sending 4, 100-byte ICMP Echos to FC00::254, timeout is 2 seconds:
+!!!!
+Success rate is 100 percent (4/4), round-trip min/avg/max = 32/59/132 ms
+R4#
+
+R1#
+*Nov  7 16:16:25.547: ICMPv6: Received N-Solicit, Src=FC00::CECC:CCFF:FECC:4444, Dst=FF02::1:FF00:254
+*Nov  7 16:16:25.611: ICMPv6: Sent N-Advert, Src=FC00::1, Dst=FC00::CECC:CCFF:FECC:4444
+*Nov  7 16:16:25.655: ICMPv6: Received echo request, Src=FC00::CECC:CCFF:FECC:4444, Dst=FC00::254
+*Nov  7 16:16:25.659: ICMPv6: Sent echo reply, Src=FC00::1, Dst=FC00::CECC:CCFF:FECC:4444
+*Nov  7 16:16:25.719: ICMPv6: Received echo request, Src=FC00::CECC:CCFF:FECC:4444, Dst=FC00::254
+*Nov  7 16:16:25.723: ICMPv6: Sent echo reply, Src=FC00::1, Dst=FC00::CECC:CCFF:FECC:4444
+*Nov  7 16:16:25.771: ICMPv6: Received echo request, Src=FC00::CECC:CCFF:FECC:4444, Dst=FC00::254
+
+R3#
+*Nov  7 16:19:52.331: ICMPv6: Received N-Solicit, Src=FC00::CECC:CCFF:FECC:4444, Dst=FF02::1:FF00:254

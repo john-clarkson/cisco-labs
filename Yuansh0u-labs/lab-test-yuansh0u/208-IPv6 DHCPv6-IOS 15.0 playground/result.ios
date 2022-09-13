@@ -1,0 +1,137 @@
+R1： stateful dhcpv6 server
+ipv6 unicast-routing
+ipv6 cef
+ipv6 dhcp pool v6-stateful-pool
+ address prefix 2001:1234:5678:9ABC:1200::/72 lifetime 1800 60
+ dns-server 2001:4860:4860::8888
+ dns-server 2001:4860:4860::8844
+ domain-name cisco.com
+
+ !
+
+interface FastEthernet0/0
+ no ip address
+ duplex full
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:1234:5678:9ABC:1200::254/72
+ ipv6 enable
+ ipv6 nd managed-config-flag
+ ipv6 nd other-config-flag
+ ipv6 dhcp server v6-stateful-pool rapid-commit
+ !
+
+R3: stateless dhcpv6 server
+ipv6 unicast-routing
+ipv6 cef
+ipv6 dhcp pool stateless-pool
+ dns-server 1234::1234
+ domain-name fuck.com
+
+!
+interface FastEthernet1/0
+ no ip address
+ duplex full
+ speed auto
+ ipv6 address FE80::32 link-local
+ ipv6 address 3001:1234::254/64
+ ipv6 nd other-config-flag
+ ipv6 dhcp server stateless-pool rapid-commit
+ !
+
+R2: dhcpv6 client
+R2-dhcpv6-client#sh run int f0/0
+Building configuration...
+
+Current configuration : 175 bytes
+!
+interface FastEthernet0/0
+ description R1-dhcpv6-stateful
+ no ip address
+ duplex full
+ ipv6 address dhcp rapid-commit
+ ipv6 address FE80::21 link-local
+ ipv6 enable
+ !
+end
+
+R2-dhcpv6-client#sh run int f1/0
+Building configuration...
+
+Current configuration : 181 bytes
+!
+interface FastEthernet1/0
+ description R3-stateless-dhcpv6
+ no ip address
+ duplex full
+ speed auto
+ ipv6 address FE80::23 link-local
+ ipv6 address autoconfig
+ ipv6 enable
+ !
+end
+
+R2-dhcpv6-client#
+
+Result: 
+
+R2-dhcpv6-client#show ipv int b
+FastEthernet0/0            [up/up]
+    FE80::21
+    2001:1234:5678:9ABC:126E:7D61:F:5F97
+FastEthernet1/0            [up/up]
+    FE80::23
+    3001:1234::23
+FastEthernet1/1            [up/up]
+    FE80::14
+    4001:1234:5678:9ABC:12F3:8563:5CEE:FDE8
+R2-dhcpv6-client#
+
+
+check:
+
+R1-stateful-dhcpv6-server#show ipv dhcp pool 
+DHCPv6 pool: v6-stateful-pool
+  Address allocation prefix: 2001:1234:5678:9ABC:1200::/72 valid 1800 preferred 60 (1 in use, 0 conflicts)
+  DNS server: 2001:4860:4860::8888
+  DNS server: 2001:4860:4860::8844
+  Domain name: cisco.com
+  Active clients: 1
+R1-stateful-dhcpv6-server#
+
+
+R1-stateful-dhcpv6-server#show ipv dhcp bind
+Client: FE80::21 
+  DUID: 00030001CA0214160000
+  Username : unassigned
+  IA NA: IA ID 0x00030001, T1 30, T2 48
+    Address: 2001:1234:5678:9ABC:126E:7D61:F:5F97
+            preferred lifetime 60, valid lifetime 1800
+            expires at Jul 29 2021 12:48 PM (1794 seconds)
+R1-stateful-dhcpv6-server#
+
+
+R2-dhcpv6-client#show ipv neighbors 
+IPv6 Address                              Age Link-layer Addr State Interface
+FE80::1                                     0 ca01.1415.0000  REACH Fa0/0
+FE80::4                                     0 ca04.15e3.001d  STALE Fa1/1
+2001:1234:5678:9ABC:1200::254               5 ca01.1415.0000  STALE Fa0/0
+4001:1234:5678:9ABC:1200::254               8 ca04.15e3.001d  STALE Fa1/1
+FE80::32                                   11 ca03.1417.001c  STALE Fa1/0
+
+R2-dhcpv6-client#sh run | sec ipv route
+R2-dhcpv6-client#sh run | sec ipv6 route
+ipv6 route 2001:1234:5678:9ABC:1200::254/128 FastEthernet0/0
+ipv6 route 4001:1234:5678:9ABC:1200::254/128 FastEthernet1/1
+# link-local as next-hop
+ipv6 route FC00::1/128 fastEthernet 0/0 FE80::1 
+# global address as next-hop 
+ipv route fc00::1/128 2001:1234:5678:9ABC:1200::254
+R2-dhcpv6-client#
+
+R2-dhcpv6-client#ping fc00::1
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to FC00::1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 28/32/36 ms
+R2-dhcpv6-client#

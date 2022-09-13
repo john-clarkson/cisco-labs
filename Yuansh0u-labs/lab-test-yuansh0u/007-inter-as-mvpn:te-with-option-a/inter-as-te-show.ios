@@ -1,0 +1,429 @@
+R1#sh run int tun 6
+Building configuration...
+
+Current configuration : 327 bytes
+!
+interface Tunnel6
+ ip unnumbered Loopback0
+ tunnel source Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination 6.6.6.6
+ tunnel mpls traffic-eng autoroute destination
+ tunnel mpls traffic-eng priority 7 7
+ tunnel mpls traffic-eng bandwidth 4000
+ tunnel mpls traffic-eng path-option 10 explicit name INTER_AS_TE_R6
+end
+
+R1#sh ip explicit-paths 
+PATH INTER_AS_TE_R6 (loose source route, path complete, generation 1636)
+    1: next-address loose 2.2.2.2
+    2: next-address loose 3.3.3.3
+    3: next-address loose 5.5.5.5
+####################
+
+R6#sh run int tun 6
+Building configuration...
+
+Current configuration : 327 bytes
+!
+interface Tunnel6
+ ip unnumbered Loopback0
+ tunnel source Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination 1.1.1.1
+ tunnel mpls traffic-eng autoroute destination
+ tunnel mpls traffic-eng priority 7 7
+ tunnel mpls traffic-eng bandwidth 4000
+ tunnel mpls traffic-eng path-option 10 explicit name INTER_AS_TE_R1
+end
+
+R6#show ip explicit-paths 
+PATH INTER_AS_TE_R1 (loose source route, path complete, generation 49)
+    1: next-address loose 7.7.7.7
+    2: next-address loose 5.5.5.5
+    3: next-address loose 3.3.3.3
+R6#
+#############
+
+R1#show mpls traffic-eng tunnel tun 6
+
+Name: R1_t6                               (Tunnel6) Destination: 6.6.6.6
+  Status:
+    Admin: up         Oper: up     Path: valid       Signalling: connected
+    path option 10, type explicit INTER_AS_TE_R6 (Basis for Setup, path weight 1)
+
+  Config Parameters:
+    Bandwidth: 4000     kbps (Global)  Priority: 7  7   Affinity: 0x0/0xFFFF
+    Metric Type: TE (default)
+    AutoRoute: disabled LockDown: disabled Loadshare: 4000 [500000] bw-based
+    AutoRoute destination: enabled 
+    auto-bw: disabled
+  Active Path Option Parameters:
+    State: explicit path option 10 is active
+    BandwidthOverride: disabled  LockDown: disabled  Verbatim: disabled
+
+
+  InLabel  :  -
+  OutLabel : FastEthernet0/0, 24
+  Next Hop : 12.1.1.2
+  RSVP Signalling Info:
+       Src 1.1.1.1, Dst 6.6.6.6, Tun_Id 6, Tun_Instance 3
+    RSVP Path Info:
+      My Address: 12.1.1.1   
+      Explicit Route: 12.1.1.2 2.2.2.2 3.3.3.3* 5.5.5.5* 
+      Record   Route: 
+      Tspec: ave rate=4000 kbits, burst=1000 bytes, peak rate=4000 kbits
+    RSVP Resv Info:
+      Record   Route:  23.1.1.2 35.35.35.3 56.1.1.5 56.1.1.6
+      Fspec: ave rate=4000 kbits, burst=1000 bytes, peak rate=4000 kbits
+  Shortest Unconstrained Path Info:
+    Path Weight: UNKNOWN
+    Explicit Route:  UNKNOWN
+  History:
+    Tunnel:
+      Time since created: 25 minutes, 2 seconds
+      Time since path change: 21 minutes, 9 seconds
+      Number of LSP IDs (Tun_Instances) used: 3
+    Current LSP: [ID: 3]
+      Uptime: 21 minutes, 9 seconds
+    Prior LSP: [ID: 2]
+      ID: path option unknown
+      Removal Trigger: tunnel shutdown
+R1#
+
+R1#sh ip route
+****
+      6.0.0.0/32 is subnetted, 1 subnets
+S        6.6.6.6 is directly connected, Tunnel6
+****
+R1#traceroute 6.6.6.6 sou lo0
+Type escape sequence to abort.
+Tracing the route to 6.6.6.6
+VRF info: (vrf in name/id, vrf out name/id)
+  1 12.1.1.2 [MPLS: Label 24 Exp 0] 88 msec 84 msec 76 msec
+  2 23.1.1.3 [MPLS: Label 26 Exp 0] 100 msec 80 msec 80 msec
+  3 35.35.35.5 [MPLS: Label 26 Exp 0] 104 msec 80 msec 72 msec
+  4 56.1.1.6 76 msec 72 msec 76 msec
+R1#
+
+R1#show mpls forwarding-table 6.6.6.6 detail 
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop    
+Label      Label      or Tunnel Id     Switched      interface              
+23         Pop Label  6.6.6.6/32       0             Tu6        point2point 
+	MAC/Encaps=14/18, MRU=1500, Label Stack{24}, via Fa0/0
+	CA026E9F0000CA016E9D00008847 00018000
+	No output feature configured
+R1#
+
+#################################
+R6#traceroute 1.1.1.1 sou lo0
+Type escape sequence to abort.
+Tracing the route to 1.1.1.1
+VRF info: (vrf in name/id, vrf out name/id)
+  1 67.1.1.7 [MPLS: Label 19 Exp 0] 60 msec 76 msec 72 msec
+  2 57.1.1.5 [MPLS: Label 27 Exp 0] 56 msec 76 msec 108 msec
+  3 35.35.35.3 [MPLS: Label 23 Exp 0] 84 msec 80 msec 76 msec
+  4 23.1.1.2 [MPLS: Label 20 Exp 0] 60 msec 76 msec 76 msec
+  5 12.1.1.1 96 msec 100 msec 104 msec
+R6#
+
+R6#show mpls forwarding-table 
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop    
+Label      Label      or Tunnel Id     Switched      interface              
+16         Pop Label  7.7.7.7/32       0             Fa0/0      67.1.1.7    
+17         Pop Label  5.5.5.5/32       0             Fa1/0      56.1.1.5    
+20    [T]  Pop Label  1.1.1.1/32       0             Tu6        point2point 
+21         Pop Label  10.0.0.6/32[V]   7796          aggregate/a 
+
+[T]	Forwarding through a LSP tunnel.
+	View additional labelling info with the 'detail' option
+R6#
+
+
+#####ASBR-info
+
+R3#show ip rsvp send detail 
+PATH:
+  Tun Dest:   1.1.1.1  Tun ID: 6  Ext Tun ID: 6.6.6.6
+  Tun Sender: 6.6.6.6  LSP ID: 17
+  Path refreshes:
+    arriving: from PHOP 35.35.35.5 on Fa0/0 every 30000 msecs. Timeout in 191 sec
+    sent:     to   NHOP 23.1.1.2 on FastEthernet1/0
+  Session Attr: 
+    Setup Prio: 7, Holding Prio: 7
+    Flags: (0x4) SE Style
+    Session Name: R6_t6 
+  ERO: (incoming)
+    3.3.3.3 (Strict IPv4 Prefix, 8 bytes, /32)
+  ERO: (outgoing)
+    23.1.1.2 (Strict IPv4 Prefix, 8 bytes, /32)
+    12.1.1.1 (Strict IPv4 Prefix, 8 bytes, /32)
+    1.1.1.1 (Strict IPv4 Prefix, 8 bytes, /32)
+  RRO:
+    35.35.35.5/32, Flags:0x0 (No Local Protection)
+    57.1.1.7/32, Flags:0x0 (No Local Protection)
+    67.1.1.6/32, Flags:0x0 (No Local Protection)
+  Traffic params - Rate: 4M bits/sec, Max. burst: 1K bytes
+    Min Policed Unit: 0 bytes, Max Pkt Size 2147483647 bytes
+  Fast-Reroute Backup info:
+    Inbound  FRR: Not active
+    Outbound FRR: No backup tunnel selected
+  Path ID handle: 1800040A.
+  Incoming policy: Accepted. Policy source(s): MPLS/TE
+  Status:
+  Output on FastEthernet1/0. Policy status: Forwarding. Handle: 61000410
+    Policy source(s): MPLS/TE
+
+PATH:
+  Tun Dest:   6.6.6.6  Tun ID: 6  Ext Tun ID: 1.1.1.1
+  Tun Sender: 1.1.1.1  LSP ID: 3
+  Path refreshes:
+    arriving: from PHOP 23.1.1.2 on Fa1/0 every 30000 msecs. Timeout in 166 sec
+    sent:     to   NHOP 35.35.35.5 on FastEthernet0/0
+  Session Attr: 
+    Setup Prio: 7, Holding Prio: 7
+    Flags: (0x4) SE Style
+    Session Name: R1_t6 
+  ERO: (incoming)
+    23.1.1.3 (Strict IPv4 Prefix, 8 bytes, /32)
+    3.3.3.3 (Loose IPv4 Prefix, 8 bytes, /32)
+    5.5.5.5 (Loose IPv4 Prefix, 8 bytes, /32)
+  ERO: (outgoing)
+    5.5.5.5 (Strict IPv4 Prefix, 8 bytes, /32)
+  RRO:
+    23.1.1.2/32, Flags:0x0 (No Local Protection)
+    12.1.1.1/32, Flags:0x0 (No Local Protection)
+  Traffic params - Rate: 4M bits/sec, Max. burst: 1K bytes
+    Min Policed Unit: 0 bytes, Max Pkt Size 2147483647 bytes
+  Fast-Reroute Backup info:
+    Inbound  FRR: Not active
+    Outbound FRR: No backup tunnel selected
+  Path ID handle: 8B00040C.
+  Incoming policy: Accepted. Policy source(s): MPLS/TE
+  Status:
+  Output on FastEthernet0/0. Policy status: Forwarding. Handle: 0800040D
+    Policy source(s): MPLS/TE
+
+R3#
+
+
+R5#show ip rsvp sender detail 
+PATH:
+  Tun Dest:   1.1.1.1  Tun ID: 6  Ext Tun ID: 6.6.6.6
+  Tun Sender: 6.6.6.6  LSP ID: 17
+  Path refreshes:
+    arriving: from PHOP 57.1.1.7 on Fa1/1 every 30000 msecs. Timeout in 188 sec
+    sent:     to   NHOP 35.35.35.3 on FastEthernet0/0
+  Session Attr: 
+    Setup Prio: 7, Holding Prio: 7
+    Flags: (0x4) SE Style
+    Session Name: R6_t6 
+  ERO: (incoming)
+    57.1.1.5 (Strict IPv4 Prefix, 8 bytes, /32)
+    5.5.5.5 (Strict IPv4 Prefix, 8 bytes, /32)
+    3.3.3.3 (Loose IPv4 Prefix, 8 bytes, /32)
+  ERO: (outgoing)
+    3.3.3.3 (Strict IPv4 Prefix, 8 bytes, /32)
+  RRO:
+    57.1.1.7/32, Flags:0x0 (No Local Protection)
+    67.1.1.6/32, Flags:0x0 (No Local Protection)
+  Traffic params - Rate: 4M bits/sec, Max. burst: 1K bytes
+    Min Policed Unit: 0 bytes, Max Pkt Size 2147483647 bytes
+  Fast-Reroute Backup info:
+    Inbound  FRR: Not active
+    Outbound FRR: No backup tunnel selected
+  Path ID handle: 3900040F.
+  Incoming policy: Accepted. Policy source(s): MPLS/TE
+  Status:
+  Output on FastEthernet0/0. Policy status: Forwarding. Handle: C9000408
+    Policy source(s): MPLS/TE
+
+PATH:
+  Tun Dest:   6.6.6.6  Tun ID: 6  Ext Tun ID: 1.1.1.1
+  Tun Sender: 1.1.1.1  LSP ID: 3
+  Path refreshes:
+    arriving: from PHOP 35.35.35.3 on Fa0/0 every 30000 msecs. Timeout in 196 sec
+    sent:     to   NHOP 56.1.1.6 on FastEthernet1/0
+  Session Attr: 
+    Setup Prio: 7, Holding Prio: 7
+    Flags: (0x4) SE Style
+    Session Name: R1_t6 
+  ERO: (incoming)
+    5.5.5.5 (Strict IPv4 Prefix, 8 bytes, /32)
+  ERO: (outgoing)
+    56.1.1.6 (Strict IPv4 Prefix, 8 bytes, /32)
+    6.6.6.6 (Strict IPv4 Prefix, 8 bytes, /32)
+  RRO:    
+    35.35.35.3/32, Flags:0x0 (No Local Protection)
+    23.1.1.2/32, Flags:0x0 (No Local Protection)
+    12.1.1.1/32, Flags:0x0 (No Local Protection)
+  Traffic params - Rate: 4M bits/sec, Max. burst: 1K bytes
+    Min Policed Unit: 0 bytes, Max Pkt Size 2147483647 bytes
+  Fast-Reroute Backup info:
+    Inbound  FRR: Not active
+    Outbound FRR: No backup tunnel selected
+  Path ID handle: 0300040B.
+  Incoming policy: Accepted. Policy source(s): MPLS/TE
+  Status:
+  Output on FastEthernet1/0. Policy status: Forwarding. Handle: 0800040C
+    Policy source(s): MPLS/TE
+
+
+
+####### MP2MP mldp Profile 1 Default MDT - MLDP MP2MP - PIM C-mcast Signaling
+R8#trace 232.8.8.8 sou lo0 
+Type escape sequence to abort.
+Tracing the route to 232.8.8.8
+VRF info: (vrf in name/id, vrf out name/id)
+  1 
+R8#ping 232.8.8.8 sou lo0 re 100
+Type escape sequence to abort.
+Sending 100, 100-byte ICMP Echos to 232.8.8.8, timeout is 2 seconds:
+Packet sent with a source address of 8.8.8.8 
+
+Reply to request 0 from 104.104.104.10, 100 ms
+Reply to request 0 from 104.104.104.10, 136 ms
+Reply to request 0 from 113.113.113.11, 132 ms
+Reply to request 0 from 113.113.113.11, 132 ms
+Reply to request 1 from 104.104.104.10, 72 ms
+Reply to request 1 from 113.113.113.11, 108 ms
+Reply to request 1 from 104.104.104.10, 108 ms
+Reply to request 1 from 113.113.113.11, 76 ms
+R8#
+###### p device ########
+R2#show mpls forwarding-table 
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop    
+Label      Label      or Tunnel Id     Switched      interface              
+16         Pop Label  3.3.3.3/32       1798          Fa1/0      23.1.1.3    
+17         Pop Label  4.4.4.4/32       6134          Fa1/1      24.1.1.4    
+18         Pop Label  1.1.1.1/32       37004         Fa0/0      12.1.1.1    
+19         17         [mdt 1:1 0]      7692          Fa1/1      24.1.1.4    
+！！！！！
+
+21         19         [mdt 2:2 0]      1392          Fa1/1      24.1.1.4    
+           21         [mdt 2:2 0]      1392          Fa0/0      12.1.1.1    
+！！！！！           
+22         19         [mdt 1:1 0]      4544          Fa0/0      12.1.1.1  
+
+25         21         [mdt 2:2 0]      1196          Fa0/0      12.1.1.1    
+
+           31         [mdt 2:2 0]      1048          Fa1/0      23.1.1.3    
+
+26         19         [mdt 2:2 0]      1684          Fa1/1      24.1.1.4    
+           31         [mdt 2:2 0]      1396          Fa1/0      23.1.1.3    
+R2#
+
+
+######## pe ###########
+R3#show mpls forwarding-table 
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop    
+Label      Label      or Tunnel Id     Switched      interface              
+16         Pop Label  4.4.4.4/32       0             Fa1/1      34.1.1.4    
+17         Pop Label  2.2.2.2/32       0             Fa1/0      23.1.1.2    
+18         18         1.1.1.1/32       0             Fa1/0      23.1.1.2    
+           21         1.1.1.1/32       0             Fa1/1      34.1.1.4    
+19         Pop Label  IPv6 VRF[V]      0             aggregate/a 
+20         Pop Label  10.0.0.3/32[V]   0             aggregate/a 
+21         No Label   10.0.0.6/32[V]   0             Fa0/0.35   35.1.1.5    
+22         No Label   10.0.0.7/32[V]   0             Fa0/0.35   35.1.1.5    
+23         No Label   35.1.1.0/24[V]   0             aggregate/a 
+24         Pop Label  169.254.3.1/32[V]   \
+                                       0             aggregate/a 
+25         Pop Label  169.254.3.2/32[V]   \
+                                       0             aggregate/a 
+26         Pop Label  169.254.3.3/32[V]   \
+                                       0             aggregate/a 
+27         No Label   11.11.11.11/32[V]   \
+                                       1710          Fa2/1      113.113.113.11
+28         No Label   113.113.113.0/24[V]   \
+                                       1710          aggregate/b 
+31    [T]  No Label   [mdt 2:2 0][V]   2364          aggregate/b 
+          
+[T]     Forwarding through a LSP tunnel.
+        View additional labelling info with the 'detail' option
+R3#
+
+R4#show mpls forwarding-table 
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop    
+Label      Label      or Tunnel Id     Switched      interface              
+16         Pop Label  2.2.2.2/32       0             Fa1/1      24.1.1.2    
+17    [T]  No Label   [mdt 1:1 0][V]   8780          aggregate/a 
+19    [T]  No Label   [mdt 2:2 0][V]   3724          aggregate/b 
+20         Pop Label  3.3.3.3/32       0             Fa0/0      34.1.1.3    
+21         Pop Label  1.1.1.1/32       0             Fa1/0      14.1.1.1    
+23         No Label   9.9.9.9/32[V]    0             Fa2/0      49.49.49.9  
+24         Pop Label  10.0.0.4/32[V]   0             aggregate/a 
+25         No Label   49.49.49.0/24[V] 0             aggregate/a 
+26         Pop Label  10.2.2.4/32[V]   0             aggregate/b 
+27         No Label   10.10.10.10/32[V]   \
+                                       0             Fa2/1      104.104.104.10
+28         No Label   104.104.104.0/24[V]   \
+                                       0             aggregate/b 
+
+[T]	Forwarding through a LSP tunnel.
+	View additional labelling info with the 'detail' option
+R4#
+
+####mldp State
+
+R2#show mpls mldp database 
+  * Indicates MLDP recursive forwarding is enabled
+
+LSM ID : 1   Type: MP2MP   Uptime : 00:27:11
+  FEC Root           : 2.2.2.2 (we are the root)
+  Opaque decoded     : [mdt 1:1 0] 
+  Opaque length      : 11 bytes
+  Opaque value       : 02 000B 0000010000000100000000
+  Upstream client(s) :
+    None
+      Expires        : N/A           Path Set ID  : 1
+  Replication client(s): 
+    1.1.1.1:0 
+      Uptime         : 00:27:11      Path Set ID  : 2
+      Out label (D)  : 19            Interface    : FastEthernet0/0*
+      Local label (U): 19            Next Hop     : 12.1.1.1
+    4.4.4.4:0 
+      Uptime         : 00:27:11      Path Set ID  : 7
+      Out label (D)  : 17            Interface    : FastEthernet1/1*
+      Local label (U): 22            Next Hop     : 24.1.1.4
+
+LSM ID : 5   Type: MP2MP   Uptime : 00:08:21
+  FEC Root           : 2.2.2.2 (we are the root)
+  Opaque decoded     : [mdt 2:2 0] 
+  Opaque length      : 11 bytes
+  Opaque value       : 02 000B 0000020000000200000000
+  Upstream client(s) :
+    None  
+      Expires        : N/A           Path Set ID  : D
+  Replication client(s): 
+    4.4.4.4:0 
+      Uptime         : 00:08:21      Path Set ID  : E
+      Out label (D)  : 19            Interface    : FastEthernet1/1*
+      Local label (U): 25            Next Hop     : 24.1.1.4
+    1.1.1.1:0 
+      Uptime         : 00:06:34      Path Set ID  : F
+      Out label (D)  : 21            Interface    : FastEthernet0/0*
+      Local label (U): 26            Next Hop     : 12.1.1.1
+    3.3.3.3:0 
+      Uptime         : 00:06:31      Path Set ID  : 10
+      Out label (D)  : 31            Interface    : FastEthernet1/0*
+      Local label (U): 21            Next Hop     : 23.1.1.3
+
+R2# 
+
+
+
+####inter-as-mvpn
+
+R8#ping 232.8.8.8 sou lo0
+Type escape sequence to abort.
+Sending 1, 100-byte ICMP Echos to 232.8.8.8, timeout is 2 seconds:
+Packet sent with a source address of 8.8.8.8 
+
+Reply to request 0 from 104.104.104.10, 128 ms
+Reply to request 0 from 107.107.107.10, 272 ms
+Reply to request 0 from 107.107.107.10, 232 ms
+Reply to request 0 from 113.113.113.11, 176 ms
+Reply to request 0 from 113.113.113.11, 176 ms
+Reply to request 0 from 104.104.104.10, 132 ms
+R8#

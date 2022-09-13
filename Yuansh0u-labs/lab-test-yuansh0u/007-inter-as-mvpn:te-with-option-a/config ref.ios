@@ -1,0 +1,208 @@
+interface Tunnel6
+ ip unnumbered Loopback0
+ tunnel source Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination 6.6.6.6
+ tunnel mpls traffic-eng autoroute destination
+ tunnel mpls traffic-eng priority 7 7
+ tunnel mpls traffic-eng bandwidth 4000
+ tunnel mpls traffic-eng path-option 10 explicit name ospf
+end
+
+R1#sh ip explicit-paths 
+PATH INTER_AS_TE_R6 (loose source route, path complete, generation 1636)
+    1: next-address loose 2.2.2.2
+    2: next-address loose 3.3.3.3
+    3: next-address loose 5.5.5.5
+
+
+    interface Tunnel1
+ ip unnumbered Loopback0
+ mpls ip
+ tunnel source Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination 100.64.1.1
+ tunnel mpls traffic-eng autoroute destination
+ tunnel mpls traffic-eng priority 7 7
+ tunnel mpls traffic-eng bandwidth 4000
+ tunnel mpls traffic-eng path-option 10 dynamic
+
+
+
+    interface Tunnel0
+ ip unnumbered Loopback0
+
+ tunnel source Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination 100.64.3.3
+ tunnel mpls traffic-eng autoroute destination
+ tunnel mpls traffic-eng priority 7 7
+ tunnel mpls traffic-eng bandwidth 4000
+ tunnel mpls traffic-eng path-option 10 dynamic
+
+
+!         
+
+
+configure terminal
+mpls traffic-eng auto-tunnel mesh
+
+ mpls traffic-eng auto-tunnel mesh tunnel-num min 100 max 200
+access-list 99 permit 100.64.0.0 0.0.255.255
+
+
+interface auto-template 1
+ ip unnumbered Loopback0
+ tunnel mode mpls tr 
+ tunnel mpls traffic-eng autoroute announce
+ tunnel mpls traffic-eng priority 1 1
+ 
+ tunnel mpls traffic-eng path-option 1 dynamic
+ tunnel destination access-list 99
+ exit
+
+
+!
+
+mpls traffic-eng auto-tunnel mesh
+router ospf 1
+ mpls traffic-eng mesh-group 10 loopback 0 area 0
+ exit
+!
+interface auto-template 1
+ tunnel destination mesh-group 10
+ end
+
+ show mpls traffic-eng tunnels property auto-tunnel mesh brief
+
+
+
+ vrf definition a
+ rd 1:1
+ !
+ address-family ipv4
+  route-target export 1:1
+  route-target import 1:1
+ exit-address-family
+ !
+ address-family ipv6
+  route-target export 1:1
+  route-target import 1:1
+ exit-address-family
+!
+!
+interface Loopback1
+ vrf forwarding a
+ ip address 10.0.0.7 255.255.255.255
+ ipv6 address FC00::7/128
+!
+router bgp 1
+
+ !        
+ address-family ipv4 vrf a
+  redistribute connected
+ exit-address-family
+ !        
+ address-family ipv6 vrf a
+  redistribute connected
+ exit-address-family
+!       
+router bgp 1
+ bgp log-neighbor-changes
+ neighbor 100.64.3.3 remote-as 1
+ neighbor 100.64.3.3 update-source Loopback0
+ neighbor 100.64.3.3 allowas-in
+ neighbor 100.64.3.3 send-label
+ !
+ address-family vpnv4
+  neighbor 100.64.3.3 activate
+  neighbor 100.64.3.3 send-community extended
+ exit-address-family
+ !
+ address-family vpnv6
+  neighbor 100.64.3.3 activate
+  neighbor 100.64.3.3 send-community extended
+ exit-address-family
+ !
+ address-family ipv4 vrf a
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv6 vrf a
+  redistribute connected
+ exit-address-family
+
+
+
+
+
+router bgp 1
+ bgp log-neighbor-changes
+ network 100.64.1.1 mask 255.255.255.255
+ network 100.64.4.4 mask 255.255.255.255
+ network 100.64.5.5 mask 255.255.255.255
+ network 100.64.7.7 mask 255.255.255.255
+ neighbor 100.64.7.7 remote-as 1
+ neighbor 100.64.7.7 update-source Loopback0
+ neighbor 100.64.7.7 next-hop-self all
+ neighbor 100.64.7.7 send-label
+ neighbor 100.64.4.4 remote-as 1
+ neighbor 100.64.4.4 update-source Loopback0
+ neighbor 100.64.4.4 next-hop-self all
+ neighbor 100.64.4.4 send-label
+ neighbor 100.64.5.5 remote-as 1
+ neighbor 100.64.5.5 update-source Loopback0
+ neighbor 100.64.5.5 next-hop-self all
+ neighbor 100.64.5.5 send-label
+ neighbor 100.64.6.6 remote-as 1
+ neighbor 100.64.6.6 update-source Loopback0
+ neighbor 100.64.6.6 next-hop-self all
+ neighbor 100.64.6.6 send-label
+ !
+ address-family vpnv4
+  neighbor 100.64.7.7 activate
+  neighbor 100.64.7.7 send-community extended
+  neighbor 100.64.7.7 route-reflector-client
+  neighbor 100.64.4.4 activate
+  neighbor 100.64.4.4 send-community extended
+  neighbor 100.64.4.4 route-reflector-client
+  neighbor 100.64.5.5 activate
+  neighbor 100.64.5.5 send-community extended
+  neighbor 100.64.5.5 route-reflector-client
+  neighbor 100.64.6.6 activate
+  neighbor 100.64.6.6 send-community extended
+  neighbor 100.64.6.6 route-reflector-client
+ exit-address-family
+ !
+ address-family vpnv6
+  neighbor 100.64.7.7 activate
+  neighbor 100.64.7.7 send-community extended
+  neighbor 100.64.7.7 route-reflector-client
+  neighbor 100.64.4.4 activate
+  neighbor 100.64.4.4 send-community extended
+  neighbor 100.64.4.4 route-reflector-client
+  neighbor 100.64.5.5 activate
+  neighbor 100.64.5.5 send-community extended
+  neighbor 100.64.5.5 route-reflector-client
+  neighbor 100.64.6.6 activate
+  neighbor 100.64.6.6 send-community extended
+  neighbor 100.64.6.6 route-reflector-client
+ exit-address-family
+
+
+ interface Tunnel7
+ description to-r7
+ ip unnumbered Loopback0
+ tunnel source Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination 100.64.7.7
+ tunnel mpls traffic-eng priority 7 7
+ tunnel mpls traffic-eng bandwidth 4000
+ tunnel mpls traffic-eng path-option 10 explicit name r1r2r3r7
+end
+
+
+
+ bgp bestpath as-path multipath-relax
+
+

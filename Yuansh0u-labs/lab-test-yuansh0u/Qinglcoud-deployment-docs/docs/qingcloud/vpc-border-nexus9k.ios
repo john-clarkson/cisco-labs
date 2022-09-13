@@ -1,0 +1,134 @@
+feature nxapi
+feature nv overlay
+feature vn-segment-vlan-based
+nv overlay evpn
+feature bgp
+feature interface-vlan
+feature fabric forwarding
+
+interface nve1
+  no shutdown
+  source-interface loopback0
+  host-reachability protocol bgp
+
+evpn
+
+# (与vpc_border ks控制节点建立evpn bgp)
+!!! bgp
+router bgp 65001
+  address-family l2vpn evpn
+  neighbor 172.31.20.67 
+    remote-as 65001
+    log-neighbor-changes
+    update-source loopback0
+    address-family ipv4 unicast
+      route-map reject out
+      soft-reconfiguration inbound always
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+
+##
+Example - Configuration Centralized VRF Route-Leaking - Shared Internet with Custom VRF
+Configuring VXLAN BGP EVPN Border Node for Shared Internet VRF
+An example of Centralized VRF route-leaking with Shared Internet VRF
+
+The VXLAN BGP EVPN Border Node provides a centralized Shared Internet VRF. The leaking configuration is localized such that control-plane leaking and data-path forwarding following the same path. Most significantly is the VRF configuration of the Border Node and the advertisement of the default-route and less specific prefixes (aggregates) into the respective destination VRFs.
+
+vrf context Shared
+  vni 51099
+  ip route 0.0.0.0/0 10.9.9.1
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+    route-target both 99:99
+    route-target both 99:99 evpn
+!
+vlan 2199
+  vn-segment 51099
+!
+interface Vlan2199
+  no shutdown
+  mtu 9216
+  vrf member Shared
+  no ip redirects
+  ip forward
+!
+ip prefix-list PL_DENY_EXPORT seq 5 permit 0.0.0.0/0
+!
+route-map RM_DENY_IMPORT deny 10
+ match ip address prefix-list PL_DENY_EXPORT
+route-map RM_DENY_IMPORT permit 20
+!
+vrf context Blue
+  vni 51010
+  ip route 0.0.0.0/0 Null0
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+    route-target both 99:99
+    route-target both 99:99 evpn
+    import map RM_DENY_IMPORT
+!
+vlan 2110
+  vn-segment 51010
+!
+interface Vlan2110
+  no shutdown
+  mtu 9216
+  vrf member Blue
+  no ip redirects
+  ip forward
+!
+vrf context Red
+  vni 51020
+  ip route 0.0.0.0/0 Null0
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+    route-target both 99:99
+    route-target both 99:99 evpn
+    import map RM_DENY_IMPORT
+!
+vlan 2120
+  vn-segment 51020
+!
+interface Vlan2120
+  no shutdown
+  mtu 9216
+  vrf member Blue
+  no ip redirects
+  ip forward
+!
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback1
+  member vni 51099 associate-vrf
+  member vni 51010 associate-vrf
+  member vni 51020 associate-vrf
+!
+router bgp 65002
+  vrf Shared
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      aggregate-address 10.10.0.0/16
+      aggregate-address 10.20.0.0/16
+      maximum-paths ibgp 2
+      maximum-paths 2
+  vrf Blue
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      network 0.0.0.0/0
+      maximum-paths ibgp 2
+      maximum-paths 2
+  vrf Red
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      network 0.0.0.0/0
+      maximum-paths ibgp 2
+      maximum-paths 2
+
