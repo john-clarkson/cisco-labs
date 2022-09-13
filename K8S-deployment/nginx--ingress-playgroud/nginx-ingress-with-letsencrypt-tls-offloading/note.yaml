@@ -1,0 +1,65 @@
+###nginx-ingress with letsencrypt
+
+kubectl -n kube-system create serviceaccount tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller
+
+helm install \
+  --name cert-manager \
+  --namespace cert-manager \
+  --version v0.15.0 \
+  --set installCRDs=true \
+  jetstack/cert-manager 
+
+kubectl apply -f https://netlify.cert-manager.io/docs/tutorials/acme/example/deployment.yaml
+kubectl apply -f https://netlify.cert-manager.io/docs/tutorials/acme/example/service.yaml
+kubectl apply -f /home/hitler/kuber-deployment/hitler-testing-yaml/nginx-ingress-with-letsencrypt-tls-offloading/issuer-working.yaml
+
+helm install stable/nginx-ingress --name quickstart
+kubectl apply -f kuard-nginx-ingress-with-production-issuer.yaml
+kubectl patch service quickstart-nginx-ingress-controller -p '{"spec": {"type": "LoadBalancer", "externalIPs":["4.3.2.1"]}}'
+
+browser fuckingtls-prod.com
+
+$curl fuckingtls-prod.com
+<html>
+<head><title>308 Permanent Redirect</title></head>
+<body>
+<center><h1>308 Permanent Redirect</h1></center>
+<hr><center>nginx/1.17.10</center>
+</body>
+</html>
+$
+
+
+
+
+
+
+
+
+
+
+
+
+kubectl apply -f /home/hitler/kuber-deployment/hitler-testing-yaml/nginx-ingress-with-letsencrypt-tls-offloading/acme-staging-issuer-kind-cluster-issuer-ns\=cert-manager.yaml 
+clusterissuer.cert-manager.io/letsencrypt-staging created
+
+echo kubectl get clusterissuers.cert-manager.io 
+echo kubectl describe clusterissuers.cert-manager.io letsencrypt-staging 
+
+
+echo ##install nginx-ingress conntroller, namespace=default
+helm install stable/nginx-ingress --name helm-nginx-in --set rbac.create=true
+echo ##create fake externalIPs(4.3.2.1) patch to svc nginx-controller.
+
+
+
+##
+#NOTES:
+#cert-manager has been deployed successfully!
+#In order to begin issuing certificates, you will need to set up a ClusterIssuer
+#or Issuer resource (for example, by creating a 'letsencrypt-staging' issuer).
+
+echo watch 'kubectl describe certificate |grep 'Events:' -A 20'
+echo kubectl get certificate kubectl get challange

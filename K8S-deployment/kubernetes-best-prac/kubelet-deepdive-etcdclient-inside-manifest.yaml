@@ -1,0 +1,113 @@
+root@kind-control-plane:/etc/kubernetes/manifests# 
+curl -LO git.io/etcdclient.yaml
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+100   967  100   967    0     0    171      0  0:00:05  0:00:05 --:--:--  2291
+root@kind-control-plane:/etc/kubernetes/manifests# ls
+etcdclient.yaml
+root@kind-control-plane:/etc/kubernetes/manifests# cat etcdclient.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    component: etcdclient
+    tier: debug
+  name: etcdclient
+  namespace: kube-system
+spec:
+  containers:
+  - command:
+    - sleep
+    - 9999d
+    image: k8s.gcr.io/etcd:3.3.10
+    imagePullPolicy: IfNotPresent
+    name: etcdclient
+    resources: {}
+    volumeMounts:
+    - mountPath: /etc/kubernetes/pki/etcd
+      name: etcd-certs
+      readOnly: true
+    env:
+    - name: ETCDCTL_API
+      value: "3"
+    - name: ETCDCTL_CACERT
+      value: /etc/kubernetes/pki/etcd/ca.crt
+    - name: ETCDCTL_CERT
+      value: /etc/kubernetes/pki/etcd/healthcheck-client.crt
+    - name: ETCDCTL_KEY
+      value: /etc/kubernetes/pki/etcd/healthcheck-client.key
+    - name: ETCDCTL_ENDPOINTS
+      value: "https://127.0.0.1:2379"
+    - name: ETCDCTL_CLUSTER
+      value: "true"
+  hostNetwork: true
+  volumes:
+  - hostPath:
+      path: /etc/kubernetes/pki/etcd
+      type: DirectoryOrCreate
+    name: etcd-certs
+root@kind-control-plane:/etc/kubernetes/manifests# 
+
+from kubectl machine
+kubectl exec -ti -n kube-system etcdclient-kind-control-plane sh
+/ # etcdctl get "" --from-key --keys-only |grep secrets
+2020-07-14 22:08:18.641045 W | pkg/flags: unrecognized environment variable ETCDCTL_CLUSTER=true
+/registry/secrets/default/default-token-dzkjs
+/registry/secrets/kube-node-lease/default-token-fqbcr
+/registry/secrets/kube-public/default-token-qkmrk
+/registry/secrets/kube-system/attachdetach-controller-token-2kf89
+/registry/secrets/kube-system/bootstrap-signer-token-rkpln
+/registry/secrets/kube-system/bootstrap-token-abcdef
+/registry/secrets/kube-system/calico-kube-controllers-token-t8zdx
+/registry/secrets/kube-system/calico-node-token-kjh4r
+/registry/secrets/kube-system/certificate-controller-token-7lkl9
+/registry/secrets/kube-system/clusterrole-aggregation-controller-token-9h5kv
+/registry/secrets/kube-system/coredns-token-b9j85
+/registry/secrets/kube-system/cronjob-controller-token-nqq4k
+/registry/secrets/kube-system/daemon-set-controller-token-pgnvz
+/registry/secrets/kube-system/default-token-mr984
+/registry/secrets/kube-system/deployment-controller-token-l5xs4
+/registry/secrets/kube-system/disruption-controller-token-l7xkr
+/registry/secrets/kube-system/endpoint-controller-token-6vzd6
+/registry/secrets/kube-system/endpointslice-controller-token-2ftjg
+/registry/secrets/kube-system/expand-controller-token-frtzk
+/registry/secrets/kube-system/generic-garbage-collector-token-4dp2r
+/registry/secrets/kube-system/horizontal-pod-autoscaler-token-97vdm
+/registry/secrets/kube-system/job-controller-token-26hth
+/registry/secrets/kube-system/kube-proxy-token-755hm
+/registry/secrets/kube-system/namespace-controller-token-7f7v6
+/registry/secrets/kube-system/node-controller-token-cqwsx
+/registry/secrets/kube-system/persistent-volume-binder-token-hnzpw
+/registry/secrets/kube-system/pod-garbage-collector-token-64jqn
+/registry/secrets/kube-system/pv-protection-controller-token-zhkd7
+/registry/secrets/kube-system/pvc-protection-controller-token-hv2dk
+/registry/secrets/kube-system/replicaset-controller-token-nfbts
+/registry/secrets/kube-system/replication-controller-token-5dlsm
+/registry/secrets/kube-system/resourcequota-controller-token-kc7wb
+/registry/secrets/kube-system/service-account-controller-token-nwvdb
+/registry/secrets/kube-system/service-controller-token-9s45w
+/registry/secrets/kube-system/statefulset-controller-token-j4bs6
+/registry/secrets/kube-system/token-cleaner-token-zmbdj
+/registry/secrets/kube-system/ttl-controller-token-hg8jr
+/registry/secrets/local-path-storage/default-token-29zsh
+/registry/secrets/local-path-storage/local-path-provisioner-service-account-token-jwjgr
+/ # 
+
+###
+root@kind-control-plane:/etc/kubernetes/manifests# ls
+etcd.yaml  etcdclient.yaml  kube-apiserver.yaml  kube-controller-manager.yaml  kube-scheduler.yaml
+root@kind-control-plane:/etc/kubernetes/manifests# 
+
+$kubectl get pods -n kube-system etcdclient-kind-control-plane -o wide
+NAME                            READY   STATUS    RESTARTS   AGE   IP           NODE                 NOMINATED NODE   READINESS GATES
+etcdclient-kind-control-plane   1/1     Running   0          11m   172.18.0.4   kind-control-plane   <none>           <none>
+~
+##this pod is managed by k8s ifself.
+kubectl delete command is not working for this.
+cuz this is controlled by kubelet. not api server!
+##CLI
+etcdctl member list
+etcdctl endpoint health 

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-deployment
+  labels:
+    app: ubuntu
+spec:
+  replicas: 3
+  strategy: 
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: ubuntu
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu:latest #The default pull policy is IfNotPresent which causes the kubelet to skip pulling an image if it already exists.
+        imagePullPolicy: IfNotPresent
+        
+        command: ['bin/bash', '-c', 'echo Container 1 is Running ; sleep 3600']

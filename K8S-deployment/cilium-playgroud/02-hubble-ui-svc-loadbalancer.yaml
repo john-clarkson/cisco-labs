@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+ namespace: kube-system
+ creationTimestamp: null
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  name: hubble-ui
+spec:
+  externalIPs:
+  - 3.3.3.3
+  ports:
+  - port: 3333
+    protocol: TCP
+    targetPort: 12000
+  selector:
+    k8s-app: hubble-ui
+  type: LoadBalancer
+status:
+  loadBalancer: {}

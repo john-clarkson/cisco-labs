@@ -1,0 +1,30 @@
+How to schedule master node running pod/service as a worker node
+By admin
+
+
+ 
+Question: How can I schedule master node running pod/service as worker node?
+
+By deafult, only worker node could run the pod, master only response for the scheduler/configuration.
+##check
+$ kubectl get nodes -o json | jq .items[].spec.taints
+[
+  {
+    "effect": "NoSchedule",
+    "key": "node-role.kubernetes.io/master"
+  }
+]
+##check
+$ kubectl get nodes -o json | grep master
+                    "node-role.kubernetes.io/master": ""
+                        "key": "node-role.kubernetes.io/master"
+However, you could disable the “NoSchedule” property so master node could run pod as well.
+##change
+kubectl taint nodes --all node-role.kubernetes.io/master-
+#output
+node/k8s-all-in-one untainted
+##check 
+$ kubectl get nodes -o json | jq .items[].spec.taints
+null
+$ kubectl get nodes -o json | grep master
+                    "node-role.kubernetes.io/master": ""

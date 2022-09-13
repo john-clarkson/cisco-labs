@@ -1,0 +1,7 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+featureGates:
+  IPv6DualStack: true
+kind: ClusterConfiguration
+networking:
+  podSubnet: 10.10.0.0/16,2001:db8::/98
+  serviceSubnet: 10.96.0.0/12,2001:db8:9999::/112

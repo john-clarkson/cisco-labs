@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kuard
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuard
+  labels:
+    app: kuard
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: kuard
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kuard
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: kuard
+        version: v1
+    spec:
+      serviceAccountName: kuard
+      containers:
+      - image: dlneintr/kuard
+        imagePullPolicy: IfNotPresent
+        name: kuard
+        ports:
+        - containerPort: 8080

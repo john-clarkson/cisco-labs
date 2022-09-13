@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../kubernetes-best-prac"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {}
+}

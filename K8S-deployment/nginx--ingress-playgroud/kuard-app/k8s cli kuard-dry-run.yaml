@@ -1,0 +1,2 @@
+kubectl create deployment --image=gcr.io/kuar-demo/kuard-amd64:1 kuard --dry-run -o yaml
+kubectl expose deployment kuardelb --type=LoadBlancer --port 8111 --target-port 8080 --external-ip 7.7.7.7 --dry-run -o yaml 

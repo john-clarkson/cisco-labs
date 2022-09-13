@@ -1,0 +1,154 @@
+// Copyright 2016-2018 Authors of Cilium
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// +build !privileged_tests
+
+package api
+
+import (
+	"encoding/json"
+	"fmt"
+	"sort"
+	"testing"
+	"time"
+
+	"github.com/cilium/cilium/pkg/checker"
+	"github.com/cilium/cilium/pkg/labels"
+	"github.com/cilium/cilium/pkg/policy/api"
+
+	. "gopkg.in/check.v1"
+)
+
+// Hook up gocheck into the "go test" runner.
+func Test(t *testing.T) {
+	TestingT(t)
+}
+
+type MonitorAPISuite struct{}
+
+var _ = Suite(&MonitorAPISuite{})
+
+func testEqualityRules(got, expected string, c *C) {
+	gotStruct := &PolicyUpdateNotification{}
+	expectedStruct := &PolicyUpdateNotification{}
+
+	err := json.Unmarshal([]byte(got), gotStruct)
+	c.Assert(err, IsNil)
+	err = json.Unmarshal([]byte(expected), expectedStruct)
+	c.Assert(err, IsNil)
+	c.Assert(gotStruct, checker.DeepEquals, expectedStruct)
+}
+
+func testEqualityEndpoint(got, expected string, c *C) {
+	gotStruct := &EndpointRegenNotification{}
+	expectedStruct := &EndpointRegenNotification{}
+
+	err := json.Unmarshal([]byte(got), gotStruct)
+	c.Assert(err, IsNil)
+	err = json.Unmarshal([]byte(expected), expectedStruct)
+	c.Assert(err, IsNil)
+
+	sort.Strings(gotStruct.Labels)
+	sort.Strings(expectedStruct.Labels)
+	c.Assert(gotStruct, checker.DeepEquals, expectedStruct)
+}
+
+func (s *MonitorAPISuite) TestRulesRepr(c *C) {
+	rules := api.Rules{
+		&api.Rule{
+			Labels: labels.LabelArray{
+				labels.NewLabel("key1", "value1", labels.LabelSourceUnspec),
+			},
+		},
+		&api.Rule{
+			Labels: labels.LabelArray{
+				labels.NewLabel("key2", "value2", labels.LabelSourceUnspec),
+			},
+		},
+	}
+
+	labels := make([]string, 0, len(rules))
+	for _, r := range rules {
+		labels = append(labels, r.Labels.GetModel()...)
+	}
+	repr, err := PolicyUpdateRepr(len(rules), labels, 1)
+
+	c.Assert(err, IsNil)
+	testEqualityRules(repr, `{"labels":["unspec:key1=value1","unspec:key2=value2"],"revision":1,"rule_count":2}`, c)
+}
+
+func (s *MonitorAPISuite) TestRulesReprEmpty(c *C) {
+	repr, err := PolicyUpdateRepr(0, []string{}, 1)
+
+	c.Assert(err, IsNil)
+	testEqualityRules(repr, `{"revision":1,"rule_count":0}`, c)
+}
+
+func (s *MonitorAPISuite) TestPolicyDeleteRepr(c *C) {
+	lab := labels.LabelArray{
+		labels.NewLabel("key1", "value1", labels.LabelSourceUnspec),
+	}
+
+	repr, err := PolicyDeleteRepr(1, lab.GetModel(), 2)
+	c.Assert(err, IsNil)
+	testEqualityRules(repr, `{"labels":["unspec:key1=value1"],"revision":2,"rule_count":1}`, c)
+}
+
+type RegenError struct{}
+
+func (RegenError) Error() string {
+	return "RegenError"
+}
+
+type MockEndpoint struct{}
+
+func (MockEndpoint) GetID() uint64 {
+	return 10
+}
+
+func (MockEndpoint) GetOpLabels() []string {
+	return labels.Labels{"label": labels.NewLabel("key1", "value1", labels.LabelSourceUnspec),
+		"label2": labels.NewLabel("key2", "value2", labels.LabelSourceUnspec),
+	}.GetModel()
+}
+
+func (MockEndpoint) GetK8sPodName() string {
+	return ""
+}
+
+func (MockEndpoint) GetK8sNamespace() string {
+	return ""
+}
+
+func (s *MonitorAPISuite) TestEndpointRegenRepr(c *C) {
+	e := MockEndpoint{}
+	rerr := RegenError{}
+
+	repr, err := EndpointRegenRepr(e, rerr)
+	c.Assert(err, IsNil)
+	testEqualityEndpoint(repr, `{"id":10,"labels":["unspec:key1=value1","unspec:key2=value2"],"error":"RegenError"}`, c)
+
+	repr, err = EndpointRegenRepr(e, nil)
+	c.Assert(err, IsNil)
+	testEqualityEndpoint(repr, `{"id":10,"labels":["unspec:key1=value1","unspec:key2=value2"]}`, c)
+}
+
+func (s *MonitorAPISuite) TestTimeRepr(c *C) {
+	t := time.Now()
+
+	repr, err := TimeRepr(t)
+
+	c.Assert(err, IsNil)
+	c.Assert(repr, Equals, fmt.Sprintf(`{"time":"%s"}`, t.String()))
+}

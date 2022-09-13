@@ -1,0 +1,7 @@
+apiVersion: projectcalico.org/v3
+kind: BGPPeer
+metadata:
+  name: 2frr
+spec:
+  peerIP: fc00:f853:ccd:e793::2
+  asNumber: 65000

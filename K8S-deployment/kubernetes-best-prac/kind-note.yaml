@@ -1,0 +1,425 @@
+##docker installation
+$ sudo apt install docker.io
+##docker permission fix
+$ sudo groupadd docker
+$ sudo usermod -aG docker $USER
+$ newgrp docker 
+$ sudo chmod 777 /var/run/docker.sock
+
+$ ls
+Desktop    Downloads         fuck  kind-note.yaml  Pictures  snap       Videos
+Documents  examples.desktop  go    Music           Public    Templates
+
+$nano .bashrc
+
+export GOROOT=/usr/lib/go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+###kind installation
+$GO111MODULE="on" go get sigs.k8s.io/kind@v0.8.1
+###starting kind
+$kind create cluster
+###login control-plane node
+docker exec -it kind-control-plane /bin/bash
+
+$sudo  docker volume create portainer_data
+$sudo  docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+portainer password
+ admin@123
+##kind completion
+kind completion bash >> .bashrc
+source .bashrc
+##kind configration file
+kind create cluster --config kind-example-config.yaml
+
+kind-control-plane-node setting.
+##reset root password under root
+root@kind-control-plane:~# passwd root
+New password: 
+Retype new password: 
+passwd: password updated successfully
+
+##enable ssh
+apt update
+apt install ssh
+apt install nano
+nano /etc/ssh/sshd_config
+# Authentication:
+#LoginGraceTime 2m
+PermitRootLogin yes
+#StrictModes yes
+#MaxAuthTries 6
+#MaxSessions 10
+$service sshd restart
+
+##download cni binary
+https://github.com/containernetworking/plugins/releases
+##unzip package
+cni-plugins-linux-amd64-v0.8.6.tgz
+
+
+##copy cni binary to kind-control-plane
+$scp -r ~/Downloads/cni-plugins-linux-amd64-v0.8.6/* root@172.18.0.3:/opt/cni/bin/
+
+##check networking plugin
+root@kind-control-plane:/# ls /opt/cni/bin
+bandwidth  dhcp      flannel      host-local  loopback  portmap  sbr     tuning
+bridge     firewall  host-device  ipvlan      macvlan   ptp      static  vlan
+root@kind-control-plane:/# 
+##install ping-kind-node
+apt-get install iputils-ping
+
+##install rancher UI for k8s
+sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
+##install rancher UI and set local mount
+sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 -v /opt/rancher:/var/lib/rancher rancher/rancher
+
+##rancher UI password
+admin@123
+##rancher server is host machine: in this case:172.18.0.1
+$ curl --insecure -sfL https://172.18.0.1/v3/import/2bdjkptgsppgxrqkb4wd7682bxjgkv5qpf88m47f6bhrhzqdvw96qr.yaml | kubectl apply -f -
+clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created
+clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created
+namespace/cattle-system created
+serviceaccount/cattle created
+clusterrolebinding.rbac.authorization.k8s.io/cattle-admin-binding created
+secret/cattle-credentials-f6e77d5 created
+clusterrole.rbac.authorization.k8s.io/cattle-admin created
+deployment.apps/cattle-cluster-agent created
+daemonset.apps/cattle-node-agent created
+/kuber-deployment/kubernetes/yamls$ 
+##linux kubeconfig env
+export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
+##k8s deployment and replicaset
+$kubectl create deployment nginx-fucking-cli --image=nginx --dry-run=client -o yaml >>nginx-fucking-cli.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx-fucking-cli
+  name: nginx-fucking-cli
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-fucking-cli
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx-fucking-cli
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
+$kubectl get replicaset -o wide
+
+$kubectl autoscale rs nginx-deploy-76df748b9 --max=10 --min=3 --cpu-percent=50 --dry-run=client -oyaml >>kube-auto-scale-replicaset.yaml
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  creationTimestamp: null
+  name: nginx-deploy-76df748b9
+spec:
+  maxReplicas: 10
+  minReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: ReplicaSet
+    name: nginx-deploy-76df748b9
+  targetCPUUtilizationPercentage: 50
+status:
+  currentReplicas: 0
+  desiredReplicas: 0
+##
+$kubectl scale deployment kuard --replicas=10
+
+##install helm version2 and tiller on k8s v1.18(https://helm.sh/docs/intro/install/#from-the-binary-releases)
+Find the helm binary in the unpacked directory, and move it to its desired destination 
+$mv /home/hitler/Downloads/helm-v2.16.9-linux-amd64/linux-amd64/helm /usr/local/bin/helm
+/kuber-deployment$ whereis helm
+helm: /usr/local/bin/helm
+$kubectl -n kube-system create serviceaccount tiller
+$kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+
+$ helm init --service-account tiller
+Creating /home/hitler/.helm 
+Creating /home/hitler/.helm/repository 
+Creating /home/hitler/.helm/repository/cache 
+Creating /home/hitler/.helm/repository/local 
+Creating /home/hitler/.helm/plugins 
+Creating /home/hitler/.helm/starters 
+Creating /home/hitler/.helm/cache/archive 
+Creating /home/hitler/.helm/repository/repositories.yaml 
+Adding stable repo with URL: https://kubernetes-charts.storage.googleapis.com 
+Adding local repo with URL: http://127.0.0.1:8879/charts 
+$HELM_HOME has been configured at /home/hitler/.helm.
+
+Tiller (the Helm server-side component) has been installed into your Kubernetes Cluster.
+
+Please note: by default, Tiller is deployed with an insecure 'allow unauthenticated users' policy.
+To prevent this, run `helm init` with the --tiller-tls-verify flag.
+For more information on securing your installation see: https://v2.helm.sh/docs/securing_installation/
+$ 
+
+##helm repo update&&useful cli
+$helm repo update 
+$helm list
+$helm search nginx-inress 
+$helm install xxxx
+
+ 
+##weavescope on docker(single machine, not on k8s, kind don't load weave)
+$sudo curl -L git.io/scope -o /usr/local/bin/scope
+$sudo chmod a+x /usr/local/bin/scope
+$scope launch
+Weave Scope is listening at the following URL(s):
+  * http://172.18.0.1:4040/
+  * http://192.168.120.136:4040/
+  * http://100.64.1.1:4040/
+$ 
+
+##Kubernetes service load-balancer with external-ip
+$kubectl patch service kuard -p '{"spec": {"type": "LoadBalancer", "externalIPs":["1.2.3.4"]}}'
+$kubectl expose deployment kuard --name=kuardelb --port 8080 --type=LoadBalancer --external-ip=6.6.6.6
+
+##ExternalIPtesting, host add static route to worker1=172.18.0.2
+$ sudo ip route add 1.2.3.4/32 via 172.18.0.2 dev br-0a1a1395012d
+[sudo] password for hitler: 
+$ ip route show
+default via 192.168.120.2 dev ens33 proto dhcp metric 100 
+1.2.3.4 via 172.18.0.2 dev br-0a1a1395012d
+$ curl -s http://1.2.3.4:8080/env/api
+{"commandLine":["/kuard"],"env":{"HOME":"/","HOSTNAME":"kuard-74684b58b8-w57zs","KUBERNETES_PORT":"tcp://10.96.0.1:443","KUBERNETES_PORT_443_TCP":"tcp://10.96.0.1:443","KUBERNETES_PORT_443_TCP_ADDR":"10.96.0.1","KUBERNETES_PORT_443_TCP_PORT":"443","KUBERNETES_PORT_443_TCP_PROTO":"tcp","KUBERNETES_SERVICE_HOST":"10.96.0.1","KUBERNETES_SERVICE_PORT":"443","KUBERNETES_SERVICE_PORT_HTTPS":"443","PATH":"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"}}
+$ 
+
+##linux static-route-ECMP
+sudo ip route add 1.2.3.4/32 nexthop via 172.18.0.4 dev br-0a1a1395012d nexthop via 172.18.0.3 dev br-0a1a1395012d
+sudo ip route add 6.6.6.6/32 nexthop via 172.18.0.4 dev br-0a1a1395012d nexthop via 172.18.0.3 dev br-0a1a1395012d
+$ ip route show
+default via 192.168.120.2 dev ens33 proto dhcp metric 100 
+1.2.3.4 
+	nexthop via 172.18.0.2 dev br-0a1a1395012d weight 1 
+	nexthop via 172.18.0.3 dev br-0a1a1395012d weight 1 
+6.6.6.6 
+	nexthop via 172.18.0.2 dev br-0a1a1395012d weight 1 
+	nexthop via 172.18.0.3 dev br-0a1a1395012d weight 1
+
+##clusterip internal testing on kind node.
+curl -s http://10.103.13.216:8080/env/api
+
+$ while true ; do curl -s http://1.2.3.4:8080/env/api | jq '.env.HOSTNAME'; done
+"kuard-74684b58b8-2d2nl"
+"kuard-74684b58b8-2d2nl"
+"kuard-74684b58b8-w57zs"
+"kuard-74684b58b8-vpjmq"
+"kuard-74684b58b8-2d2nl"
+"kuard-74684b58b8-nsgr8"
+"kuard-74684b58b8-vpjmq"
+"kuard-74684b58b8-2d2nl"
+"kuard-74684b58b8-2d2nl
+"kuard-74684b58b8-w57zs"
+"kuard-74684b58b8-2d2nl"
+##kubernetes service iptables cli check, login kind-worker node.
+$docker exec -it kind-worker /bin/bash
+root@kind-worker:/# iptables -L -t nat |grep 1.2.3.4
+KUBE-MARK-MASQ  tcp  --  anywhere             1.2.3.4              /* default/kuard: external IP */ tcp dpt:8080
+KUBE-SVC-CUXC5A3HHHVSSN62  tcp  --  anywhere             1.2.3.4              /* default/kuard: external IP */ tcp dpt:8080 PHYSDEV match ! --physdev-is-in ADDRTYPE match src-type !LOCAL
+KUBE-SVC-CUXC5A3HHHVSSN62  tcp  --  anywhere             1.2.3.4              /* default/kuard: external IP */ tcp dpt:8080 ADDRTYPE match dst-type LOCAL
+root@kind-worker:/# 
+root@kind-worker:/# iptables -L -t nat |grep 6.6.6.6          
+KUBE-MARK-MASQ  tcp  --  anywhere             6.6.6.6              /* default/motherfucker: external IP */ tcp dpt:8080
+KUBE-SVC-A7YGKRTI6TALCQ54  tcp  --  anywhere             6.6.6.6              /* default/motherfucker: external IP */ tcp dpt:8080 PHYSDEV match ! --physdev-is-in ADDRTYPE match src-type !LOCAL
+KUBE-SVC-A7YGKRTI6TALCQ54  tcp  --  anywhere             6.6.6.6              /* default/motherfucker: external IP */ tcp dpt:8080 ADDRTYPE match dst-type LOCAL
+root@kind-worker:/# 
+
+
+
+##install helm nginx-ingress controller
+$ helm install stable/nginx-ingress --name helm-nginx-in --set rbac.create=true
+NAME:   helm-nginx-in
+LAST DEPLOYED: Mon Jul  6 13:25:38 2020
+NAMESPACE: default
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/ClusterRole
+NAME                         CREATED AT
+helm-nginx-in-nginx-ingress  2020-07-06T05:25:39Z
+
+==> v1/ClusterRoleBinding
+NAME                         ROLE                                     AGE
+helm-nginx-in-nginx-ingress  ClusterRole/helm-nginx-in-nginx-ingress  0s
+
+==> v1/Deployment
+NAME                                         READY  UP-TO-DATE  AVAILABLE  AGE
+helm-nginx-in-nginx-ingress-controller       0/1    1           0          0s
+helm-nginx-in-nginx-ingress-default-backend  0/1    1           0          0s
+
+==> v1/Pod(related)
+NAME                                                          READY  STATUS             RESTARTS  AGE
+helm-nginx-in-nginx-ingress-controller-66b5459646-7w8t4       0/1    ContainerCreating  0         0s
+helm-nginx-in-nginx-ingress-default-backend-65546798d5-s6k67  0/1    ContainerCreating  0         0s
+helm-nginx-in-nginx-ingress-controller-66b5459646-7w8t4       0/1    ContainerCreating  0         0s
+helm-nginx-in-nginx-ingress-default-backend-65546798d5-s6k67  0/1    ContainerCreating  0         0s
+
+==> v1/Role
+NAME                         CREATED AT
+helm-nginx-in-nginx-ingress  2020-07-06T05:25:39Z
+
+==> v1/RoleBinding
+NAME                         ROLE                              AGE
+helm-nginx-in-nginx-ingress  Role/helm-nginx-in-nginx-ingress  0s
+
+==> v1/Service
+NAME                                         TYPE          CLUSTER-IP      EXTERNAL-IP  PORT(S)                     AGE
+helm-nginx-in-nginx-ingress-controller       LoadBalancer  10.99.124.238   <pending>    80:31617/TCP,443:32135/TCP  0s
+helm-nginx-in-nginx-ingress-default-backend  ClusterIP     10.105.184.152  <none>       80/TCP                      0s
+
+==> v1/ServiceAccount
+NAME                                 SECRETS  AGE
+helm-nginx-in-nginx-ingress          1        0s
+helm-nginx-in-nginx-ingress-backend  1        0s
+
+
+NOTES:
+The nginx-ingress controller has been installed.
+It may take a few minutes for the LoadBalancer IP to be available.
+You can watch the status by running 'kubectl --namespace default get services -o wide -w helm-nginx-in-nginx-ingress-controller'
+
+An example Ingress that makes use of the controller:
+
+  apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    name: example
+    namespace: foo
+  spec:
+    rules:
+      - host: www.example.com
+        http:
+          paths:
+            - backend:
+                serviceName: exampleService
+                servicePort: 80
+              path: /
+    # This section is only required if TLS is to be enabled for the Ingress
+    tls:
+        - hosts:
+            - www.example.com
+          secretName: example-tls
+
+If TLS is enabled for the Ingress, a Secret containing the certificate and key must also be provided:
+
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: example-tls
+    namespace: foo
+  data:
+    tls.crt: <base64 encoded cert>
+    tls.key: <base64 encoded key>
+  type: kubernetes.io/tls
+##fake externalip bind to nginx-controller. 4.3.2.1
+$ kubectl patch service helm-nginx-in-nginx-ingress-controller -p '{"spec": {"type": "LoadBalancer", "externalIPs":["4.3.2.1"]}}'
+
+##create backends for nginx ingress with 80 and service.
+kubectl apply -f kind-official-testing-ingress.yaml
+
+$kubectl get pod foo-app -o wide
+NAME      READY   STATUS    RESTARTS   AGE     IP           NODE           NOMINATED NODE   READINESS GATES
+foo-app   1/1     Running   0          4h19m   10.244.1.6   kind-worker2   <none>           <none>
+$kubectl get pod bar-app -o wide
+NAME      READY   STATUS    RESTARTS   AGE     IP           NODE           NOMINATED NODE   READINESS GATES
+bar-app   1/1     Running   0          4h19m   10.244.1.7   kind-worker2   <none>           <none>
+$
+
+
+$kubectl get svc foo-service -o wide
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE     SELECTOR
+foo-service   ClusterIP   10.111.173.13   <none>        5678/TCP   4h17m   app=foo
+$kubectl get svc bar-service -o wide
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE     SELECTOR
+bar-service   ClusterIP   10.100.146.79   <none>        5678/TCP   4h18m   app=bar
+$
+
+$kubectl describe svc bar-service
+Name:              bar-service
+Namespace:         default
+Labels:            <none>
+Annotations:       Selector:  app=bar
+Type:              ClusterIP
+IP:                10.100.146.79
+Port:              <unset>  5678/TCP
+TargetPort:        5678/TCP
+Endpoints:         10.244.1.7:5678
+Session Affinity:  None
+Events:            <none>
+
+$kubectl describe svc foo-service 
+Name:              foo-service
+Namespace:         default
+Labels:            <none>
+Annotations:       Selector:  app=foo
+Type:              ClusterIP
+IP:                10.111.173.13
+Port:              <unset>  5678/TCP
+TargetPort:        5678/TCP
+Endpoints:         10.244.1.6:5678
+Session Affinity:  None
+Events:            <none>
+$
+
+$kubectl get ingress -o wide
+NAME              CLASS    HOSTS   ADDRESS      PORTS   AGE
+example-ingress   <none>   *       172.18.0.3   80      4h22m
+$kubectl describe ingress
+Name:             example-ingress
+Namespace:        default
+Address:          172.18.0.3
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *           
+              /foo     foo-service:5678 (10.244.1.6:5678)
+              /bar     bar-service:5678 (10.244.1.7:5678)
+Annotations:  Events:  <none>
+$
+
+##setup letsencryt
+$kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.15.2/cert-manager.crds.yaml
+$helm repo add jetstack https://charts.jetstack.io
+$install
+$helm install --name my-release --namespace cert-manager jetstack/cert-manager
+#delete 
+$helm delete my-release --purge
+
+##check
+$$kubectl get all -n cert-manager 
+NAME                                                      READY   STATUS    RESTARTS   AGE
+pod/my-release-cert-manager-5cd799f9b6-kt54l              1/1     Running   0          66s
+pod/my-release-cert-manager-cainjector-5c9bf5b96c-h8g5x   1/1     Running   0          66s
+pod/my-release-cert-manager-webhook-57789759b-7b257       1/1     Running   0          66s
+
+NAME                                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/my-release-cert-manager           ClusterIP   10.110.113.225   <none>        9402/TCP   66s
+service/my-release-cert-manager-webhook   ClusterIP   10.107.148.51    <none>        443/TCP    66s
+
+NAME                                                 READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/my-release-cert-manager              1/1     1            1           66s
+deployment.apps/my-release-cert-manager-cainjector   1/1     1            1           66s
+deployment.apps/my-release-cert-manager-webhook      1/1     1            1           66s
+
+NAME                                                            DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-release-cert-manager-5cd799f9b6              1         1         1       66s
+replicaset.apps/my-release-cert-manager-cainjector-5c9bf5b96c   1         1         1       66s
+replicaset.apps/my-release-cert-manager-webhook-57789759b       1         1         1       66s
+$

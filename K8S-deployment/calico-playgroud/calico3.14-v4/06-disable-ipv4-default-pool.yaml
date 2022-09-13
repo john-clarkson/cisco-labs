@@ -1,0 +1,11 @@
+##Gen pool config: calicoctl get ippool -o yaml > pool.yaml and modify like this temp.
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  name: default-ipv4-ippool
+spec:
+  cidr: 192.168.250.0/24
+  ipipMode: Always
+  natOutgoing: true
+  ##add this value to disable.
+  disabled: true 

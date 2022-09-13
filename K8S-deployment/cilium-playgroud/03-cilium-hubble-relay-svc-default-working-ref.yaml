@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2020-07-12T21:28:47Z"
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    k8s-app: hubble-relay
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app.kubernetes.io/managed-by: {}
+          f:k8s-app: {}
+      f:spec:
+        f:ports:
+          .: {}
+          k:{"port":4245,"protocol":"TCP"}:
+            .: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector:
+          .: {}
+          f:k8s-app: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: kubectl
+    operation: Update
+    time: "2020-07-12T21:44:12Z"
+  name: hubble-relay
+  namespace: kube-system
+  resourceVersion: "62218"
+  selfLink: /api/v1/namespaces/kube-system/services/hubble-relay
+  uid: d2cbbe35-74eb-4e31-be09-b090851b43c2
+spec:
+  clusterIP: 10.104.148.154
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 4245
+  selector:
+    k8s-app: hubble-relay
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

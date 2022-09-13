@@ -1,0 +1,9 @@
+MASTER/var/lib/kubelet/pki
+#kubectl get csr -o wide
+NAME        AGE    SIGNERNAME                                    REQUESTOR            CONDITION
+csr-p7p88   166m   kubernetes.io/kube-apiserver-client-kubelet   system:node:master   Approved,Issued
+MASTER/var/lib/kubelet/pki
+#ls
+kubelet-client-2020-07-19-23-58-31.pem  kubelet-client-current.pem  kubelet.crt  kubelet.key
+MASTER/var/lib/kubelet/pki
+#

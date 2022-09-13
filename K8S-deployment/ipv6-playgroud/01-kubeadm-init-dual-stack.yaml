@@ -1,0 +1,24 @@
+
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: fd00::4
+  bindPort: 6443
+nodeRegistration:
+  criSocket: /var/run/dockershim.sock
+  name: slave4
+  kubeletExtraArgs:
+    cluster-dns: 2001:db8:1234:5678:8:3:0:a
+    node-ip: fd00::4
+  
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+featureGates:
+  IPv6DualStack: true
+kind: ClusterConfiguration
+networking:
+  podSubnet: 10.233.0.0/16,2001:db44::/64
+  serviceSubnet: 10.33.33.0/24,2001:db8:4444::/112
+
+  ## working~~

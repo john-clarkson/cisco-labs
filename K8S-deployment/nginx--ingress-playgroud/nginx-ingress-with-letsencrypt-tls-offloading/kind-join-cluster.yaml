@@ -1,0 +1,3 @@
+root@kind-control-plane:/# kubeadm token create --print-join-command
+W0708 17:17:05.447781   39912 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+kubeadm join 172.18.0.3:45601 --token 3oz36h.k9csewa1t0cldnpk     --discovery-token-ca-cert-hash sha256:a0d2bf91ed33486ec267e57715323cd406716f051e781f8deae6da0b502a90c2 

@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: netperf-server
+  labels:
+    id: netperf-server
+    zgroup: testapp
+spec:
+  terminationGracePeriodSeconds: 0
+  containers:
+  - name: netperf
+    image: docker.io/tgraf/netperf:v1.0
+    readinessProbe:
+      exec:
+        command: ["netperf", "-H", "127.0.0.1", "-l", "1"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: netperf-client
+  labels:
+    id: netperf-client
+    zgroup: testapp
+spec:
+  terminationGracePeriodSeconds: 0
+  containers:
+  - name: netperf
+    image: docker.io/tgraf/netperf:v1.0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netperf-service
+spec:
+  ports:
+  - port: 12865
+  selector:
+    name: netperf-server

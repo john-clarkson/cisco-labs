@@ -1,0 +1,51 @@
+##https://github.com/sgryphon/kubernetes-ipv6
+##sudo sysctl -w net.ipv6.conf.all.forwarding=1
+##sudo sysctl -w net.bridge.bridge-nf-call-ip6tables=1
+
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: fd00::4
+nodeRegistration:
+  criSocket: /var/run/dockershim.sock
+  name: slave4
+  kubeletExtraArgs:
+    cluster-dns: 2001:db8:1234:5678:8:3:0:a
+    node-ip: fd00::4
+---
+apiServer:
+  extraArgs:
+    advertise-address: fd00::4
+    bind-address: '::'
+    etcd-servers: https://[fd00::4]:2379
+    service-cluster-ip-range: 2001:db8:1234:5678:8:3::/112
+apiVersion: kubeadm.k8s.io/v1beta2
+controllerManager:
+  extraArgs:
+    allocate-node-cidrs: 'true'
+    bind-address: '::'
+    cluster-cidr: 2001:db8:1234:5678:8:2::/104
+    node-cidr-mask-size: '120'
+    service-cluster-ip-range: 2001:db8:1234:5678:8:3::/112
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+    extraArgs:
+      advertise-client-urls: https://[fd00::4]:2379
+      initial-advertise-peer-urls: https://[fd00::4]:2380
+      initial-cluster: $HOSTNAME=https://[fd00::4]:2380
+      listen-client-urls: https://[fd00::4]:2379
+      listen-peer-urls: https://[fd00::4]:2380
+kind: ClusterConfiguration
+networking:
+  serviceSubnet: 2001:db8:1234:5678:8:3::/112
+scheduler:
+  extraArgs:
+    bind-address: '::'
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd
+clusterDNS:
+- 2001:db8:1234:5678:8:3:0:a
+healthzBindAddress: ::1
+kind: KubeletConfiguration

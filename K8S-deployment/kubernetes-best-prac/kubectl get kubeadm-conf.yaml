@@ -1,0 +1,51 @@
+#kubectl -n kube-system get cm kubeadm-config -oyaml
+apiVersion: v1
+data:
+  ClusterConfiguration: |
+    apiServer:
+      extraArgs:
+        authorization-mode: Node,RBAC
+      timeoutForControlPlane: 4m0s
+    apiVersion: kubeadm.k8s.io/v1beta2
+    certificatesDir: /etc/kubernetes/pki
+    clusterName: kubernetes
+    controllerManager: {}
+    dns:
+      type: CoreDNS
+    etcd:
+      local:
+        dataDir: /var/lib/etcd
+    imageRepository: k8s.gcr.io
+    kind: ClusterConfiguration
+    kubernetesVersion: v1.18.6
+    networking:
+      dnsDomain: cluster.local
+      podSubnet: 10.244.0.0/16
+      serviceSubnet: 10.96.0.0/12
+    scheduler: {}
+  ClusterStatus: |
+    apiEndpoints:
+      master:
+        advertiseAddress: 192.168.120.138
+        bindPort: 6443
+    apiVersion: kubeadm.k8s.io/v1beta2
+    kind: ClusterStatus
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2020-07-19T23:58:46Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        .: {}
+        f:ClusterConfiguration: {}
+        f:ClusterStatus: {}
+    manager: kubeadm
+    operation: Update
+    time: "2020-07-19T23:58:46Z"
+  name: kubeadm-config
+  namespace: kube-system
+  resourceVersion: "159"
+  selfLink: /api/v1/namespaces/kube-system/configmaps/kubeadm-config
+  uid: 880a7da6-abd8-47b3-9b29-3734711f05a3

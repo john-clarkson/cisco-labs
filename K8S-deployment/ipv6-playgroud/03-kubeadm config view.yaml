@@ -1,0 +1,75 @@
+$kubeadm config view
+Command "view" is deprecated, This command is deprecated and will be removed in a future release, please use 'kubectl get cm -o yaml -n kube-system kubeadm-config' to get the kubeadm config directly.
+apiServer:
+  extraArgs:
+    authorization-mode: Node,RBAC
+  timeoutForControlPlane: 4m0s
+apiVersion: kubeadm.k8s.io/v1beta2
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+controllerManager: {}
+dns:
+  type: CoreDNS
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: k8s.gcr.io
+kind: ClusterConfiguration
+kubernetesVersion: v1.20.2
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 10.233.0.0/16
+  serviceSubnet: 10.33.33.0/24
+scheduler: {}
+hitler@slave4:[~/dual]:
+$kubectl get cm -o yaml -n kube-system kubeadm-config
+apiVersion: v1
+data:
+  ClusterConfiguration: |
+    apiServer:
+      extraArgs:
+        authorization-mode: Node,RBAC
+      timeoutForControlPlane: 4m0s
+    apiVersion: kubeadm.k8s.io/v1beta2
+    certificatesDir: /etc/kubernetes/pki
+    clusterName: kubernetes
+    controllerManager: {}
+    dns:
+      type: CoreDNS
+    etcd:
+      local:
+        dataDir: /var/lib/etcd
+    imageRepository: k8s.gcr.io
+    kind: ClusterConfiguration
+    kubernetesVersion: v1.20.2
+    networking:
+      dnsDomain: cluster.local
+      podSubnet: 10.233.0.0/16
+      serviceSubnet: 10.33.33.0/24
+    scheduler: {}
+  ClusterStatus: |
+    apiEndpoints:
+      slave4:
+        advertiseAddress: 10.211.55.9
+        bindPort: 6443
+    apiVersion: kubeadm.k8s.io/v1beta2
+    kind: ClusterStatus
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2021-02-04T09:12:10Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        .: {}
+        f:ClusterConfiguration: {}
+        f:ClusterStatus: {}
+    manager: kubeadm
+    operation: Update
+    time: "2021-02-04T09:12:10Z"
+  name: kubeadm-config
+  namespace: kube-system
+  resourceVersion: "205"
+  uid: 6225d24a-17e6-45b8-9c25-169540ea603a
+hitler@slave4:[~/dual]:

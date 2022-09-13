@@ -1,0 +1,4 @@
+##modify file.extensions
+rename -f 'y/A-Z/a-z/' *
+rename -f 'y/A-Z/a-z/' *
+rename "s/cfg/ios/" *.cfg

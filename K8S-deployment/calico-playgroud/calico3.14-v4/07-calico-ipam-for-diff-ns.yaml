@@ -1,0 +1,42 @@
+##https://www.tigera.io/blog/calico-ipam-explained-and-enhanced/
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  name: external-pool
+spec:
+  cidr: 172.16.0.0/26
+  blockSize: 29
+  ipipMode: Always
+  natOutgoing: true
+---
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  name: internal-pool
+spec:
+  cidr: 192.169.0.0/24
+  blockSize: 29
+  ipipMode: Always
+  natOutgoing: true
+calicoctl apply -f pools.yaml
+##create testing namespace
+kubectl create namespace external-ns
+kubectl create namespace internal-ns
+##create annoation bond namespace and pool
+kubectl annotate namespace external-ns "cni.projectcalico.org/ipv4pools"=‘[“external-pool"]’
+kubectl annotate namespace internal-ns "cni.projectcalico.org/ipv4pools"=‘[“internal-pool"]’
+##create testing POD in diff namespace
+kubectl run busybox --image busybox --namespace external-ns --replicas 3
+kubectl run busybox --image busybox --namespace internal-ns --replicas 3
+##check ip
+kubectl get pods -o wide -n external-ns
+NAME                     READY STATUS RESTARTS   AGE IP NODE
+busybox-65899c769f-8pvlc   1/1 Running 0      2m 172.16.0.32 casey-crc-kadm-node-0
+busybox-65899c769f-lrr2l   1/1 Running 0      2m 172.16.0.34 casey-crc-kadm-node-0
+busybox-65899c769f-qt6nn   1/1 Running 0      2m 172.16.0.33 casey-crc-kadm-node-0
+ 
+kubectl get pods -o wide -n internal-ns
+NAME                     READY STATUS RESTARTS   AGE IP NODE
+busybox-65899c769f-jxdd6   1/1 Running 0      2m 192.169.0.34 casey-crc-kadm-node-0
+busybox-65899c769f-xqzsc   1/1 Running 0      2m 192.169.0.33 casey-crc-kadm-node-0
+busybox-65899c769f-zbbm5   1/1 Running 0      2m 192.169.0.32 casey-crc-kadm-node-0

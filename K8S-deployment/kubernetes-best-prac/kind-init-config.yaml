@@ -1,0 +1,35 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+# patch the generated kubeadm config with some extra settings
+kubeadmConfigPatches:
+- |
+  apiVersion: kubelet.config.k8s.io/v1beta1
+  networking:
+   podSubnet: "10.244.0.0/16"
+   serviceSubnet: "10.96.0.0/12" 
+  kind: KubeletConfiguration
+  evictionHard:
+    nodefs.available: "0%"
+# 1 control plane node and 3 workers
+nodes:
+# the control plane node config
+- role: control-plane
+  extraMounts:
+  - hostPath: /home/hitler/kube-flannel.yaml
+    containerPath: /kind/manifests/default-cni.yaml
+    readOnly: true
+  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+    containerPath: /opt/cni/bin/
+    readOnly: true  
+# the three workers
+- role: worker
+  extraMounts:
+  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+    containerPath: /opt/cni/bin/
+    readOnly: true
+- role: worker
+  extraMounts:
+  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+    containerPath: /opt/cni/bin/
+    readOnly: true
+

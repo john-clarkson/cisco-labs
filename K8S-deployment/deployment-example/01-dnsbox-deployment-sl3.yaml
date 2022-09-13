@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dnsbox-k8s-slave3
+  labels:
+    app: dnsbox
+spec:
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: dnsbox
+  template:
+    metadata:
+      labels:
+        app: dnsbox
+    spec:
+      containers:
+      - name: dnsbox
+        image: gcr.io/kubernetes-e2e-test-images/dnsutils:1.3
+        imagePullPolicy: IfNotPresent
+        
+        command: ['sh', '-c', 'echo Container 1 is Running ; sleep 3600']

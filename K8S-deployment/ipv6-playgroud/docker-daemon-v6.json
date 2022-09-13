@@ -1,0 +1,11 @@
+root@slave4:~# cat /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "ipv6": true,
+  "fixed-cidr-v6": "2001:db8:1::/64",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}

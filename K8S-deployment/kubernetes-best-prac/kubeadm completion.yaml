@@ -1,0 +1,11 @@
+###option1
+$export source <(kubeadm completion bash)
+
+
+
+###option2
+$kubeadm completion bash >>.bashrc
+$source .bashrc
+$kubeadm 
+alpha       config      join        token       version     
+completion  init        reset       upgrade

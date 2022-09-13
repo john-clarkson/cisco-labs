@@ -1,0 +1,6 @@
+##modify file.extensions
+
+rename "s/cfg/ios/" *.cfg
+
+##big to lower case
+rename -f 'y/A-Z/a-z/' *

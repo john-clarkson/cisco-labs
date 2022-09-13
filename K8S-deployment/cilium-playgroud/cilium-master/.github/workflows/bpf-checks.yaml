@@ -1,0 +1,28 @@
+name: BPF checks
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - master
+
+jobs:
+    checkpatch:
+        name: checkpatch
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: Run checkpatch.pl
+              run:
+                  make -C bpf checkpatch
+    coccicheck:
+        name: coccicheck
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: docker://cilium/coccicheck:1.0
+              with:
+                entrypoint: ./contrib/coccinelle/check-cocci.sh

@@ -1,0 +1,3 @@
+ kubeadm token create --print-join-command
+W0708 20:13:35.156262   32508 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+kubeadm join 100.64.1.99:6443 --token gsfblc.b2ybkma0ubs5t6ng     --discovery-token-ca-cert-hash sha256:584617384ab60319f4684e8108735c4db55f4669574eb7a940ee87d809165974 

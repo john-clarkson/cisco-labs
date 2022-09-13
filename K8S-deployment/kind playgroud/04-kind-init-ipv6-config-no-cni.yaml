@@ -1,0 +1,27 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  ipFamily: ipv6   
+  disableDefaultCNI: true
+  podSubnet: "fd02::/80"
+  serviceSubnet: "fd03::/112"
+# 1 control plane node and 2 worker
+nodes:
+# the control plane node config
+- role: control-plane
+  extraMounts:
+  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+    containerPath: /opt/cni/bin/
+    readOnly: false  
+# the worker
+- role: worker
+  extraMounts:
+  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+    containerPath: /opt/cni/bin/
+    readOnly: false
+- role: worker
+  extraMounts:
+  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+    containerPath: /opt/cni/bin/
+    readOnly: false
+
