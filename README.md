@@ -1,5 +1,5 @@
 # Network Nerds
-- Author: YuanSh0u 
+- Author: D John D is silent
 <p align="center"><img src="BGP All in one.png" width="2000"></p>
 <p align="center"><img src="MPLS All in one.png" width="2000"></p>
 
