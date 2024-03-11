@@ -50,6 +50,7 @@ Hello, inet
 # Contact me
 - https://www.youtube.com/channel/UCuKytfhVcfqHAITPunYWvzQ
 - https://space.bilibili.com/15005212 
-- https://www.linkedin.com/in/shuai-liang-a09694176
+- updating......
+- 
 - Email 751070874@qq.com
 ### Hope you enjoy it, happy reading!
