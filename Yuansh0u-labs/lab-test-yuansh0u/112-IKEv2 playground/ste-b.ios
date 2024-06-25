@@ -1,4 +1,4 @@
-﻿*Feb  7 06:47:23.648: %SYS-5-CONFIG_I: Configured from console by console
+﻿somesay*Feb  7 06:47:23.648: %SYS-5-CONFIG_I: Configured from console by console
 SITE_B#
 SITE_B#
 SITE_B#
@@ -62,7 +62,7 @@ crypto ikev2 profile WTF
 !
 ! 
 crypto keyring IPV4  
-  pre-shared-key address 202.100.1.1 key MOTHERFUCKERS
+  pre-shared-key address 202.100.1.1 key somesayERS
 !
 crypto isakmp policy 10
  hash md5

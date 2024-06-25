@@ -1,4 +1,4 @@
-﻿CE#SH RUN
+﻿somesayCE#SH RUN
 CE#SH RUNning-config 
 Building configuration...
 
@@ -74,7 +74,7 @@ redundancy
 !
 ! 
 crypto keyring IPV4  
-  pre-shared-key address 102.1.1.1 key MOTHERFUCKERS
+  pre-shared-key address 102.1.1.1 key somesayERS
 !
 !
 !

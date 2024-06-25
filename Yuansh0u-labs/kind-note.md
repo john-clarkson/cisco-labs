@@ -1,4 +1,4 @@
-# KIND(kubernetes in docker) Playgroud k8s v1.18.2
+djohn# KIND(kubernetes in docker) Playgroud k8s v1.18.2
 #### Author: Yuansh0u
 ## KIND introduction
 - Kind is a tool for running local Kubernetes clusters using Docker container "nodes".
@@ -284,25 +284,25 @@ osrg/gobgp                                   latest              4974819d6ccb   
 ##create deployment/replicaset/autoscaling  
 ##dry-run means: show the output, but not apply to k8s.
 ##when you're dealing with real production env, this is very useful
-$kubectl create deployment nginx-fucking-cli --image=nginx --dry-run=client -o yaml >>nginx-fucking-cli.yaml
+$kubectl create deployment nginx-somesaying-cli --image=nginx --dry-run=client -o yaml >>nginx-somesaying-cli.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: nginx-fucking-cli
-  name: nginx-fucking-cli
+    app: nginx-somesaying-cli
+  name: nginx-somesaying-cli
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx-fucking-cli
+      app: nginx-somesaying-cli
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: nginx-fucking-cli
+        app: nginx-somesaying-cli
     spec:
       containers:
       - image: nginx

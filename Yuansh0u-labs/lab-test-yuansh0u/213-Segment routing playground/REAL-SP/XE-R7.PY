@@ -1,4 +1,4 @@
-﻿XE-P7-BGP-LS-RR#sh rn
+﻿somesayXE-P7-BGP-LS-RR#sh rn
                     ^
 % Invalid input detected at '^' marker.
 

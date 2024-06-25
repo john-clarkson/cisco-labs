@@ -1,4 +1,4 @@
-﻿NAT#sh run
+﻿somesayNAT#sh run
 NAT#sh running-config 
 Building configuration...
 
@@ -48,7 +48,7 @@ redundancy
 ip tcp synwait-time 5
 ! 
 crypto keyring DMVPN-KEYRING 
-  pre-shared-key address 0.0.0.0 0.0.0.0 key MOTHERFUCKERS
+  pre-shared-key address 0.0.0.0 0.0.0.0 key somesayERS
 !
 crypto isakmp policy 10
  encr aes 256

@@ -1,4 +1,4 @@
-# DMVPN full configuration
+somesay# DMVPN full configuration
 - [DMVPN full configuration](#dmvpn-full-configuration)
   - [INET ROUTER](#inet-router)
   - [IPSEC-VPN settings for all devices](#ipsec-vpn-settings-for-all-devices)
@@ -24,7 +24,7 @@
 ## IPSEC-VPN settings for all devices
 ```bash
 crypto keyring DMVPN-KEYRING 
-  pre-shared-key address 0.0.0.0 0.0.0.0 key MOTHERFUCKERS
+  pre-shared-key address 0.0.0.0 0.0.0.0 key somesayERS
 !
 crypto isakmp policy 10
  encr aes 256

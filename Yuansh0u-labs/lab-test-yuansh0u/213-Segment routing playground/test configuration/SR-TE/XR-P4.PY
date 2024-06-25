@@ -1,4 +1,4 @@
-﻿RP/0/0/CPU0:XR-P4#sh running-config 
+﻿somesayRP/0/0/CPU0:XR-P4#sh running-config 
 Tue Nov 28 13:00:07.084 UTC
 Building configuration...
 !! IOS XR Configuration 6.0.1

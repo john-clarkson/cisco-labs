@@ -1,4 +1,4 @@
-﻿##SVTI MODE: IPSEC TUNNEL MODE
+﻿somesay##SVTI MODE: IPSEC TUNNEL MODE
 ##GRE OVER IPSEC {ipsec profile based}:IPSEC TRANSPORT MODE
 ##Disable crypto ipsec profile default policy
 ##topology info: 
@@ -67,7 +67,7 @@ crypto ikev2 profile WTF
 !
 ! 
 crypto keyring IKEV1  
-  pre-shared-key address 61.128.1.1 key MOTHERFUCKERS
+  pre-shared-key address 61.128.1.1 key somesayERS
 !
 crypto isakmp policy 10
  hash md5

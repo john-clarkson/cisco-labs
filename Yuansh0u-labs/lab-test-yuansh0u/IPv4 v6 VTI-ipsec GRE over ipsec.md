@@ -1,4 +1,4 @@
-
+somesaysomesay
 # IPv46 VTI IPSEC & GRE over IPSEC
 ### Site1 DHCP Setup
 ```PY
@@ -56,7 +56,7 @@ ipv6 route ::/0 2000:61:128:1::254 name DUAL-STACK-INET-IPV6
 ### Site1
 ```py
 crypto keyring IPV6 
-  pre-shared-key address ipv6 2000:61:128:1::1/128 key MOTHERFUCKERS
+  pre-shared-key address ipv6 2000:61:128:1::1/128 key somesayERS
 !
 crypto isakmp policy 10
  encr aes 256
@@ -86,7 +86,7 @@ tunnel protection ipsec profile IPV6
 ### Site2
 ```py
 crypto keyring IPV6 
-  pre-shared-key address ipv6 2000:202:100:1::1/128 key MOTHERFUCKERS
+  pre-shared-key address ipv6 2000:202:100:1::1/128 key somesayERS
  
 !
 crypto isakmp policy 10
@@ -118,7 +118,7 @@ tunnel protection ipsec profile IPV6
 - Site1
 ```py
 crypto keyring IPV4 
-  pre-shared-key address  61.128.1.1  key MOTHERFUCKERS
+  pre-shared-key address  61.128.1.1  key somesayERS
 !
 crypto isakmp policy 10
  encr aes 256
@@ -147,7 +147,7 @@ tunnel protection ipsec profile IPV4
 - Site2
 ```py
 crypto keyring IPV4 
-  pre-shared-key address  202.100.1.1 key MOTHERFUCKERS
+  pre-shared-key address  202.100.1.1 key somesayERS
 !
 crypto isakmp policy 10
  encr aes 256

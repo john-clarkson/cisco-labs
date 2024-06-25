@@ -1,4 +1,4 @@
-sudo swapoff -a
+djohnsudo swapoff -a
 $ kubeadm init
 W0708 19:24:25.353480    6924 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
 [init] Using Kubernetes version: v1.18.5

@@ -42,7 +42,7 @@ This guide is your gateway to mastering various networking domains, including bu
 For more insights and updates, follow me on:
 - [YouTube](https://www.youtube.com/channel/UCuKytfhVcfqHAITPunYWvzQ)
 - [Bilibili](https://space.bilibili.com/15005212)
-- Email: [newbingpython@outlook.com]
+- Email: [newbingpython@outlook.com,liangshuai369@outlook.com]
 
 # Enjoy the journey through the world of networking. Happy reading!
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+somesay#!/bin/bash
 kubectl create deployment --image=gcr.io/kuar-demo/kuard-amd64:1 kuardelb; 
 kubectl create deployment --image=gcr.io/kuar-demo/kuard-amd64:1 kuardnp; 
 kubectl expose deployment kuardnp --name=kuardnp --port 8080 --type=NodePort; 
@@ -23,4 +23,4 @@ kubectl patch service helm-nginx-in-nginx-ingress-controller -p '{"spec": {"type
 echo Add static-route-to-kind-node-for NGINX-INGRESS-CONTROLLER4.3.2.1
 sudo ip route add 4.3.2.1/32 nexthop via 172.18.0.4 dev br-0a1a1395012d nexthop via 172.18.0.3 dev br-0a1a1395012d nexthop via 172.18.0.2 dev br-0a1a1395012d
 
-echo MOTHERFUCKERS-YEAH!!!
+echo somesayERS-YEAH!!!

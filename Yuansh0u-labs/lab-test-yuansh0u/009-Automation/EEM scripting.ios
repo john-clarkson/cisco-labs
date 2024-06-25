@@ -1,4 +1,4 @@
-
+somesaysomesay
 enable
  ter monitor
  configure ter
@@ -67,16 +67,16 @@ ROUTER#sh running-config | sec ospf
 event manager applet DIS-ROUTING
   event cli pattern "router [eEoObBiIRr].*" sync no skip yes
 
-motherfucker(config)#router ospf 1
-motherfucker(config)#router eigrp 1
-motherfucker(config)#router bgp 1  
+somesayer(config)#router ospf 1
+somesayer(config)#router eigrp 1
+somesayer(config)#router bgp 1  
 ====================================================
 
 event manager applet test-hostname
- event cli pattern "hostname fuck" sync yes
+ event cli pattern "hostname somesay" sync yes
   action 1.0 cli command "enable"
   action 1.1 cli command "config terminal"
-  action 1.2 cli command "hostname motherfucker"
+  action 1.2 cli command "hostname somesayer"
   action 1.3 cli command "interface loop 0"
   action 1.4 cli command "no shutdown"
 =========================================================
@@ -134,7 +134,7 @@ event manager applet show-ip-int-b
    action 1.0 cli command "enable"
    action 1.1 cli command "show ip int b"
    action 1.2 puts "$_cli_result"
-motherfucker#show event manager  policy registered 
+somesayer#show event manager  policy registered 
 No.  Class     Type    Event Type          Trap  Time Registered           Name
 1    applet    user    timer watchdog      Off   Sun May 28 21:04:18 2017  show-ip-int-b
  time 5.000
@@ -143,7 +143,7 @@ No.  Class     Type    Event Type          Trap  Time Registered           Name
  action 1.1 cli command "show ip int b"
  action 1.2 puts "$_cli_result"
 
-motherfucker#
+somesayer#
 
 
 =================

@@ -1,4 +1,4 @@
-root@hitler-server-k8s:~# swapoff -a
+djohnroot@hitler-server-k8s:~# swapoff -a
 root@hitler-server-k8s:~# systemctl status kubelet
 â— kubelet.service - kubelet: The Kubernetes Node Agent
      Loaded: loaded (/lib/systemd/system/kubelet.service; enabled; vendor preset: enable>

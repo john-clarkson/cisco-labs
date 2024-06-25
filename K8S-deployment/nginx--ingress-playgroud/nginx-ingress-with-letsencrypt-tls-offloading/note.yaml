@@ -1,4 +1,4 @@
-###nginx-ingress with letsencrypt
+somesaydjohn###nginx-ingress with letsencrypt
 
 kubectl -n kube-system create serviceaccount tiller
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
@@ -19,9 +19,9 @@ helm install stable/nginx-ingress --name quickstart
 kubectl apply -f kuard-nginx-ingress-with-production-issuer.yaml
 kubectl patch service quickstart-nginx-ingress-controller -p '{"spec": {"type": "LoadBalancer", "externalIPs":["4.3.2.1"]}}'
 
-browser fuckingtls-prod.com
+browser somesayingtls-prod.com
 
-$curl fuckingtls-prod.com
+$curl somesayingtls-prod.com
 <html>
 <head><title>308 Permanent Redirect</title></head>
 <body>

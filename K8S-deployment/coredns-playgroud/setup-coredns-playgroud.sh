@@ -1,4 +1,4 @@
-#!/bin/bash
+djohn#!/bin/bash
 
 echo This deployment is under kube-system namespace.
 sleep 4

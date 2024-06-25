@@ -1,4 +1,4 @@
-#!bin/bash
+djohn#!bin/bash
 RED='\033[0;31m'
 Yellow="\033[0;33m****"
 Green="\033[0;32m****"

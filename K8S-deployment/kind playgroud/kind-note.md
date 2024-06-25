@@ -1,4 +1,4 @@
-# KIND Playgroud k8s v1.18.2
+djohn# KIND Playgroud k8s v1.18.2
 # Docker installation v19.03.8
 ```sh
 $ sudo apt install docker.io
@@ -168,25 +168,25 @@ export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
 ## Example kubectl cli introduction
 ```sh
 ##k8s deployment and replicaset
-$kubectl create deployment nginx-fucking-cli --image=nginx --dry-run=client -o yaml >>nginx-fucking-cli.yaml
+$kubectl create deployment nginx-somesaying-cli --image=nginx --dry-run=client -o yaml >>nginx-somesaying-cli.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: nginx-fucking-cli
-  name: nginx-fucking-cli
+    app: nginx-somesaying-cli
+  name: nginx-somesaying-cli
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx-fucking-cli
+      app: nginx-somesaying-cli
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: nginx-fucking-cli
+        app: nginx-somesaying-cli
     spec:
       containers:
       - image: nginx
@@ -325,8 +325,8 @@ KUBE-SVC-CUXC5A3HHHVSSN62  tcp  --  anywhere             1.2.3.4              /*
 KUBE-SVC-CUXC5A3HHHVSSN62  tcp  --  anywhere             1.2.3.4              /* default/kuard: external IP */ tcp dpt:8080 ADDRTYPE match dst-type LOCAL
 root@kind-worker:/# 
 root@kind-worker:/# iptables -L -t nat |grep 6.6.6.6          
-KUBE-MARK-MASQ  tcp  --  anywhere             6.6.6.6              /* default/motherfucker: external IP */ tcp dpt:8080
-KUBE-SVC-A7YGKRTI6TALCQ54  tcp  --  anywhere             6.6.6.6              /* default/motherfucker: external IP */ tcp dpt:8080 PHYSDEV match ! --physdev-is-in ADDRTYPE match src-type !LOCAL
-KUBE-SVC-A7YGKRTI6TALCQ54  tcp  --  anywhere             6.6.6.6              /* default/motherfucker: external IP */ tcp dpt:8080 ADDRTYPE match dst-type LOCAL
+KUBE-MARK-MASQ  tcp  --  anywhere             6.6.6.6              /* default/somesay: external IP */ tcp dpt:8080
+KUBE-SVC-A7YGKRTI6TALCQ54  tcp  --  anywhere             6.6.6.6              /* default/somesay: external IP */ tcp dpt:8080 PHYSDEV match ! --physdev-is-in ADDRTYPE match src-type !LOCAL
+KUBE-SVC-A7YGKRTI6TALCQ54  tcp  --  anywhere             6.6.6.6              /* default/somesay: external IP */ tcp dpt:8080 ADDRTYPE match dst-type LOCAL
 root@kind-worker:/# 
 ```

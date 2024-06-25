@@ -1,4 +1,4 @@
-﻿NAT-DEVICE#sh run
+﻿somesayNAT-DEVICE#sh run
 NAT-DEVICE#sh running-config 
 Building configuration...
 
@@ -74,7 +74,7 @@ redundancy
 !
 ! 
 crypto keyring IPV4  
-  pre-shared-key address 102.1.1.1 key MOTHERFUCKERS
+  pre-shared-key address 102.1.1.1 key somesayERS
 !
 !
 !

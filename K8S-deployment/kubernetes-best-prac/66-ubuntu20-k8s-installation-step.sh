@@ -1,4 +1,4 @@
-#!bin/bash
+djohn#!bin/bash
 echo -e "ubuntu 20.04 kubernetes v18 installation"
 sleep 3
 ##check kernel version

@@ -1,4 +1,4 @@
-#!bin/bash
+djohn#!bin/bash
 kubectl delete svc productpage
 kubectl apply -f /home/hitler/kuber-deployment/istio-playgroud/sample-bookinfo.yaml
 kubectl get svc

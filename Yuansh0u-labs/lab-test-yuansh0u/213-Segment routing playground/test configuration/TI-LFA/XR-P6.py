@@ -1,4 +1,4 @@
-﻿
+﻿somesay
 hostname XR-P6
 interface Loopback0
  ipv4 address 100.64.1.6 255.255.255.255

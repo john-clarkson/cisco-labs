@@ -1,4 +1,4 @@
-#!/bin/bash
+djohn#!/bin/bash
 cd /home/hitler/kuber-deployment/cilium-playgroud;
 kubectl apply -f hubble-demo.yaml;
 #export HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt);

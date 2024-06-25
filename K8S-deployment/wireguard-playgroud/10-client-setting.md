@@ -1,4 +1,4 @@
-https://www.youtube.com/watch?v=7yC-gJtl9mQ&t=1002s
+djohnhttps://www.youtube.com/watch?v=7yC-gJtl9mQ&t=1002s
 
 ```sh
 inside wildguardpod=by default=0

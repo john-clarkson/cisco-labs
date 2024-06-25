@@ -1,4 +1,4 @@
-# Decode certificate base64
+somesay# Decode certificate base64
 
 ```text 
 echo "<secret>" |base64 -d| openssl x509 -text |less

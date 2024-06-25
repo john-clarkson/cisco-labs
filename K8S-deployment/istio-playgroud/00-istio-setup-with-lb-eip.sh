@@ -1,4 +1,4 @@
-#!bin/bash
+djohn#!bin/bash
 echo Download Istio
 #curl -L https://istio.io/downloadIstio | sh -;
 sleep 2

@@ -1,4 +1,4 @@
-## Nginx-ingress controller installation
+somesaydjohn## Nginx-ingress controller installation
 ## cert-manager ref link
 https://cert-manager.io/docs/tutorials/
 ```sh
@@ -144,7 +144,7 @@ spec:
   # Default port used by the image
   - port: 5678
 ```
-## backend PATH means URL=fuckingtls-prod.com
+## backend PATH means URL=somesayingtls-prod.com
 
 ```yaml
 apiVersion: extensions/v1beta1
@@ -155,7 +155,7 @@ apiVersion: extensions/v1beta1
     name: example
   spec:
     rules:
-      - host: fuckingtls-prod.com
+      - host: somesayingtls-prod.com
         http:
           paths:
             - backend:
@@ -168,8 +168,8 @@ apiVersion: extensions/v1beta1
               path: /  
               
 ```
-## backend PATH  means URL=fuckingtls-prod.com/foo
-## backend PATH  means URL=fuckingtls-prod.com/bar
+## backend PATH  means URL=somesayingtls-prod.com/foo
+## backend PATH  means URL=somesayingtls-prod.com/bar
 
 
 
@@ -180,7 +180,7 @@ metadata:
   name: example-ingress
 spec:
   rules:
-  - host: fuckingtls-prod.com
+  - host: somesayingtls-prod.com
     http:
       paths:
       - path: /foo
@@ -238,7 +238,7 @@ $kubectl apply -f kuard-nginx-ingress-with-production-issuer.yaml
 ## expose ingress-controller EIP
 $kubectl patch service nginx-ingress-controller -p {"spec": {"type": "LoadBalancer", "externalIPs":["4.3.2.1"]}}
 ```
-## Modify your client hosts file for domain testing working, in this case, we assume fuckingtls.prod.com is our domain name, 4.3.2.1 is my public IP address
+## Modify your client hosts file for domain testing working, in this case, we assume somesayingtls.prod.com is our domain name, 4.3.2.1 is my public IP address
 ```sh
 $cat /etc/hosts
 127.0.0.1	localhost
@@ -250,13 +250,13 @@ fe00::0 ip6-localnet
 ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
-4.3.2.1 fuckingtls-prod.com
+4.3.2.1 somesayingtls-prod.com
 /
 ```
-open browser https://fuckingtls-prod.com
+open browser https://somesayingtls-prod.com
 
 ```sh
-$curl fuckingtls-prod.com
+$curl somesayingtls-prod.com
 <html>
 <head><title>308 Permanent Redirect</title></head>
 <body>

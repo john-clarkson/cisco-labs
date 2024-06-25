@@ -1,4 +1,4 @@
-﻿*Nov 16 14:00:08.506: %SYS-5-CONFIG_I: Configured from console by console
+﻿somesay*Nov 16 14:00:08.506: %SYS-5-CONFIG_I: Configured from console by console
 XE-PE2>EN
 XE-PE2#SH RUN
 XE-PE2#SH RUNning-config 

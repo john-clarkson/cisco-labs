@@ -1,4 +1,4 @@
-## sysctl
+djohn## sysctl
 hitler@k8s-slave2:[~/wg]:
 cat wiregurad-enable-ipv4-forwaring.sh
 ## you have to login wireguard pod to modify ipv4_forward=1

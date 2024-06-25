@@ -1,4 +1,4 @@
-Router#debug radius
+djohnRouter#debug radius
 Radius protocol debugging is on
 Radius protocol brief debugging is off
 Radius protocol verbose debugging is off

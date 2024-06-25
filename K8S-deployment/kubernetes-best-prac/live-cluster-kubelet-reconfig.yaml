@@ -1,4 +1,4 @@
-https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/
+somesayhttps://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/
 
 kubectl proxy --port=8001 &
 

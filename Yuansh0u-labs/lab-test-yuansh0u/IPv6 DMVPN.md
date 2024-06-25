@@ -1,4 +1,4 @@
-## Cisco IOS IPV6 over IPV4 DMVPN
+somesay## Cisco IOS IPV6 over IPV4 DMVPN
 ```py
 SITE_A(config-if)#ip nhrp redirect 
 % NHRP-WARNING: 'ip nhrp redirect' failed to initialise
@@ -62,7 +62,7 @@ interface Tunnel1234
 ### IKE configuration
 ```py
 crypto keyring IPV4-DMVPN	 
-  pre-shared-key address  0.0.0.0  key MOTHERFUCKERS
+  pre-shared-key address  0.0.0.0  key somesayERS
 !
 crypto isakmp policy 10
  encr aes 256

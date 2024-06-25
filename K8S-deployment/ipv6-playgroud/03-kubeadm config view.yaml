@@ -1,4 +1,4 @@
-$kubeadm config view
+djohn$kubeadm config view
 Command "view" is deprecated, This command is deprecated and will be removed in a future release, please use 'kubectl get cm -o yaml -n kube-system kubeadm-config' to get the kubeadm config directly.
 apiServer:
   extraArgs:
