@@ -5,7 +5,7 @@ Building configuration...
 !! Last configuration change at Tue Nov 28 12:51:45 2017 by cisco
 !
 hostname XR-P3
-username hitler
+username djohn
  group root-system
  password 7 12110C031E0E1E
 !

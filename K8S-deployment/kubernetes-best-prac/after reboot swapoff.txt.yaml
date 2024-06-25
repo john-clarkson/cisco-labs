@@ -1,5 +1,5 @@
-djohnroot@hitler-server-k8s:~# swapoff -a
-root@hitler-server-k8s:~# systemctl status kubelet
+djohnroot@djohn-server-k8s:~# swapoff -a
+root@djohn-server-k8s:~# systemctl status kubelet
 â— kubelet.service - kubelet: The Kubernetes Node Agent
      Loaded: loaded (/lib/systemd/system/kubelet.service; enabled; vendor preset: enable>
     Drop-In: /etc/systemd/system/kubelet.service.d
@@ -12,16 +12,16 @@ root@hitler-server-k8s:~# systemctl status kubelet
      CGroup: /system.slice/kubelet.service
              â””â”€3852 /usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-ku>
 
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: I0709 09:45:10.868808    3852 reconcile>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: I0709 09:45:10.868822    3852 reconcile>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: I0709 09:45:10.868909    3852 reconcile>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: I0709 09:45:10.869026    3852 reconcile>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: I0709 09:45:10.869118    3852 reconcile>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: I0709 09:45:10.876144    3852 topology_>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: I0709 09:45:10.877116    3852 kubelet_n>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: I0709 09:45:10.877261    3852 kubelet_n>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: W0709 09:45:10.887329    3852 status_ma>
-Jul 09 09:45:10 hitler-server-k8s kubelet[3852]: E0709 09:45:10.968904    3852 kubelet.g>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: I0709 09:45:10.868808    3852 reconcile>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: I0709 09:45:10.868822    3852 reconcile>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: I0709 09:45:10.868909    3852 reconcile>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: I0709 09:45:10.869026    3852 reconcile>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: I0709 09:45:10.869118    3852 reconcile>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: I0709 09:45:10.876144    3852 topology_>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: I0709 09:45:10.877116    3852 kubelet_n>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: I0709 09:45:10.877261    3852 kubelet_n>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: W0709 09:45:10.887329    3852 status_ma>
+Jul 09 09:45:10 djohn-server-k8s kubelet[3852]: E0709 09:45:10.968904    3852 kubelet.g>
 lines 1-22/22 (END)
 
 ***********************************

@@ -17,14 +17,14 @@
         username: "{{ creds['username'] }}"
         password: "{{ creds['password'] }}"  
       Vlan_TAG_ODD_IP: {
-        "12": {"description": "hitler", "ip": "169.254.12.2", "Subnets": "255.255.255.252"},
-        "13": {"description": "hitler", "ip": "169.254.13.2", "Subnets": "255.255.255.252"},
-        "14": {"description": "hitler", "ip": "169.254.14.2", "Subnets": "255.255.255.252"}
+        "12": {"description": "djohn", "ip": "169.254.12.2", "Subnets": "255.255.255.252"},
+        "13": {"description": "djohn", "ip": "169.254.13.2", "Subnets": "255.255.255.252"},
+        "14": {"description": "djohn", "ip": "169.254.14.2", "Subnets": "255.255.255.252"}
       }
       Vlan_TAG_EVEN_IP: {
-        "12": {"description": "hitler", "ip": "169.254.12.1", "Subnets": "255.255.255.252"},
-        "13": {"description": "hitler", "ip": "169.254.13.1", "Subnets": "255.255.255.252"},
-        "14": {"description": "hitler", "ip": "169.254.14.1", "Subnets": "255.255.255.252"}
+        "12": {"description": "djohn", "ip": "169.254.12.1", "Subnets": "255.255.255.252"},
+        "13": {"description": "djohn", "ip": "169.254.13.1", "Subnets": "255.255.255.252"},
+        "14": {"description": "djohn", "ip": "169.254.14.1", "Subnets": "255.255.255.252"}
       }    
  
   - name: RUN 'Configure IP ADDRESS WITH ODD Number'

@@ -38,7 +38,7 @@ ipv6 dhcp pool WIN7_IPV6
  address prefix FC00:2:2:2:FFFF::/64 lifetime infinite infinite
  address prefix FC00:2:2:2:FFFF::/100 lifetime infinite infinite
  dns-server 2002::2
- domain-name HITLER.COM
+ domain-name djohn.COM
 !
 !
 multilink bundle-name authenticated

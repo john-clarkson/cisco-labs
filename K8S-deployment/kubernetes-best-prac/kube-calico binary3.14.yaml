@@ -1,5 +1,5 @@
 djohn
-cd /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6
+cd /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6
 curl -L -o calico https://github.com/projectcalico/cni-plugin/releases/download/v3.14.0/calico-amd64
 curl -L -o calico-ipam https://github.com/projectcalico/cni-plugin/releases/download/v3.14.0/calico-ipam-amd64
 chmod 755 calico-ipam

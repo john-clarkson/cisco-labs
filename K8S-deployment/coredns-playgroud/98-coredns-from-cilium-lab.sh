@@ -7,14 +7,14 @@ NC='\033[0m'
 Cyan="\[\033[0;36m\]" 
 
 echo -e "'${Green}
-hitler>~/kuber-deployment/cilium-playgroud
+djohn>~/kuber-deployment/cilium-playgroud
 kubectl exec -ti dnsbox-deployment-8485677597-6p8t8 -- cat /etc/resolv.conf
 search default.svc.cluster.local svc.cluster.local cluster.local localdomain
 nameserver 10.96.0.10
 options ndots:5${NC}
 
 ${Cyan}
-hitler>~/kuber-deployment/cilium-playgroud
+djohn>~/kuber-deployment/cilium-playgroud
 kubectl exec -ti dnsbox-deployment-8485677597-6p8t8 -- nslookup kubernetes.default
 Server:		10.96.0.10
 Address:	10.96.0.10#53
@@ -22,7 +22,7 @@ Address:	10.96.0.10#53
 Name:	kubernetes.default.svc.cluster.local
 Address: 10.96.0.1
 ${Green}
-hitler>~/kuber-deployment/cilium-playgroud
+djohn>~/kuber-deployment/cilium-playgroud
 
 kubectl exec -ti dnsbox-deployment-8485677597-6p8t8 -- sh
 / # nslookup kubernetes.default

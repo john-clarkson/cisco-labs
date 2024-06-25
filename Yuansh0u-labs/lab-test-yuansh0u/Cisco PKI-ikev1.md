@@ -43,10 +43,10 @@ IPSEC-CE2#
 !##server configuration:
 enable 
  config ter
-ip domain name hitler.com
+ip domain name djohn.com
 crypto pki server ROOT_CA
  no database archive
- issuer-name CN=CA.hitler.com
+ issuer-name CN=CA.djohn.com
  grant auto
  hash sha512
  no shutdown
@@ -113,7 +113,7 @@ Certificate
   Certificate Serial Number (hex): 02
   Certificate Usage: General Purpose
   Issuer: 
-    cn=CA.hitler.com
+    cn=CA.djohn.com
   Subject:
     Name: CLIENT
     IP Address: 200.1.1.1
@@ -123,21 +123,21 @@ Certificate
     start date: 23:56:42 UTC Jun 7 2017
     end   date: 23:56:42 UTC Jun 7 2018
   Associated Trustpoints: CA 
-  Storage: nvram:CAhitlercom#2.cer
+  Storage: nvram:CAdjohncom#2.cer
 
 CA Certificate
   Status: Available
   Certificate Serial Number (hex): 01
   Certificate Usage: Signature
   Issuer: 
-    cn=CA.hitler.com
+    cn=CA.djohn.com
   Subject: 
-    cn=CA.hitler.com
+    cn=CA.djohn.com
   Validity Date: 
     start date: 22:32:55 UTC Jun 7 2017
     end   date: 22:32:55 UTC Jun 6 2020
   Associated Trustpoints: CA 
-  Storage: nvram:CAhitlercom#1CA.cer
+  Storage: nvram:CAdjohncom#1CA.cer
 !##
 ```py
 CLIENT#show  crypto key mypubkey rsa

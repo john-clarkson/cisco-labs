@@ -1,4 +1,4 @@
-#!/bin/bash
+somesay#!/bin/bash
 echo Reset cluster.
 yes | kubeadm reset;
 sleep 2

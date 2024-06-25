@@ -58,7 +58,7 @@ kubectl get nodes -o json | jq .items[].spec.taints
 "
 kubectl create deployment nginx3 --image=nginx
 deployment.apps/nginx3 created
-hitler@k8s-slave3:~$ kubectl expose deployment nginx3 --port 80 --target-port 80
+djohn@k8s-slave3:~$ kubectl expose deployment nginx3 --port 80 --target-port 80
 echo scheduled master node
 kubectl taint nodes --all node-role.kubernetes.io/master-;
 sleep 2

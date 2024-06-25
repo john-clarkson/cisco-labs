@@ -106,21 +106,21 @@ wg showconf wg0 >> wg0.conf
 ##use this one !!!!
 $wg-quick up/down wg0
 
-hitler@k8s-slave3:~$ ping 10.255.92.58
+djohn@k8s-slave3:~$ ping 10.255.92.58
 PING 10.255.92.58 (10.255.92.58) 56(84) bytes of data.
 64 bytes from 10.255.92.58: icmp_seq=1 ttl=63 time=0.531 ms
 ^C
 --- 10.255.92.58 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.531/0.531/0.531/0.000 ms
-hitler@k8s-slave3:~$ ping 10.255.92.59
+djohn@k8s-slave3:~$ ping 10.255.92.59
 PING 10.255.92.59 (10.255.92.59) 56(84) bytes of data.
 64 bytes from 10.255.92.59: icmp_seq=1 ttl=63 time=1.96 ms
 ^C
 --- 10.255.92.59 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 1.962/1.962/1.962/0.000 ms
-hitler@k8s-slave3:~$
+djohn@k8s-slave3:~$
 
 
 ###slave2 wg0.conf
@@ -158,21 +158,21 @@ Endpoint = 10.211.55.7:51820
 
 
 ##ping test
-hitler@k8s-slave3:~$ ping 10.255.92.58
+djohn@k8s-slave3:~$ ping 10.255.92.58
 PING 10.255.92.58 (10.255.92.58) 56(84) bytes of data.
 64 bytes from 10.255.92.58: icmp_seq=1 ttl=63 time=0.531 ms
 ^C
 --- 10.255.92.58 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.531/0.531/0.531/0.000 ms
-hitler@k8s-slave3:~$ ping 10.255.92.59
+djohn@k8s-slave3:~$ ping 10.255.92.59
 PING 10.255.92.59 (10.255.92.59) 56(84) bytes of data.
 64 bytes from 10.255.92.59: icmp_seq=1 ttl=63 time=1.96 ms
 ^C
 --- 10.255.92.59 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 1.962/1.962/1.962/0.000 ms
-hitler@k8s-slave3:~$
+djohn@k8s-slave3:~$
 
 
 ##curl svc
@@ -269,7 +269,7 @@ Endpoint = 10.211.55.7:51820
 PublicKey = 9iq4e3AsBnxP3W+lU0bgY1qhjxqhfIqE1UAU2ysYiHo=
 AllowedIPs = 172.16.255.4/32, 192.44.0.0/16
 Endpoint = 10.211.55.9:51820
-hitler@k8s-slave3:[~]:
+djohn@k8s-slave3:[~]:
 
 
 ### slave4
@@ -292,7 +292,7 @@ Endpoint = 10.211.55.8:51820
 ## slave3/4 wg-quick up wg0
 
 ### 3ping4
-hitler@k8s-slave3:[~]:
+djohn@k8s-slave3:[~]:
 $kubectl exec -ti dnsbox-k8s-slave3-5f56984b58-p5kjp sh
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
 / #
@@ -321,7 +321,7 @@ round-trip min/avg/max = 0.472/0.965/1.672 ms
 / #
 
 ## 4ping3
-hitler@slave4:[~/deployment]:
+djohn@slave4:[~/deployment]:
 $kubectl exec -ti dnsbox-k8s-slave3-5f56984b58-kklhf sh
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
 / # ip a

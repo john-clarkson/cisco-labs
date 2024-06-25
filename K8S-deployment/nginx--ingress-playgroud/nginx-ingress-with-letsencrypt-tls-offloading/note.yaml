@@ -13,7 +13,7 @@ helm install \
 
 kubectl apply -f https://netlify.cert-manager.io/docs/tutorials/acme/example/deployment.yaml
 kubectl apply -f https://netlify.cert-manager.io/docs/tutorials/acme/example/service.yaml
-kubectl apply -f /home/hitler/kuber-deployment/hitler-testing-yaml/nginx-ingress-with-letsencrypt-tls-offloading/issuer-working.yaml
+kubectl apply -f /home/djohn/kuber-deployment/djohn-testing-yaml/nginx-ingress-with-letsencrypt-tls-offloading/issuer-working.yaml
 
 helm install stable/nginx-ingress --name quickstart
 kubectl apply -f kuard-nginx-ingress-with-production-issuer.yaml
@@ -42,7 +42,7 @@ $
 
 
 
-kubectl apply -f /home/hitler/kuber-deployment/hitler-testing-yaml/nginx-ingress-with-letsencrypt-tls-offloading/acme-staging-issuer-kind-cluster-issuer-ns\=cert-manager.yaml 
+kubectl apply -f /home/djohn/kuber-deployment/djohn-testing-yaml/nginx-ingress-with-letsencrypt-tls-offloading/acme-staging-issuer-kind-cluster-issuer-ns\=cert-manager.yaml 
 clusterissuer.cert-manager.io/letsencrypt-staging created
 
 echo kubectl get clusterissuers.cert-manager.io 

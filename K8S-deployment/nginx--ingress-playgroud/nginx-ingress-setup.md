@@ -232,7 +232,7 @@ echo kubectl get certificate kubectl get challange
 ## Deploy acme certificate
 ```sh
 ## deploy issuer
-$kubectl apply -f /home/hitler/kuber-deployment/hitler-testing-yaml/nginx-ingress-with-letsencrypt-tls-offloading/issuer-working.yaml
+$kubectl apply -f /home/djohn/kuber-deployment/djohn-testing-yaml/nginx-ingress-with-letsencrypt-tls-offloading/issuer-working.yaml
 
 $kubectl apply -f kuard-nginx-ingress-with-production-issuer.yaml
 ## expose ingress-controller EIP
@@ -242,7 +242,7 @@ $kubectl patch service nginx-ingress-controller -p {"spec": {"type": "LoadBalanc
 ```sh
 $cat /etc/hosts
 127.0.0.1	localhost
-127.0.1.1	hitler-k8s
+127.0.1.1	djohn-k8s
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback

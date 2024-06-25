@@ -90,18 +90,18 @@ nodes:
 # the control plane node config
 - role: control-plane
   extraMounts:
-  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+  - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
     containerPath: /opt/cni/bin/
     readOnly: false  
 # the worker
 - role: worker
   extraMounts:
-  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+  - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
     containerPath: /opt/cni/bin/
     readOnly: false
 - role: worker
   extraMounts:
-  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+  - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
     containerPath: /opt/cni/bin/
     readOnly: false
 ```
@@ -222,24 +222,24 @@ $kubectl scale deployment kuard --replicas=10
 ```sh
 ##install helm version2 and tiller on k8s v1.18
 Find the helm binary in the unpacked directory, and move it to its desired destination 
-$mv /home/hitler/Downloads/helm-v2.16.9-linux-amd64/linux-amd64/helm /usr/local/bin/helm
+$mv /home/djohn/Downloads/helm-v2.16.9-linux-amd64/linux-amd64/helm /usr/local/bin/helm
 /kuber-deployment$ whereis helm
 helm: /usr/local/bin/helm
 $kubectl -n kube-system create serviceaccount tiller
 $kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 
 $ helm init --service-account tiller
-Creating /home/hitler/.helm 
-Creating /home/hitler/.helm/repository 
-Creating /home/hitler/.helm/repository/cache 
-Creating /home/hitler/.helm/repository/local 
-Creating /home/hitler/.helm/plugins 
-Creating /home/hitler/.helm/starters 
-Creating /home/hitler/.helm/cache/archive 
-Creating /home/hitler/.helm/repository/repositories.yaml 
+Creating /home/djohn/.helm 
+Creating /home/djohn/.helm/repository 
+Creating /home/djohn/.helm/repository/cache 
+Creating /home/djohn/.helm/repository/local 
+Creating /home/djohn/.helm/plugins 
+Creating /home/djohn/.helm/starters 
+Creating /home/djohn/.helm/cache/archive 
+Creating /home/djohn/.helm/repository/repositories.yaml 
 Adding stable repo with URL: https://kubernetes-charts.storage.googleapis.com 
 Adding local repo with URL: http://127.0.0.1:8879/charts 
-$HELM_HOME has been configured at /home/hitler/.helm.
+$HELM_HOME has been configured at /home/djohn/.helm.
 
 Tiller (the Helm server-side component) has been installed into your Kubernetes Cluster.
 
@@ -281,7 +281,7 @@ $kubectl expose deployment kuard --name=kuardelb --port 8080 --type=LoadBalancer
 
 ##ExternalIPtesting, host add static route to worker1=172.18.0.2
 $ sudo ip route add 1.2.3.4/32 via 172.18.0.2 dev br-0a1a1395012d
-[sudo] password for hitler: 
+[sudo] password for djohn: 
 $ ip route show
 default via 192.168.120.2 dev ens33 proto dhcp metric 100 
 1.2.3.4 via 172.18.0.2 dev br-0a1a1395012d

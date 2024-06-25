@@ -1,5 +1,5 @@
 djohn## sysctl
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 cat wiregurad-enable-ipv4-forwaring.sh
 ## you have to login wireguard pod to modify ipv4_forward=1
 kubectl exec -ti -n wireguard wireguard bash
@@ -16,7 +16,7 @@ kubectl exec -ti -n wireguard wireguard -- sysctl -p;
 kubectl exec -ti -n wireguard wireguard -- sysctl -a |grep net.ipv4.ip_forward;
 
 ## 
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 cat update-configmap.md
 
 ## update configmap
@@ -29,5 +29,5 @@ rm -rfv *
 watch ls -al
 #
  restart deployment : kubectl rollout restart deployment <name>
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 

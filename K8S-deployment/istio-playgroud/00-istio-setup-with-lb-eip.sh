@@ -19,7 +19,7 @@ echo manual injection kubectl apply -f <(istioctl kube-inject -f samples/bookinf
 sleep 2
 
 echo Deploy demo-app=bookinfo
-#kubectl apply -f /home/hitler/kuber-deployment/istio-playgroud/traffic/02-sample-bookinfo.yaml
+#kubectl apply -f /home/djohn/kuber-deployment/istio-playgroud/traffic/02-sample-bookinfo.yaml
 
 echo Check
 kubectl get services;

@@ -9,18 +9,18 @@ nodes:
 # the control plane node config
 - role: control-plane
   extraMounts:
-  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+  - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
     containerPath: /opt/cni/bin/
     readOnly: false  
 # the three workers
 - role: worker
   extraMounts:
-  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+  - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
     containerPath: /opt/cni/bin/
     readOnly: false
 - role: worker
   extraMounts:
-  - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+  - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
     containerPath: /opt/cni/bin/
     readOnly: false
 

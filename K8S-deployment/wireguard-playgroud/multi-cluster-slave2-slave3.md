@@ -111,21 +111,21 @@ $wg-quick up/down wg0
 
 
 
-hitler@k8s-slave3:~$ ping 10.255.92.58
+djohn@k8s-slave3:~$ ping 10.255.92.58
 PING 10.255.92.58 (10.255.92.58) 56(84) bytes of data.
 64 bytes from 10.255.92.58: icmp_seq=1 ttl=63 time=0.531 ms
 ^C
 --- 10.255.92.58 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.531/0.531/0.531/0.000 ms
-hitler@k8s-slave3:~$ ping 10.255.92.59
+djohn@k8s-slave3:~$ ping 10.255.92.59
 PING 10.255.92.59 (10.255.92.59) 56(84) bytes of data.
 64 bytes from 10.255.92.59: icmp_seq=1 ttl=63 time=1.96 ms
 ^C
 --- 10.255.92.59 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 1.962/1.962/1.962/0.000 ms
-hitler@k8s-slave3:~$
+djohn@k8s-slave3:~$
 
 
 
@@ -164,21 +164,21 @@ Endpoint = 10.211.55.7:51820
 
 
 ##ping test
-hitler@k8s-slave3:~$ ping 10.255.92.58
+djohn@k8s-slave3:~$ ping 10.255.92.58
 PING 10.255.92.58 (10.255.92.58) 56(84) bytes of data.
 64 bytes from 10.255.92.58: icmp_seq=1 ttl=63 time=0.531 ms
 ^C
 --- 10.255.92.58 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.531/0.531/0.531/0.000 ms
-hitler@k8s-slave3:~$ ping 10.255.92.59
+djohn@k8s-slave3:~$ ping 10.255.92.59
 PING 10.255.92.59 (10.255.92.59) 56(84) bytes of data.
 64 bytes from 10.255.92.59: icmp_seq=1 ttl=63 time=1.96 ms
 ^C
 --- 10.255.92.59 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 1.962/1.962/1.962/0.000 ms
-hitler@k8s-slave3:~$
+djohn@k8s-slave3:~$
 
 
 ##curl svc

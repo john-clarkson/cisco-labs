@@ -22,7 +22,7 @@ kind load docker-image ubuntu:latest;
 kind load docker-image gcr.io/kubernetes-e2e-test-images/dnsutils:1.3;
 
 echo -e "${Green}Download cilium github master by using ${Yellow}curl -LO https://github.com/cilium/cilium/archive/master.tar.gz${NC}"
-cd /home/hitler/kuber-deployment/cilium-playgroud;
+cd /home/djohn/kuber-deployment/cilium-playgroud;
 #curl -LO https://github.com/cilium/cilium/archive/master.tar.gz;
 
 echo -e "${Yellow}unzip pack${NC}"
@@ -82,7 +82,7 @@ echo -e "${Green}sudo ip route add 3.3.3.3/32 via kind-worker-ip dev br-0a1a1395
 sleep 2
 ##optional kubectl port-forward -n kube-system svc/hubble-ui 12000:80;
 echo -e "${Cyan}kubectl apply -f hubble-ui-svc-loadbalancer.yaml${NC}"
-kubectl apply -f /home/hitler/kuber-deployment/cilium-playgroud/hubble-ui-svc-loadbalancer.yaml;
+kubectl apply -f /home/djohn/kuber-deployment/cilium-playgroud/hubble-ui-svc-loadbalancer.yaml;
 sleep 2
 echo -e "${Cyan}Check hubble expose svc port=3333${NC}"
 kubectl get svc -n kube-system hubble-ui -o wide;
@@ -100,17 +100,17 @@ echo 'kind: Cluster
  nodes:
  - role: control-plane
    extraMounts:
-   - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+   - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
      containerPath: /opt/cni/bin/
      readOnly: false
  - role: worker
    extraMounts:
-   - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+   - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
      containerPath: /opt/cni/bin/
      readOnly: false
  - role: worker
    extraMounts:
-   - hostPath: /home/hitler/Downloads/cni-plugins-linux-amd64-v0.8.6/
+   - hostPath: /home/djohn/Downloads/cni-plugins-linux-amd64-v0.8.6/
      containerPath: /opt/cni/bin/
      readOnly: false
 

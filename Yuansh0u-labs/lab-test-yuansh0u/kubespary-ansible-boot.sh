@@ -1,4 +1,4 @@
-hitler@hitler-virtual-machine:~$ cat ansible-playbook-cli.sh 
+djohn@djohn-virtual-machine:~$ cat ansible-playbook-cli.sh 
 sudo apt-get install sshpass
 
 # Install dependencies from ``requirements.txt``
@@ -33,5 +33,5 @@ ansible-playbook xxxx/xx.yml
 
 
 ###
-ansible-playbook -i inventory/mycluster/hosts.ini --become --become-user=hitler cluster.yml --private-key=~/.ssh/id_rsa.pub
+ansible-playbook -i inventory/mycluster/hosts.ini --become --become-user=djohn cluster.yml --private-key=~/.ssh/id_rsa.pub
 ssh-copy-id -i ~/.ssh/id_rsa.pub root@150.1.88.1

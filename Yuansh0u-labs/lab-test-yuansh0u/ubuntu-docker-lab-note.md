@@ -17,7 +17,7 @@ somesay## UBUNTU Docker playgroud
 ```
 ## Running debian image and login into container
  ```sh
- $docker run --name debianhitler -it debian /bin/bash
+ $docker run --name debiandjohn -it debian /bin/bash
 #docker run --name <container-name> -it <image> /bin/bash
 ```
 ## check docker status,and delete all test dockers
@@ -37,7 +37,7 @@ root@VPC1-U001:/var/lib/docker/containers# ls
 docker rename <original-name> <target-name>
 docker container attach <container-ID|container-name>
 ##ctrl+d to exit container without shutdown
-docker exec -ti debianhitler /bin/bash
+docker exec -ti debiandjohn /bin/bash
 docker exec -ti  tomcat
 docker exec -ti  tomcat apt install -y net-tools
 apt-get update
@@ -131,11 +131,11 @@ root@VPC1-U001:/#
 
 ## Create own network
 ```sh
-root@localhost:~# docker network create HITLER-BR
+root@localhost:~# docker network create djohn-BR
 b642883400449e280a2939d8146e84441ca7c66be644c254f0988dab8a62215a
 root@localhost:~# docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
-b64288340044        HITLER-BR           bridge              local
+b64288340044        djohn-BR           bridge              local
 c921af890ada        bridge              bridge              local
 442cc6e14a4a        host                host                local
 ca7ceefbfd86        none                null                local
@@ -143,36 +143,36 @@ root@localhost:~#
 ```
 ## Create network namespaces
 ```sh
-sudo ip netns add HITLER1
+sudo ip netns add djohn1
 ```
 ## Delete network namespaces
 ```sh
-sudo ip netns del HITLER1
+sudo ip netns del djohn1
 ```
 ## show netns instance
 ```sh
 seaomi@localhost:/$ sudo ip netns show
-HITLER2
-HITLER1
+djohn2
+djohn1
 ```
 ## Create vETH pair
 ```sh
  sudo ip link add DICK type veth peer name PUSSY
 ```
-## veth allocate to namespace HITLER1
-sudo ip link set PUSSY netns HITLER1
+## veth allocate to namespace djohn1
+sudo ip link set PUSSY netns djohn1
 ## login netns
 ```sh
-sudo ip netns exec HITLER1 bash
-seaomi@localhost:/$ sudo ip netns exec HITLER1 bash
+sudo ip netns exec djohn1 bash
+seaomi@localhost:/$ sudo ip netns exec djohn1 bash
 root@localhost:/# ip a
 1: lo: <LOOPBACK> mtu 65536 qdisc noop state DOWN group default qlen 1
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 19: PUSSY@if20: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
     link/ether 0e:ce:ea:94:f0:3c brd ff:ff:ff:ff:ff:ff link-netnsid 0
 root@localhost:/# 
-##Assign IP address to veth interface <DICK=root netns/PUSSY=HITLER1 netns>
-ip netns exec HITLER1 ifconfig PUSSY 10.1.1.1/24 up
+##Assign IP address to veth interface <DICK=root netns/PUSSY=djohn1 netns>
+ip netns exec djohn1 ifconfig PUSSY 10.1.1.1/24 up
 sudo ifconfig DICK 10.1.1.2/24 up
 ##PING TEST
 seaomi@localhost:/$ ping 10.1.1.1
@@ -183,7 +183,7 @@ PING 10.1.1.1 (10.1.1.1) 56(84) bytes of data.
 
 
 ```sh
-sudo ip netns exec HITLER1 ip link add edge_bridge1 type bridge
+sudo ip netns exec djohn1 ip link add edge_bridge1 type bridge
 
 
                                                                       source NAT-POSTROUTING source DOCKER SUBNETS-->anywhere
@@ -289,7 +289,7 @@ root@localhost:/etc/docker# docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 root@localhost:/etc/docker# docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                          PORTS               NAMES
-bafb896f499d        debian              "/bin/bash"         38 hours ago        Exited (0) About a minute ago                       debianhitler
+bafb896f499d        debian              "/bin/bash"         38 hours ago        Exited (0) About a minute ago                       debiandjohn
 root@localhost:/etc/docker# 
 root@localhost:/etc/docker# 
 root@localhost:/etc/docker# ip a
@@ -301,17 +301,17 @@ root@localhost:/etc/docker# ip a
     inet6 fe80::42:32ff:fe72:cddc/64 scope link 
        valid_lft forever preferred_lft forever
 ****       
-root@localhost:/etc/docker# docker start debianhitler debianhitler 
-debianhitler
-debianhitler
+root@localhost:/etc/docker# docker start debiandjohn debiandjohn 
+debiandjohn
+debiandjohn
 root@localhost:/etc/docker# docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-bafb896f499d        debian              "/bin/bash"         38 hours ago        Up 5 seconds                            debianhitler
+bafb896f499d        debian              "/bin/bash"         38 hours ago        Up 5 seconds                            debiandjohn
 root@localhost:/etc/docker# 
-root@localhost:/etc/docker# docker exec -ti debianhitler debianhitler bin/bash
-rpc error: code = 2 desc = oci runtime error: exec failed: container_linux.go:247: starting container process caused "exec: \"debianhitler\": executable file not found in $PATH"
+root@localhost:/etc/docker# docker exec -ti debiandjohn debiandjohn bin/bash
+rpc error: code = 2 desc = oci runtime error: exec failed: container_linux.go:247: starting container process caused "exec: \"debiandjohn\": executable file not found in $PATH"
 
-root@localhost:/etc/docker# docker exec -ti debianhitler bin/bash
+root@localhost:/etc/docker# docker exec -ti debiandjohn bin/bash
 root@bafb896f499d:/# ls
 bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
 boot  etc  lib   media  opt  root  sbin  sys  usr
@@ -344,14 +344,14 @@ root@bafb896f499d:/#
 root@localhost:/# docker ps 
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
 7778b8c56417        nginx               "nginx -g 'daemon ..."   4 seconds ago       Up 3 seconds        0.0.0.0:80->80/tcp   docker-nginx
-bafb896f499d        debian              "/bin/bash"              39 hours ago        Up 4 minutes                             debianhitler
+bafb896f499d        debian              "/bin/bash"              39 hours ago        Up 4 minutes                             debiandjohn
 root@localhost:/# docker inspect --format '{{ .NetworkSettings.IPAddress }}' 7778b8c56417
 100.64.88.3
 root@localhost:/# 
 
 
 
-docker run --name debianhitler2 -it debian /bin/bash
+docker run --name debiandjohn2 -it debian /bin/bash
 
 
 
@@ -455,7 +455,7 @@ ip addr del 192.168.80.155/24 dev ens33
 ip addr add 192.168.80.155/24 dev br-981a89a08ba7
 ip route add default via 192.168.80.2 dev br-981a89a08ba7
 
-docker run --name debianhitler3 -it debian /bin/bash
+docker run --name debiandjohn3 -it debian /bin/bash
 
 ##create container with network allocation with static IP address!
 docker run --name docker-nginx-FUCK-BR2 --net FUCK-BR --ip 172.17.0.253 -d nginx 
@@ -464,21 +464,21 @@ docker run --name BASE-NETWORK-UBUNTU001 -it --net BASE-NETWORK-BR --ip 192.168.
 ##start 
 docker start docker-nginx-FUCK-BR
 docker start docker-nginx-FUCK-BR2
-docker start debianhitler
-docker start debianhitler2
-docker start debianhitler3
+docker start debiandjohn
+docker start debiandjohn2
+docker start debiandjohn3
 
-docker exec -ti debianhitler /bin/bash
+docker exec -ti debiandjohn /bin/bash
 
  
-docker exec -ti debianhitler /bin/bash
-docker exec -ti debianhitler2 /bin/bash
-docker exec -ti debianhitler3 /bin/bash
+docker exec -ti debiandjohn /bin/bash
+docker exec -ti debiandjohn2 /bin/bash
+docker exec -ti debiandjohn3 /bin/bash
 
 
-docker stop debianhitler
-docker stop debianhitler2
-docker stop debianhitler3
+docker stop debiandjohn
+docker stop debiandjohn2
+docker stop debiandjohn3
 
 ##DOCKER NETNS LOCATION
 root@localhost:/# cd /var/run/docker/netns
@@ -487,10 +487,10 @@ root@localhost:/var/run/docker/netns# ls
 
 ##issue docker networking namespace not visible in ip netns list
 
-root@localhost:/var/run/docker/netns# docker inspect --format '{{.State.Pid}}' debianhitler
+root@localhost:/var/run/docker/netns# docker inspect --format '{{.State.Pid}}' debiandjohn
 2143
 
-root@localhost:/var/run/docker/netns# docker inspect --format '{{.State.Pid}}' debianhitler2
+root@localhost:/var/run/docker/netns# docker inspect --format '{{.State.Pid}}' debiandjohn2
 2263
 
 

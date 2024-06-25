@@ -1,8 +1,8 @@
 windows IP address setting: 
 eth0 150.1.14.1 255.255.0.0 for management without gateway.
 eth1 192.168.14.1 255.255.255.0 gateway.254 for EVE bridging(pnet2) with CISCO ISE server.
-domain name: hitler.com
-windows server name: hitler
+domain name: djohn.com
+windows server name: djohn
 
 
 

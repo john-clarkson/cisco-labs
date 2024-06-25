@@ -1,5 +1,5 @@
 djohn#!/bin/bash
-cd /home/hitler/kuber-deployment/cilium-playgroud;
+cd /home/djohn/kuber-deployment/cilium-playgroud;
 kubectl apply -f hubble-demo.yaml;
 #export HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt);
 #curl -LO "https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-amd64.tar.gz";
@@ -28,7 +28,7 @@ echo Current Flows: 12288 (100.00%)
 #service/deathstar    ClusterIP   10.96.110.8   <none>        80/TCP    107s
 #service/kubernetes   ClusterIP   10.96.0.1     <none>        443/TCP   3m53s
 #
-#  hitler>~/kuber-deployment/cilium-playgroud
+#  djohn>~/kuber-deployment/cilium-playgroud
 echo "while true; do sleep 6; kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing; echo ;done"
 echo "while true; do sleep 6; kubectl exec tiefighter -- curl -s -XPUT deathstar.default.svc.cluster.local/v1/exhaust-port; echo ;done"
 echo "while true; do sleep 6; kubectl exec xwing -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
@@ -36,7 +36,7 @@ echo "while true; do sleep 6; kubectl exec xwing -- curl -s -XPOST deathstar.def
 
 #  kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
 #  Ship landed
-#  hitler>~/kuber-deployment/cilium-playgroud
+#  djohn>~/kuber-deployment/cilium-playgroud
 #  kubectl exec tiefighter -- curl -s -XPUT deathstar.default.svc.cluster.local/v1/exhaust-port
 #  Panic: deathstar exploded
 #  
@@ -47,7 +47,7 @@ echo "while true; do sleep 6; kubectl exec xwing -- curl -s -XPOST deathstar.def
 #  main.main()
 #          /code/src/github.com/empire/deathstar/
 #          temp/main.go:5 +0x85
-#  hitler>~/kuber-deployment/cilium-playgroud
+#  djohn>~/kuber-deployment/cilium-playgroud
 #  
 
 
@@ -82,7 +82,7 @@ echo "while true; do sleep 6; kubectl exec xwing -- curl -s -XPOST deathstar.def
 ##                                                             k8s:io.cilium.k8s.policy.serviceaccount=default                                                                
 ##                                                             k8s:io.kubernetes.pod.namespace=default                                                                        
 ##                                                             k8s:org=empire                                                                                                 
-##  hitler>~
+##  djohn>~
 ##  $
 echo Apply-network-policy 
 ##cat cilium-network-policy.yaml 

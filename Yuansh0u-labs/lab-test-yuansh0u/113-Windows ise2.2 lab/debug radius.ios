@@ -15,7 +15,7 @@ User Access Verification
 
 Username: 
 *Oct 31 21:50:10.736: RADIUS/ENCODE(00000014): ask "Username: "
-*Oct 31 21:50:10.736: RADIUS/ENCODE(00000014): send packet; GET_USERhitler-level1
+*Oct 31 21:50:10.736: RADIUS/ENCODE(00000014): send packet; GET_USERdjohn-level1
 Password: 
 *Oct 31 21:50:25.556: RADIUS/ENCODE(00000014): ask "Password: "
 *Oct 31 21:50:25.556: RADIUS/ENCODE(00000014): send packet; GET_PASSWORD
@@ -28,7 +28,7 @@ Password:
 *Oct 31 21:50:29.500: RADIUS(00000014): sending
 *Oct 31 21:50:29.508: RADIUS(00000014): Send Access-Request to 192.168.55.1:1645 id 1645/8, len 77
 *Oct 31 21:50:29.512: RADIUS:  authenticator 58 80 52 B4 DB 61 FB 11 - 12 44 43 35 18 D4 94 7E
-*Oct 31 21:50:29.512: RADIUS:  User-Name           [1]   15  "hitler-level1"
+*Oct 31 21:50:29.512: RADIUS:  User-Name           [1]   15  "djohn-level1"
 *Oct 31 21:50:29.512: RADIUS:  User-Password       [2]   18  *
 *Oct 31 21:50:29.512: RADIUS:  NAS-Port            [5]   6   2                         
 *Oct 31 21:50:29.512: RADIUS:  NAS-Port-Id         [87]  6   "tty2"
@@ -38,7 +38,7 @@ Password:
 *Oct 31 21:50:29.512: RADIUS(00000014): Started 2 sec timeout
 *Oct 31 21:50:29.520: RADIUS: Received from id 1645/8 192.168.55.1:1645, Access-Accept, len 183
 *Oct 31 21:50:29.524: RADIUS:  authenticator 3A 1F D6 4A 85 93 96 D2 - 76 B6 98 20 1D D4 E5 27
-*Oct 31 21:50:29.524: RADIUS:  User-Name           [1]   15  "hitler-level1"
+*Oct 31 21:50:29.524: RADIUS:  User-Name           [1]   15  "djohn-level1"
 *Oct 31 21:50:29.528: RADIUS:  State               [24]  67  
 *Oct 31 21:50:29.528: RADIUS:   52 65 61 75 74 68 53 65 73 73 69 6F 6E 3A 39 36  [ReauthSession:96]
 *Oct 31 21:50:29.532: RADIUS:   30 31 33 37 30 31 63 79 6D 64 78 69 65 39 4D 6C  [013701cymdxie9Ml]

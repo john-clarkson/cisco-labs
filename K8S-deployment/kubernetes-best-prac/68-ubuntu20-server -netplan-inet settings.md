@@ -5,7 +5,7 @@ djohn
 $ip address flush dev eth0
 $dhclient eth0
 
-hitler@k8s-master1:/etc/netplan$ cat 00-installer-config.yaml
+djohn@k8s-master1:/etc/netplan$ cat 00-installer-config.yaml
 # This is the network config written by 'subiquity'
 network:
   version: 2
@@ -39,7 +39,7 @@ network:
       gateway4: 10.211.55.1
       nameservers:
         addresses: [8.8.8.8, 8.8.4.4]
-hitler@k8s-slave1:~$ nmcli
+djohn@k8s-slave1:~$ nmcli
 enp0s5: connected to netplan-enp0s5
         "Red Hat Virtio"
         ethernet (virtio_net), 00:1C:42:4D:9E:6A, hw, mtu 1500

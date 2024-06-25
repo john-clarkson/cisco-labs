@@ -8,7 +8,7 @@ sudo apt install -y netscript-2.4
 sudo apt install -y python-pip
 pip2 install --upgrade pip
 sudo apt install python3-pip
-sudo chown hitler -R /usr/bin/pip
+sudo chown djohn -R /usr/bin/pip
 sudo dhclient eth0 
 sudo ip addr add 150.1.88.1/16 dev eth1
 sudo ifconfig eth1 up

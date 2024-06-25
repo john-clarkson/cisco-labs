@@ -12,11 +12,11 @@ sysctl -a | grep net.ipv4.ip_forward
 ```
 ```sh
 # copy peer config from server
-$ scp -r hitler@10.211.55.7:/mnt/data .
+$ scp -r djohn@10.211.55.7:/mnt/data .
 # modify peer dst ip
 cd data/peer1
 nano peer1.conf
-hitler@k8s-slave1:~/data/peer1$ cat peer1.conf
+djohn@k8s-slave1:~/data/peer1$ cat peer1.conf
 [Interface]
 Address = 192.168.1.2
 PrivateKey = +PaZLBC3LhbsT/0qVnkVmUbjQp31Eij7ybTUHS7k228=
@@ -27,7 +27,7 @@ DNS = 10.22.22.10
 PublicKey = Lc/KGs2yOHKdkBt0KLXQJcEX4n8hthPfyUUOBLTbQVY=
 Endpoint = 10.211.55.7:31820
 AllowedIPs = 0.0.0.0/0, ::/0
-hitler@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$
 # add peer config to nmcli
 sudo nmcli connection import type wireguard file peer1.conf
 # delete connection profile
@@ -41,10 +41,10 @@ sudo nmcli
 $ sudo nmcli connection up peer1 
 $ sudo nmcli connection down peer1 
 
-hitler@k8s-slave1:~$ sudo nmcli connection up peer1
+djohn@k8s-slave1:~$ sudo nmcli connection up peer1
 Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/10)
-hitler@k8s-slave1:~$
-hitler@k8s-slave1:~$ ip route show
+djohn@k8s-slave1:~$
+djohn@k8s-slave1:~$ ip route show
 default via 10.211.55.1 dev enp0s5 proto static metric 100
 10.22.22.0/24 dev peer1 proto static scope link metric 50
 10.211.55.0/24 dev enp0s5 proto kernel scope link src 10.211.55.6 metric 100
@@ -58,14 +58,14 @@ sudo nmcli
 # 192.168.1.1=wireguard server
 # 10.255.92.15=pod ip
 ```sh
-hitler@k8s-slave1:~/data/peer1$ tracepath 10.255.92.15
+djohn@k8s-slave1:~/data/peer1$ tracepath 10.255.92.15
  1?: [LOCALHOST]                      pmtu 1420
  1:  192.168.1.1                                           0.819ms
  1:  192.168.1.1                                           0.348ms
  2:  10.211.55.7                                           0.556ms
  3:  10.255.92.15                                          0.996ms reached
      Resume: pmtu 1420 hops 3 back 3
-hitler@k8s-slave1:~/data/peer1$ tracepath google.com
+djohn@k8s-slave1:~/data/peer1$ tracepath google.com
  1?: [LOCALHOST]                      pmtu 1420
  1:  192.168.1.1                                           0.632ms
  1:  192.168.1.1                                           0.682ms
@@ -79,7 +79,7 @@ sudo systemctl stop systemd-resolved.service
 sudo systemctl disable systemd-resolved.service
 sudo nano /etc/resolv.conf
 add nameserver 10.22.22.10
-hitler@k8s-slave1:~$ sudo cat /etc/resolv.conf
+djohn@k8s-slave1:~$ sudo cat /etc/resolv.conf
 sudo: unable to resolve host k8s-slave1: Name or service not known
 # This file is managed by man:systemd-resolved(8). Do not edit.
 #
@@ -107,15 +107,15 @@ echo "nameserver 10.22.22.10" >> /etc/resolv.conf
 
 ```
 
-hitler@k8s-slave1:~/data/peer1$ ip a | grep peer1
+djohn@k8s-slave1:~/data/peer1$ ip a | grep peer1
 4: peer1: <POINTOPOINT,NOARP,UP,LOWER_UP> mtu 1420 qdisc noqueue state UNKNOWN group default qlen 1000
     inet 192.168.1.2/32 scope global noprefixroute peer1
-hitler@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$
 
 
-─ ssh hitler@k8s-s1
-hitler@k8s-s1's password:
-hitler@k8s-slave1:~$ ping 10.211.55.7
+─ ssh djohn@k8s-s1
+djohn@k8s-s1's password:
+djohn@k8s-slave1:~$ ping 10.211.55.7
 PING 10.211.55.7 (10.211.55.7) 56(84) bytes of data.
 64 bytes from 10.211.55.7: icmp_seq=1 ttl=64 time=0.627 ms
 ^C
@@ -123,12 +123,12 @@ PING 10.211.55.7 (10.211.55.7) 56(84) bytes of data.
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.627/0.627/0.627/0.000 ms
 
-hitler@k8s-slave1:~$ scp -r hitler@10.211.55.7:/mnt/data .
+djohn@k8s-slave1:~$ scp -r djohn@10.211.55.7:/mnt/data .
 The authenticity of host '10.211.55.7 (10.211.55.7)' can't be established.
 ECDSA key fingerprint is SHA256:tWRGUsxb+DdcgdejffU6pO6J3lyAMIYAOpeJaU3lAKo.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 Warning: Permanently added '10.211.55.7' (ECDSA) to the list of known hosts.
-hitler@10.211.55.7's password:
+djohn@10.211.55.7's password:
 sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
 tput: No value for $TERM and no -T specified
 tput: No value for $TERM and no -T specified
@@ -145,12 +145,12 @@ peer1.conf                                    100%  267   543.1KB/s   00:00
 .donoteditthisfile                            100%  171   353.1KB/s   00:00
 wg0.conf                                      100%  487   768.2KB/s   00:00
 Corefile                                      100%   45   124.5KB/s   00:00
-hitler@k8s-slave1:~$
+djohn@k8s-slave1:~$
 
-hitler@k8s-slave1:~$ cd data/
-hitler@k8s-slave1:~/data$ ls
+djohn@k8s-slave1:~$ cd data/
+djohn@k8s-slave1:~/data$ ls
 coredns  peer1  server  templates  wg0.conf
-hitler@k8s-slave1:~/data$ cat wg0.conf
+djohn@k8s-slave1:~/data$ cat wg0.conf
 [Interface]
 Address = 192.168.1.1
 ListenPort = 51820
@@ -163,16 +163,16 @@ PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACC
 PublicKey = S32Y4gLi/mdMU6trWiE3+yH9Bdm46ptaXyfKrHwxWHQ=
 AllowedIPs = 192.168.1.2/32
 
-hitler@k8s-slave1:~/data$ cd pper
+djohn@k8s-slave1:~/data$ cd pper
 -bash: cd: pper: No such file or directory
-hitler@k8s-slave1:~/data$ cd pper
+djohn@k8s-slave1:~/data$ cd pper
 -bash: cd: pper: No such file or directory
-hitler@k8s-slave1:~/data$ cd peer1/
-hitler@k8s-slave1:~/data/peer1$ ls
+djohn@k8s-slave1:~/data$ cd peer1/
+djohn@k8s-slave1:~/data/peer1$ ls
 peer1.conf  peer1.png  privatekey-peer1  publickey-peer1
-hitler@k8s-slave1:~/data/peer1$ ls
+djohn@k8s-slave1:~/data/peer1$ ls
 peer1.conf  peer1.png  privatekey-peer1  publickey-peer1
-hitler@k8s-slave1:~/data/peer1$ cat peer1.conf
+djohn@k8s-slave1:~/data/peer1$ cat peer1.conf
 [Interface]
 Address = 192.168.1.2
 PrivateKey = oFriYU6NRukv5Wep3ljpKeiVT5M9ukOiPlI59tNXRVk=
@@ -183,9 +183,9 @@ DNS = 10.22.22.10
 PublicKey = C6ut8ZYgiLHjA5WRDPtIc9rs215K8AyXvyJ7SNtlr1s=
 Endpoint = 45.117.99.230:51820
 AllowedIPs = 10.255.0.0/16, 10.22.22.0/24
-hitler@k8s-slave1:~/data/peer1$ nano peer1.conf
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$ cat peer1.conf
+djohn@k8s-slave1:~/data/peer1$ nano peer1.conf
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$ cat peer1.conf
 [Interface]
 Address = 192.168.1.2
 PrivateKey = oFriYU6NRukv5Wep3ljpKeiVT5M9ukOiPlI59tNXRVk=
@@ -196,17 +196,17 @@ DNS = 10.22.22.10
 PublicKey = C6ut8ZYgiLHjA5WRDPtIc9rs215K8AyXvyJ7SNtlr1s=
 Endpoint = 10.211.55.7:31820
 AllowedIPs = 10.255.0.0/16, 10.22.22.0/24
-hitler@k8s-slave1:~/data/peer1$ ip route show
+djohn@k8s-slave1:~/data/peer1$ ip route show
 default via 10.211.55.1 dev enp0s5 proto static
 10.211.55.0/24 dev enp0s5 proto kernel scope link src 10.211.55.6
 172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
-hitler@k8s-slave1:~/data/peer1$ docker ps
+djohn@k8s-slave1:~/data/peer1$ docker ps
 Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/json: dial unix /var/run/docker.sock: connect: permission denied
 
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$ clear
-hitler@k8s-slave1:~/data/peer1$ ip a
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$ clear
+djohn@k8s-slave1:~/data/peer1$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
@@ -225,17 +225,17 @@ hitler@k8s-slave1:~/data/peer1$ ip a
     link/ether 02:42:7c:ae:03:e1 brd ff:ff:ff:ff:ff:ff
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
        valid_lft forever preferred_lft forever
-hitler@k8s-slave1:~/data/peer1$ ip link add dev wg0 type wireguard
+djohn@k8s-slave1:~/data/peer1$ ip link add dev wg0 type wireguard
 RTNETLINK answers: Operation not permitted
-hitler@k8s-slave1:~/data/peer1$ sudo ip link add dev wg0 type wireguard
-hitler@k8s-slave1:~/data/peer1$ wg
+djohn@k8s-slave1:~/data/peer1$ sudo ip link add dev wg0 type wireguard
+djohn@k8s-slave1:~/data/peer1$ wg
 Unable to access interface wg0: Operation not permitted
-hitler@k8s-slave1:~/data/peer1$ sudo wg
+djohn@k8s-slave1:~/data/peer1$ sudo wg
 interface: wg0
-hitler@k8s-slave1:~/data/peer1$ sudo wg setconf wg0 peer1.conf
+djohn@k8s-slave1:~/data/peer1$ sudo wg setconf wg0 peer1.conf
 Line unrecognized: `Address=192.168.1.2'
 Configuration parsing error
-hitler@k8s-slave1:~/data/peer1$ nmcli
+djohn@k8s-slave1:~/data/peer1$ nmcli
 
 Command 'nmcli' not found, but can be installed with:
 
@@ -244,7 +244,7 @@ sudo apt  install network-manager  # version 1.22.10-1ubuntu2.2
 
 See 'snap info network-manager' for additional versions.
 
-hitler@k8s-slave1:~/data/peer1$ sudo apt  install network-manager
+djohn@k8s-slave1:~/data/peer1$ sudo apt  install network-manager
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -287,15 +287,15 @@ Processing triggers for systemd (245.4-4ubuntu3.2) ...
 Processing triggers for man-db (2.9.1-1) ...
 Processing triggers for dbus (1.12.16-2ubuntu2.1) ...
 Processing triggers for libc-bin (2.31-0ubuntu9) ...
-hitler@k8s-slave1:~/data/peer1$ sudo ip del add dev wg0 type wireguard
+djohn@k8s-slave1:~/data/peer1$ sudo ip del add dev wg0 type wireguard
 Object "del" is unknown, try "ip help".
-hitler@k8s-slave1:~/data/peer1$ sudo ip del add dev wg0
+djohn@k8s-slave1:~/data/peer1$ sudo ip del add dev wg0
 Object "del" is unknown, try "ip help".
-hitler@k8s-slave1:~/data/peer1$ sudo ip del dev wg0
+djohn@k8s-slave1:~/data/peer1$ sudo ip del dev wg0
 Object "del" is unknown, try "ip help".
-hitler@k8s-slave1:~/data/peer1$ sudo ip del dev wg0 type wireguard
+djohn@k8s-slave1:~/data/peer1$ sudo ip del dev wg0 type wireguard
 Object "del" is unknown, try "ip help".
-hitler@k8s-slave1:~/data/peer1$ ip help
+djohn@k8s-slave1:~/data/peer1$ ip help
 Usage: ip [ OPTIONS ] OBJECT { COMMAND | help }
        ip [ -force ] -batch filename
 where  OBJECT := { link | address | addrlabel | route | rule | neigh | ntable |
@@ -310,10 +310,10 @@ where  OBJECT := { link | address | addrlabel | route | rule | neigh | ntable |
                     -o[neline] | -t[imestamp] | -ts[hort] | -b[atch] [filename] |
                     -rc[vbuf] [size] | -n[etns] name | -N[umeric] | -a[ll] |
                     -c[olor]}
-hitler@k8s-slave1:~/data/peer1$ sudo ip link del dev wg0 type wireguard
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$ ip a
+djohn@k8s-slave1:~/data/peer1$ sudo ip link del dev wg0 type wireguard
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
@@ -332,10 +332,10 @@ hitler@k8s-slave1:~/data/peer1$ ip a
     link/ether 02:42:7c:ae:03:e1 brd ff:ff:ff:ff:ff:ff
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
        valid_lft forever preferred_lft forever
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$ nmcli
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$ nmcli
 docker0: unmanaged
         "docker0"
         bridge, 02:42:7C:AE:03:E1, sw, mtu 1500
@@ -352,21 +352,21 @@ Use "nmcli device show" to get complete information about known devices and
 "nmcli connection show" to get an overview on active connection profiles.
 
 Consult nmcli(1) and nmcli-examples(7) manual pages for complete usage details.
-hitler@k8s-slave1:~/data/peer1$ nmcli
+djohn@k8s-slave1:~/data/peer1$ nmcli
 con  dev  nm
-hitler@k8s-slave1:~/data/peer1$ nmcli con
+djohn@k8s-slave1:~/data/peer1$ nmcli con
 delete  down    list    status  up
-hitler@k8s-slave1:~/data/peer1$ nmcli connect
+djohn@k8s-slave1:~/data/peer1$ nmcli connect
 
-hitler@k8s-slave1:~/data/peer1$ nmcli connection import type wireguard file peer1.conf
+djohn@k8s-slave1:~/data/peer1$ nmcli connection import type wireguard file peer1.conf
 Error: Failed to add 'peer1' connection: Insufficient privileges
-hitler@k8s-slave1:~/data/peer1$ sudo nmcli connection import type wireguard file peer1.conf
+djohn@k8s-slave1:~/data/peer1$ sudo nmcli connection import type wireguard file peer1.conf
 Connection 'peer1' (0adbd503-a393-4603-a003-5f905697f2f0) successfully added.
-hitler@k8s-slave1:~/data/peer1$ nmcli connection up peer1
+djohn@k8s-slave1:~/data/peer1$ nmcli connection up peer1
 Error: Connection activation failed: Not authorized to control networking.
-hitler@k8s-slave1:~/data/peer1$ sudo nmcli connection up peer1
+djohn@k8s-slave1:~/data/peer1$ sudo nmcli connection up peer1
 Error: Connection activation failed: Activation failed because the device is unmanaged
-hitler@k8s-slave1:~/data/peer1$ cat peer1.conf
+djohn@k8s-slave1:~/data/peer1$ cat peer1.conf
 [Interface]
 Address = 192.168.1.2
 PrivateKey = oFriYU6NRukv5Wep3ljpKeiVT5M9ukOiPlI59tNXRVk=
@@ -377,10 +377,10 @@ DNS = 10.22.22.10
 PublicKey = C6ut8ZYgiLHjA5WRDPtIc9rs215K8AyXvyJ7SNtlr1s=
 Endpoint = 10.211.55.7:31820
 AllowedIPs = 10.255.0.0/16, 10.22.22.0/24
-hitler@k8s-slave1:~/data/peer1$ sudo nmcli connection up peer1
+djohn@k8s-slave1:~/data/peer1$ sudo nmcli connection up peer1
 Error: Connection activation failed: Connection 'peer1' is not available on device peer1 because device is strictly unmanaged
-hitler@k8s-slave1:~/data/peer1$
-hitler@k8s-slave1:~/data/peer1$ nmcli
+djohn@k8s-slave1:~/data/peer1$
+djohn@k8s-slave1:~/data/peer1$ nmcli
 docker0: unmanaged
         "docker0"
         bridge, 02:42:7C:AE:03:E1, sw, mtu 1500
@@ -398,7 +398,7 @@ peer1: unmanaged
         wireguard, sw, mtu 1420
 
 Use "nmcli device show" to get complete information about known devices and
-hitler@k8s-slave1:~/data/peer1$ nmcli
+djohn@k8s-slave1:~/data/peer1$ nmcli
 docker0: unmanaged
         "docker0"
         bridge, 02:42:7C:AE:03:E1, sw, mtu 1500
@@ -416,19 +416,19 @@ peer1: unmanaged
         wireguard, sw, mtu 1420
 
 Use "nmcli device show" to get complete information about known devices and
-hitler@k8s-slave1:~/data/peer1$ nmcli
+djohn@k8s-slave1:~/data/peer1$ nmcli
 con  dev  nm
-hitler@k8s-slave1:~/data/peer1$ nmcli nm
+djohn@k8s-slave1:~/data/peer1$ nmcli nm
 enable       sleep        wifi         wwan
 permissions  status       wimax
-hitler@k8s-slave1:~/data/peer1$ nmcli nm enable
+djohn@k8s-slave1:~/data/peer1$ nmcli nm enable
 Error: argument 'nm' not understood. Try passing --help instead.
-hitler@k8s-slave1:~/data/peer1$ cd /etc/
-hitler@k8s-slave1:/etc$ cd NetworkManager/
-hitler@k8s-slave1:/etc/NetworkManager$ ls
+djohn@k8s-slave1:~/data/peer1$ cd /etc/
+djohn@k8s-slave1:/etc$ cd NetworkManager/
+djohn@k8s-slave1:/etc/NetworkManager$ ls
 NetworkManager.conf  dispatcher.d      dnsmasq.d
 conf.d               dnsmasq-shared.d  system-connections
-hitler@k8s-slave1:/etc/NetworkManager$ cat NetworkManager.conf
+djohn@k8s-slave1:/etc/NetworkManager$ cat NetworkManager.conf
 [main]
 plugins=ifupdown,keyfile
 
@@ -437,8 +437,8 @@ managed=false
 
 [device]
 wifi.scan-rand-mac-address=no
-hitler@k8s-slave1:/etc/NetworkManager$ sudo nano NetworkManager.conf
-hitler@k8s-slave1:/etc/NetworkManager$ cat NetworkManager.conf
+djohn@k8s-slave1:/etc/NetworkManager$ sudo nano NetworkManager.conf
+djohn@k8s-slave1:/etc/NetworkManager$ cat NetworkManager.conf
 [main]
 plugins=ifupdown,keyfile
 
@@ -447,7 +447,7 @@ managed=true
 
 [device]
 wifi.scan-rand-mac-address=no
-hitler@k8s-slave1:/etc/NetworkManager$ nmcli
+djohn@k8s-slave1:/etc/NetworkManager$ nmcli
 docker0: unmanaged
         "docker0"
         bridge, 02:42:7C:AE:03:E1, sw, mtu 1500
@@ -465,14 +465,14 @@ peer1: unmanaged
         wireguard, sw, mtu 1420
 
 Use "nmcli device show" to get complete information about known devices and
-hitler@k8s-slave1:/etc/NetworkManager$ systemctl restart NetworkManager
+djohn@k8s-slave1:/etc/NetworkManager$ systemctl restart NetworkManager
 ==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
 Authentication is required to restart 'NetworkManager.service'.
-Authenticating as: hitler
+Authenticating as: djohn
 Password:
 ==== AUTHENTICATION COMPLETE ===
-hitler@k8s-slave1:/etc/NetworkManager$ sudo systemctl restart NetworkManager
-hitler@k8s-slave1:/etc/NetworkManager$ sudo systemctl status NetworkManager
+djohn@k8s-slave1:/etc/NetworkManager$ sudo systemctl restart NetworkManager
+djohn@k8s-slave1:/etc/NetworkManager$ sudo systemctl status NetworkManager
 ● NetworkManager.service - Network Manager
      Loaded: loaded (/lib/systemd/system/NetworkManager.service; enabled; vendor preset>
      Active: active (running) since Sat 2021-01-30 15:11:36 UTC; 6s ago
@@ -490,20 +490,20 @@ Jan 30 15:11:36 k8s-slave1 NetworkManager[17065]: <info>  [1612019496.6443] mana
 Jan 30 15:11:36 k8s-slave1 NetworkManager[17065]: <info>  [1612019496.6448] device (enp>
 Jan 30 15:11:36 k8s-slave1 NetworkManager[17065]: <info>  [1612019496.6484] manager: (e>
 Jan 30 15:11:36 k8s-slave1 NetworkManager[17065]: <info>  [1612019496.6500] manager: (p>
-hitler@k8s-slave1:/etc/NetworkManager$
-hitler@k8s-slave1:/etc/NetworkManager$ nm
+djohn@k8s-slave1:/etc/NetworkManager$
+djohn@k8s-slave1:/etc/NetworkManager$ nm
 nm-online       nmtui           nmtui-edit
 nmcli           nmtui-connect   nmtui-hostname
-hitler@k8s-slave1:/etc/NetworkManager$ nm
+djohn@k8s-slave1:/etc/NetworkManager$ nm
 nm-online       nmtui           nmtui-edit
 nmcli           nmtui-connect   nmtui-hostname
-hitler@k8s-slave1:/etc/NetworkManager$ nm-applet
+djohn@k8s-slave1:/etc/NetworkManager$ nm-applet
 
 Command 'nm-applet' not found, but can be installed with:
 
 sudo apt install network-manager-gnome
 
-hitler@k8s-slave1:/etc/NetworkManager$ nmcli
+djohn@k8s-slave1:/etc/NetworkManager$ nmcli
 docker0: unmanaged
         "docker0"
         bridge, 02:42:7C:AE:03:E1, sw, mtu 1500
@@ -524,34 +524,34 @@ Use "nmcli device show" to get complete information about known devices and
 "nmcli connection show" to get an overview on active connection profiles.
 
 Consult nmcli(1) and nmcli-examples(7) manual pages for complete usage details.
-hitler@k8s-slave1:/etc/NetworkManager$ nmcli d
+djohn@k8s-slave1:/etc/NetworkManager$ nmcli d
 DEVICE   TYPE       STATE      CONNECTION
 docker0  bridge     unmanaged  --
 enp0s5   ethernet   unmanaged  --
 lo       loopback   unmanaged  --
 peer1    wireguard  unmanaged  --
-hitler@k8s-slave1:/etc/NetworkManager$ nmcli dev set peer1 managed yes
-hitler@k8s-slave1:/etc/NetworkManager$ nmcli d
+djohn@k8s-slave1:/etc/NetworkManager$ nmcli dev set peer1 managed yes
+djohn@k8s-slave1:/etc/NetworkManager$ nmcli d
 DEVICE   TYPE       STATE      CONNECTION
 docker0  bridge     unmanaged  --
 enp0s5   ethernet   unmanaged  --
 lo       loopback   unmanaged  --
 peer1    wireguard  unmanaged  --
-hitler@k8s-slave1:/etc/NetworkManager$ sudo nmcli dev set peer1 managed yes
-hitler@k8s-slave1:/etc/NetworkManager$ nmcli d
+djohn@k8s-slave1:/etc/NetworkManager$ sudo nmcli dev set peer1 managed yes
+djohn@k8s-slave1:/etc/NetworkManager$ nmcli d
 DEVICE   TYPE       STATE      CONNECTION
 docker0  bridge     unmanaged  --
 enp0s5   ethernet   unmanaged  --
 lo       loopback   unmanaged  --
 peer1    wireguard  unmanaged  --
-hitler@k8s-slave1:/etc/NetworkManager$ nmcli d
+djohn@k8s-slave1:/etc/NetworkManager$ nmcli d
 DEVICE   TYPE       STATE      CONNECTION
 docker0  bridge     unmanaged  --
 enp0s5   ethernet   unmanaged  --
 lo       loopback   unmanaged  --
 peer1    wireguard  unmanaged  --
-hitler@k8s-slave1:/etc/NetworkManager$ cd ..
-hitler@k8s-slave1:/etc$ ls
+djohn@k8s-slave1:/etc/NetworkManager$ cd ..
+djohn@k8s-slave1:/etc$ ls
 NetworkManager                 hosts.deny           popularity-contest.conf
 PackageKit                     ifplugd              ppp
 X11                            init                 preload.conf
@@ -616,10 +616,10 @@ host.conf                      pki                  xattr.conf
 hostname                       pm                   xdg
 hosts                          polkit-1             zsh_command_not_found
 hosts.allow                    pollinate
-hitler@k8s-slave1:/etc$ cd netplan/
-hitler@k8s-slave1:/etc/netplan$ ls
+djohn@k8s-slave1:/etc$ cd netplan/
+djohn@k8s-slave1:/etc/netplan$ ls
 00-installer-config.yaml  00-installer-config.yaml.bak
-hitler@k8s-slave1:/etc/netplan$ cat 00-installer-config.yaml
+djohn@k8s-slave1:/etc/netplan$ cat 00-installer-config.yaml
 # This is the network config written by 'subiquity'
 network:
   version: 2
@@ -632,9 +632,9 @@ network:
       gateway4: 10.211.55.1
       nameservers:
         addresses: [8.8.8.8, 8.8.4.4]
-hitler@k8s-slave1:/etc/netplan$ nano 00-installer-config.yaml
-hitler@k8s-slave1:/etc/netplan$ sudo nano 00-installer-config.yaml
-hitler@k8s-slave1:/etc/netplan$ netplan try
+djohn@k8s-slave1:/etc/netplan$ nano 00-installer-config.yaml
+djohn@k8s-slave1:/etc/netplan$ sudo nano 00-installer-config.yaml
+djohn@k8s-slave1:/etc/netplan$ netplan try
 ERROR: cannot create directory /run/NetworkManager/system-connections: Permission denied
 
 An error occurred: the configuration could not be generated
@@ -642,10 +642,10 @@ An error occurred: the configuration could not be generated
 Reverting.
 Something really bad happened while reverting config: [Errno 13] Permission denied: '10-netplan-enp0s5.network'
 You should verify the netplan YAML in /etc/netplan and probably run 'netplan apply' again.
-hitler@k8s-slave1:/etc/netplan$ netplan apply
+djohn@k8s-slave1:/etc/netplan$ netplan apply
 ERROR: cannot create directory /run/NetworkManager/system-connections: Permission denied
-hitler@k8s-slave1:/etc/netplan$ sudo netplan apply
-hitler@k8s-slave1:/etc/netplan$ sudo netplan try
+djohn@k8s-slave1:/etc/netplan$ sudo netplan apply
+djohn@k8s-slave1:/etc/netplan$ sudo netplan try
 Do you want to keep these settings?
 
 
@@ -654,13 +654,13 @@ Press ENTER before the timeout to accept the new configuration
 
 Changes will revert in 118 seconds
 Configuration accepted.
-hitler@k8s-slave1:/etc/netplan$ nmcli d
+djohn@k8s-slave1:/etc/netplan$ nmcli d
 DEVICE   TYPE       STATE      CONNECTION
 enp0s5   ethernet   connected  netplan-enp0s5
 peer1    wireguard  connected  peer1
 docker0  bridge     unmanaged  --
 lo       loopback   unmanaged  --
-hitler@k8s-slave1:/etc/netplan$ cat 00-installer-config.yaml
+djohn@k8s-slave1:/etc/netplan$ cat 00-installer-config.yaml
 # This is the network config written by 'subiquity'
 network:
   version: 2
@@ -673,10 +673,10 @@ network:
       gateway4: 10.211.55.1
       nameservers:
         addresses: [8.8.8.8, 8.8.4.4]
-hitler@k8s-slave1:/etc/netplan$
-hitler@k8s-slave1:/etc/netplan$ ls
+djohn@k8s-slave1:/etc/netplan$
+djohn@k8s-slave1:/etc/netplan$ ls
 00-installer-config.yaml  00-installer-config.yaml.bak
-hitler@k8s-slave1:/etc/netplan$ nmcli
+djohn@k8s-slave1:/etc/netplan$ nmcli
 enp0s5: connected to netplan-enp0s5
         "Red Hat Virtio"
         ethernet (virtio_net), 00:1C:42:4D:9E:6A, hw, mtu 1500
@@ -701,25 +701,25 @@ docker0: unmanaged
 
 lo: unmanaged
         "lo"
-hitler@k8s-slave1:/etc/netplan$
-hitler@k8s-slave1:/etc/netplan$ nmcli connection up peer1
+djohn@k8s-slave1:/etc/netplan$
+djohn@k8s-slave1:/etc/netplan$ nmcli connection up peer1
 Error: Connection activation failed: Not authorized to control networking.
-hitler@k8s-slave1:/etc/netplan$ sudo nmcli connection up peer1
+djohn@k8s-slave1:/etc/netplan$ sudo nmcli connection up peer1
 Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/3)
-hitler@k8s-slave1:/etc/netplan$ ip route show
+djohn@k8s-slave1:/etc/netplan$ ip route show
 default via 10.211.55.1 dev enp0s5 proto static metric 100
 10.22.22.0/24 dev peer1 proto static scope link metric 50
 10.211.55.0/24 dev enp0s5 proto kernel scope link src 10.211.55.6 metric 100
 10.255.0.0/16 dev peer1 proto static scope link metric 50
-hitler@k8s-slave1:/etc/netplan$ sudo ip link add dev wg0 type wireguard
-hitler@k8s-slave1:/etc/netplan$ ip route show
+djohn@k8s-slave1:/etc/netplan$ sudo ip link add dev wg0 type wireguard
+djohn@k8s-slave1:/etc/netplan$ ip route show
 default via 10.211.55.1 dev enp0s5 proto static metric 100
 10.22.22.0/24 dev peer1 proto static scope link metric 50
 10.211.55.0/24 dev enp0s5 proto kernel scope link src 10.211.55.6 metric 100
 10.255.0.0/16 dev peer1 proto static scope link metric 50
-hitler@k8s-slave1:/etc/netplan$ sudo nmcli connection down peer1
+djohn@k8s-slave1:/etc/netplan$ sudo nmcli connection down peer1
 Connection 'peer1' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/3)
-hitler@k8s-slave1:/etc/netplan$ nmcli
+djohn@k8s-slave1:/etc/netplan$ nmcli
 enp0s5: connected to netplan-enp0s5
         "Red Hat Virtio"
         ethernet (virtio_net), 00:1C:42:4D:9E:6A, hw, mtu 1500
@@ -841,8 +841,8 @@ Use "nmcli device show" to get complete information about known devices and
 "nmcli connection show" to get an overview on active connection profiles.
 
 Consult nmcli(1) and nmcli-examples(7) manual pages for complete usage details.
-hitler@k8s-slave1:/etc/netplan$ sudo nmcli dev set wg0 managed yes
-hitler@k8s-slave1:/etc/netplan$ nmcli
+djohn@k8s-slave1:/etc/netplan$ sudo nmcli dev set wg0 managed yes
+djohn@k8s-slave1:/etc/netplan$ nmcli
 enp0s5: connected to netplan-enp0s5
         "Red Hat Virtio"
         ethernet (virtio_net), 00:1C:42:4D:9E:6A, hw, mtu 1500
@@ -872,17 +872,17 @@ DNS configuration:
 
 Use "nmcli device show" to get complete information about known devices and
 "nmcli connection show" to get an overview on active connection profiles.
-hitler@k8s-slave1:/etc/netplan$ ip route show
+djohn@k8s-slave1:/etc/netplan$ ip route show
 default via 10.211.55.1 dev enp0s5 proto static metric 100
 10.211.55.0/24 dev enp0s5 proto kernel scope link src 10.211.55.6 metric 100
-hitler@k8s-slave1:/etc/netplan$ sudo nmcli connection up peer1
+djohn@k8s-slave1:/etc/netplan$ sudo nmcli connection up peer1
 Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/4)
-hitler@k8s-slave1:/etc/netplan$ cd ..
-hitler@k8s-slave1:/etc$ cd NetworkManager/
-hitler@k8s-slave1:/etc/NetworkManager$ ls
+djohn@k8s-slave1:/etc/netplan$ cd ..
+djohn@k8s-slave1:/etc$ cd NetworkManager/
+djohn@k8s-slave1:/etc/NetworkManager$ ls
 NetworkManager.conf  dispatcher.d      dnsmasq.d
 conf.d               dnsmasq-shared.d  system-connections
-hitler@k8s-slave1:/etc/NetworkManager$ cat NetworkManager.conf
+djohn@k8s-slave1:/etc/NetworkManager$ cat NetworkManager.conf
 [main]
 plugins=ifupdown,keyfile
 
@@ -891,7 +891,7 @@ managed=true
 
 [device]
 wifi.scan-rand-mac-address=no
-hitler@k8s-slave1:/etc/NetworkManager$ ip a
+djohn@k8s-slave1:/etc/NetworkManager$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
@@ -912,7 +912,7 @@ hitler@k8s-slave1:/etc/NetworkManager$ ip a
     link/none
     inet 192.168.1.2/32 scope global noprefixroute peer1
        valid_lft forever preferred_lft forever
-hitler@k8s-slave1:/etc/NetworkManager$ ping 192.168.1.1
+djohn@k8s-slave1:/etc/NetworkManager$ ping 192.168.1.1
 PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
 64 bytes from 192.168.1.1: icmp_seq=1 ttl=128 time=15.7 ms
 64 bytes from 192.168.1.1: icmp_seq=2 ttl=128 time=11.5 ms
@@ -920,21 +920,21 @@ PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
 --- 192.168.1.1 ping statistics ---
 2 packets transmitted, 2 received, 0% packet loss, time 1002ms
 rtt min/avg/max/mdev = 11.522/13.623/15.724/2.101 ms
-hitler@k8s-slave1:/etc/NetworkManager$ ping 192.168.1.2
+djohn@k8s-slave1:/etc/NetworkManager$ ping 192.168.1.2
 PING 192.168.1.2 (192.168.1.2) 56(84) bytes of data.
 64 bytes from 192.168.1.2: icmp_seq=1 ttl=64 time=0.048 ms
 ^C
 --- 192.168.1.2 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.048/0.048/0.048/0.000 ms
-hitler@k8s-slave1:/etc/NetworkManager$
-hitler@k8s-slave1:/etc/NetworkManager$
-hitler@k8s-slave1:/etc/NetworkManager$ ip route show
+djohn@k8s-slave1:/etc/NetworkManager$
+djohn@k8s-slave1:/etc/NetworkManager$
+djohn@k8s-slave1:/etc/NetworkManager$ ip route show
 default via 10.211.55.1 dev enp0s5 proto static metric 100
 10.22.22.0/24 dev peer1 proto static scope link metric 50
 10.211.55.0/24 dev enp0s5 proto kernel scope link src 10.211.55.6 metric 100
 10.255.0.0/16 dev peer1 proto static scope link metric 50
-hitler@k8s-slave1:/etc/NetworkManager$ pinng 10.255.92.15
+djohn@k8s-slave1:/etc/NetworkManager$ pinng 10.255.92.15
 
 Command 'pinng' not found, did you mean:
 
@@ -943,14 +943,14 @@ Command 'pinng' not found, did you mean:
 
 Try: sudo apt install <deb name>
 
-hitler@k8s-slave1:/etc/NetworkManager$ ping 10.255.92.15
+djohn@k8s-slave1:/etc/NetworkManager$ ping 10.255.92.15
 PING 10.255.92.15 (10.255.92.15) 56(84) bytes of data.
 64 bytes from 10.255.92.15: icmp_seq=1 ttl=62 time=13.0 ms
 ^C
 --- 10.255.92.15 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 13.004/13.004/13.004/0.000 ms
-hitler@k8s-slave1:/etc/NetworkManager$ curl 10.255.92.16
+djohn@k8s-slave1:/etc/NetworkManager$ curl 10.255.92.16
 <!DOCTYPE html>
 <html>
 <head>_
@@ -976,4 +976,4 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-hitler@k8s-slave1:/etc/NetworkManager$
+djohn@k8s-slave1:/etc/NetworkManager$

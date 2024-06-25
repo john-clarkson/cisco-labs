@@ -4,10 +4,10 @@ djohn
 ```sh
 
 cd wg/
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 ls
 00-wg-ns.yaml  01.pv.yaml  02-wg-pvc.yaml  03-wg-configmap.yaml  04-wg-pod.yaml  05-wg-svc-nordport.yaml
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 kubectl delete -f .
 namespace "wireguard" deleted
 persistentvolume "task-pv-volume" deleted
@@ -23,31 +23,31 @@ persistentvolumeclaim/pv-claim-wireguard created
 configmap/wireguard-configmap created
 pod/wireguard created
 service/wireguard-service created
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 kubectl get svc -n wireguard
 NAME                TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)           AGE
 wireguard-service   NodePort   10.22.22.128   <none>        51820:31820/UDP   9s
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 kubectl get svc -n wireguard
 NAME                TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)           AGE
 wireguard-service   NodePort   10.22.22.128   <none>        51820:31820/UDP   11s
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 kubectl get svc -n wireguard
 NAME                TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)           AGE
 wireguard-service   NodePort   10.22.22.128   <none>        51820:31820/UDP   12s
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 kubectl get all -n wireguard
 NAME            READY   STATUS    RESTARTS   AGE
 pod/wireguard   1/1     Running   0          21s
 
 NAME                        TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)           AGE
 service/wireguard-service   NodePort   10.22.22.128   <none>        51820:31820/UDP   21s
-hitler@k8s-slave2:[~/wg]:
-hitler@k8s-slave2:[~/wg]:
-hitler@k8s-slave2:[~/wg]:
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 clear
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 
 ```
 
@@ -183,7 +183,7 @@ linux/amd64, go1.15.7, 95622f4
 [#] ip -4 route add 10.255.0.3/32 dev wg0
 [#] ip -4 route add 10.255.0.2/32 dev wg0
 [#] iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-hitler@k8s-slave2:[~/wg]:
+djohn@k8s-slave2:[~/wg]:
 
 
 
@@ -194,7 +194,7 @@ $ nmcli connection down peer1
 
 
 
-hitler@k8s-slave1:/etc/NetworkManager$ cat NetworkManager.conf
+djohn@k8s-slave1:/etc/NetworkManager$ cat NetworkManager.conf
 [main]
 plugins=ifupdown,keyfile
 

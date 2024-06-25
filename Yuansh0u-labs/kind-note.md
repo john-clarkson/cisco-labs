@@ -43,7 +43,7 @@ VERSION_CODENAME=focal
 UBUNTU_CODENAME=focal
 ~
 $uname -a
-Linux hitler-k8s 5.4.0-42-generic 46-Ubuntu SMP Fri Jul 10 00:24:02 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+Linux djohn-k8s 5.4.0-42-generic 46-Ubuntu SMP Fri Jul 10 00:24:02 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 ## Before you begin, you should know this (Don't skip) 
@@ -403,7 +403,7 @@ $kubectl patch service kuard -p '{"spec": {"type": "LoadBalancer", "externalIPs"
 
 ##ExternalIPtesting, host(ubuntu20.04 as client) add static route---->kind-nodes
 $sudo ip route add 1.2.3.4/32 via 172.18.0.2 dev br-0a1a1395012d
-[sudo] password for hitler: 
+[sudo] password for djohn: 
 $ ip route show
 default via 192.168.120.2 dev ens33 proto dhcp metric 100 
 1.2.3.4 via 172.18.0.2 dev br-0a1a1395012d
@@ -536,24 +536,24 @@ sudo apt-get install helm
 ```sh
 ##install helm version2 and tiller on k8s v1.18
 Find the helm binary in the unpacked directory, and move it to its desired destination 
-$mv /home/hitler/Downloads/helm-v2.16.9-linux-amd64/linux-amd64/helm /usr/local/bin/helm
+$mv /home/djohn/Downloads/helm-v2.16.9-linux-amd64/linux-amd64/helm /usr/local/bin/helm
 /kuber-deployment$ whereis helm
 helm: /usr/local/bin/helm
 $kubectl -n kube-system create serviceaccount tiller
 $kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 
 $ helm init --service-account tiller
-Creating /home/hitler/.helm 
-Creating /home/hitler/.helm/repository 
-Creating /home/hitler/.helm/repository/cache 
-Creating /home/hitler/.helm/repository/local 
-Creating /home/hitler/.helm/plugins 
-Creating /home/hitler/.helm/starters 
-Creating /home/hitler/.helm/cache/archive 
-Creating /home/hitler/.helm/repository/repositories.yaml 
+Creating /home/djohn/.helm 
+Creating /home/djohn/.helm/repository 
+Creating /home/djohn/.helm/repository/cache 
+Creating /home/djohn/.helm/repository/local 
+Creating /home/djohn/.helm/plugins 
+Creating /home/djohn/.helm/starters 
+Creating /home/djohn/.helm/cache/archive 
+Creating /home/djohn/.helm/repository/repositories.yaml 
 Adding stable repo with URL: https://kubernetes-charts.storage.googleapis.com 
 Adding local repo with URL: http://127.0.0.1:8879/charts 
-$HELM_HOME has been configured at /home/hitler/.helm.
+$HELM_HOME has been configured at /home/djohn/.helm.
 
 Tiller (the Helm server-side component) has been installed into your Kubernetes Cluster.
 

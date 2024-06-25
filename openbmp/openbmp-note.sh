@@ -17,7 +17,7 @@ echo -e ${Green}"
  link:
  mysql-workbench-download-link
  https://dev.mysql.com/downloads/workbench/
- sudo apt install ./home/hitler/Downloads/mysql-workbench-community_8.0.21-1ubuntu20.04_amd64.deb
+ sudo apt install ./home/djohn/Downloads/mysql-workbench-community_8.0.21-1ubuntu20.04_amd64.deb
  
  #bmp server
  https://github.com/SNAS/docker/blob/master/aio/README.md

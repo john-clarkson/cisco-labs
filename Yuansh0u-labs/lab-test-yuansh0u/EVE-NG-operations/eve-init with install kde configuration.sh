@@ -8,7 +8,7 @@ route del default
  apt-get install -y network-manager-vpnc
  apt-get purge {app name}
  apt-get install kubuntu-desktop
-#adduser hitler
+#adduser djohn
 
 root@eve-ng:/usr/lib# service --status-all |grep sddm
  [ + ]  sddm

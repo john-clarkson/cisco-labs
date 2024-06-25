@@ -4,7 +4,7 @@ echo This deployment is under kube-system namespace.
 sleep 4
 
 echo "setup Dnsbox pod with replica=1"
-kubectl apply -f /home/hitler/kuber-deployment/deployment-example/dnsbox-deployment-example.yaml; 
+kubectl apply -f /home/djohn/kuber-deployment/deployment-example/dnsbox-deployment-example.yaml; 
 sleep 2
 
 echo "setup nginx pod"
