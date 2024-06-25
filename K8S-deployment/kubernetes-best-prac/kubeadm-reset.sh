@@ -20,4 +20,4 @@ rm -rfv ~/.kube;
 echo Check iptables rule is gone.
 iptable -L -t nat;
 
-echo GOOD BYE BITCH!
+echo GOOD BYE djohn!
