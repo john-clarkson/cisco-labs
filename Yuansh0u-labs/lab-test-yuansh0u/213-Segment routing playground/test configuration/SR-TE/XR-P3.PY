@@ -61,7 +61,7 @@ router static
   100.64.1.2/32 tunnel-te16
  !
 !
-router isis fuck
+router isis djohn
  is-type level-2-only
  net 49.0001.0000.0003.00
  log adjacency changes

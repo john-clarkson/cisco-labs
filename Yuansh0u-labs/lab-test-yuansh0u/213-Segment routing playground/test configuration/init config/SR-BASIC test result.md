@@ -30,7 +30,7 @@ segment-routing mpls
 ```bash
 ##IOS XR
 ##XR-P3
-router isis fuck
+router isis djohn
 interface Loopback0
 address-family ipv4 unicast
 prefix-sid index 3
@@ -96,17 +96,17 @@ Table Label   Owner                           State  Rewrite
 0     1       LSD(A)                          InUse  Yes
 0     2       LSD(A)                          InUse  Yes
 0     13      LSD(A)                          InUse  Yes
-0     16000   ISIS(A):fuck                    InUse  No
+0     16000   ISIS(A):djohn                    InUse  No
   (Lbl-blk SRGB, vers:0, (start_label=16000, size=8000)
-0     24000   ISIS(A):fuck                    InUse  Yes
+0     24000   ISIS(A):djohn                    InUse  Yes
   (SR Adj Segment IPv4, vers:0, index=1, type=0, intf=Gi0/0/0/0.113, nh=169.254.113.3)
-0     24001   ISIS(A):fuck                    InUse  Yes
+0     24001   ISIS(A):djohn                    InUse  Yes
   (SR Adj Segment IPv4, vers:0, index=3, type=0, intf=Gi0/0/0/0.113, nh=169.254.113.3)
 0     24002   BGP-VPNv4(A):bgp-default        InUse  No
   (IPv4, vers:0, 'A':4U, 1.1.1.1/32)
-0     24003   ISIS(A):fuck                    InUse  Yes
+0     24003   ISIS(A):djohn                    InUse  Yes
   (SR Adj Segment IPv4, vers:0, index=1, type=0, intf=Gi0/0/0/0.111, nh=169.254.111.11)
-0     24004   ISIS(A):fuck                    InUse  Yes
+0     24004   ISIS(A):djohn                    InUse  Yes
   (SR Adj Segment IPv4, vers:0, index=3, type=0, intf=Gi0/0/0/0.111, nh=169.254.111.11)
 RP/0/0/CPU0:XR-PE1# 
 ```
@@ -114,7 +114,7 @@ RP/0/0/CPU0:XR-PE1#
 ## ISIS DB CHECK
 XE-PE2#show isis database level-2 
 
-Tag fuck:
+Tag djohn:
 IS-IS Level-2 Link State Database:
 LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime      ATT/P/OL
 XR-P1.00-00           0x000000BA   0x6D36        490               0/0/0
@@ -178,7 +178,7 @@ XE-PE2#show isis database XR-PE1.00-00 verbose ?
 
 XE-PE2#show isis database XR-PE1.00-00 verbose 
 
-Tag fuck:
+Tag djohn:
 
 IS-IS Level-2 LSP XR-PE1.00-00
 LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime      ATT/P/OL
@@ -204,7 +204,7 @@ XE-PE2#
 RP/0/0/CPU0:XR-PE1#show isis database XE-PE2 verbose 
 Thu Nov 16 16:56:28.183 UTC
 
-IS-IS fuck (Level-2) Link State Database
+IS-IS djohn (Level-2) Link State Database
 LSPID                 LSP Seq Num  LSP Checksum  LSP Holdtime  ATT/P/OL
 XE-PE2.00-00          0x00000097   0x4c11        1184            0/0/0
   Area Address: 49

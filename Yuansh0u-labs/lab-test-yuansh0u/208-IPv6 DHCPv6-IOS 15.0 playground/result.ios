@@ -25,7 +25,7 @@ ipv6 unicast-routing
 ipv6 cef
 ipv6 dhcp pool stateless-pool
  dns-server 1234::1234
- domain-name fuck.com
+ domain-name djohn.com
 
 !
 interface FastEthernet1/0

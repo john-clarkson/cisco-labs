@@ -625,7 +625,7 @@ func (r *HTMLRenderer) RenderNode(w io.Writer, node *Node, entering bool) WalkSt
 			break
 		}
 		if entering {
-			// TODO: untangle this clusterfuck about when the newlines need
+			// TODO: untangle this clusterdjohn about when the newlines need
 			// to be added and when not.
 			if node.Prev != nil {
 				switch node.Prev.Type {

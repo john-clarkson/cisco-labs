@@ -17,17 +17,17 @@ segment-routing mpls
 
 interface Loopback0
  ip address 2.2.2.2 255.255.255.255
- ip router isis fuck
+ ip router isis djohn
 !         
 interface GigabitEthernet2
- ip router isis fuck
+ ip router isis djohn
  negotiation auto
  mpls traffic-eng tunnels
 
  isis network point-to-point 
 !
 !
-router isis fuck
+router isis djohn
  net 49.0001.0000.0007.00
  is-type level-2-only
  metric-style wide

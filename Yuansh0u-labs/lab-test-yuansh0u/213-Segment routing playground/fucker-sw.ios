@@ -28,7 +28,7 @@ no service timestamps log datetime msec
 no service password-encryption
 service compress-config
 !
-hostname FUCKER-L2-SW
+hostname djohnER-L2-SW
 !
 
 !

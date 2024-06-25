@@ -5,7 +5,7 @@ auto-tunnel pcc
  commit
 
 XR-PE1
- router isis fuck
+ router isis djohn
     address-family ipv4 unicast
      mpls traffic-eng router-id loopback0
      mpls traffic-eng level-2-only
@@ -31,7 +31,7 @@ exit
    commit
    !
 ALL IOS XR
-   router isis fuck
+   router isis djohn
     address-family ipv4 unicast
      mpls traffic-eng router-id loopback0
      mpls traffic-eng level-2-only
@@ -39,7 +39,7 @@ ALL IOS XR
      !
 XR-P1
 ipv4 unnumbered mpls traffic-eng loopback 0
- router isis fuck
+ router isis djohn
     address-family ipv4 unicast
      mpls traffic-eng router-id loopback0
      mpls traffic-eng level-2-only
@@ -68,7 +68,7 @@ exit
  !!
  XR-P3
 ipv4 unnumbered mpls traffic-eng loopback 0
- router isis fuck
+ router isis djohn
     address-family ipv4 unicast
      mpls traffic-eng router-id loopback0
      mpls traffic-eng level-2-only
@@ -94,7 +94,7 @@ exit
  !!
  XR-P5
 ipv4 unnumbered mpls traffic-eng loopback 0
- router isis fuck
+ router isis djohn
     address-family ipv4 unicast
      mpls traffic-eng router-id loopback0
      mpls traffic-eng level-2-only
@@ -119,7 +119,7 @@ exit
  !!  
 XR-P6
 ipv4 unnumbered mpls traffic-eng loopback 0
- router isis fuck
+ router isis djohn
     address-family ipv4 unicast
      mpls traffic-eng router-id loopback0
      mpls traffic-eng level-2-only

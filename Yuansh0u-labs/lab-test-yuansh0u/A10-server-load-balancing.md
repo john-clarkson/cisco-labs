@@ -51,7 +51,7 @@ ip nat inside source list name lan pool snat
 
 !
 ###
-R1-web# ping vrf fuck 202.100.1.1 re 1
+R1-web# ping vrf djohn 202.100.1.1 re 1
 Type escape sequence to abort.
 Sending 1, 100-byte ICMP Echos to 202.100.1.1, timeout is 2 seconds:
 !

@@ -123,7 +123,7 @@ interface GigabitEthernet2.23
 interface GigabitEthernet2.34
  encapsulation dot1Q 34
  ip address 169.254.1.9 255.255.255.252
- ip router isis FUCK
+ ip router isis djohn
 !
 interface GigabitEthernet3
  no ip address
@@ -135,7 +135,7 @@ interface GigabitEthernet4
  shutdown
  negotiation auto
 !
-router isis FUCK
+router isis djohn
  net 00.0000.0000.0003.00
  is-type level-2-only
  advertise passive-only

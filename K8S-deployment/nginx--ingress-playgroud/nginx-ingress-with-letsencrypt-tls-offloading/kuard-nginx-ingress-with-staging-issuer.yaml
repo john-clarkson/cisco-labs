@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - fuckingtls.com
+    - djohningtls.com
     secretName: letsencrypt-staging
   rules:
-  - host: fuckingtls.com
+  - host: djohningtls.com
     http:
       paths:
       - path: /

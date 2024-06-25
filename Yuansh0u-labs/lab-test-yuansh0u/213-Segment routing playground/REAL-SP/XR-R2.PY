@@ -71,7 +71,7 @@ route-policy PASS
   pass
 end-policy
 !         
-router isis fuck
+router isis djohn
  is-type level-2-only
  net 49.0001.0000.0002.00
  log adjacency changes

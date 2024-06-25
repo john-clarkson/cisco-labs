@@ -41,7 +41,7 @@ interface GigabitEthernet0/0/0/1
 interface GigabitEthernet0/0/0/2
  shutdown
 !
-router isis fuck
+router isis djohn
  is-type level-2-only
  net 49.0001.0000.0001.00
  log adjacency changes

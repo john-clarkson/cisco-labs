@@ -1,5 +1,5 @@
  ##IOS XR nodes
- router isis fuck
+ router isis djohn
  interface x/x/x/x.y
   address-family ipv4
  fast-reroute per-prefix

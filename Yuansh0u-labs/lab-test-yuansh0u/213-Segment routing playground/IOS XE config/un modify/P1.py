@@ -148,18 +148,18 @@ redundancy
 !
 interface Loopback0
  ip address 1.1.1.1 255.255.255.255
- ip router isis fuck
+ ip router isis djohn
 !
 interface GigabitEthernet1
  ip address 169.254.1.1 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  negotiation auto
  mpls traffic-eng tunnels
  no mop enabled
  no mop sysid
  isis network point-to-point 
 !
-router isis fuck
+router isis djohn
  net 49.0001.0000.0001.00
  is-type level-2-only
  metric-style wide

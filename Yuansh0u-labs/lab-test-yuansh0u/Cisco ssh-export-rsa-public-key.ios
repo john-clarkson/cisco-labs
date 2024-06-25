@@ -95,7 +95,7 @@ XE-P1(config)#crypto key export rsa SSH PEM TERminal 3DES ?
 
 XE-P1(config)#crypto key export rsa SSH PEM TERminal 3DES SSH
 % Passphrase is too short, needs to be at least 8 chars
-XE-P1(config)#crypto key export rsa SSH PEM TERminal 3DES FUCK_YOU  
+XE-P1(config)#crypto key export rsa SSH PEM TERminal 3DES djohn_YOU  
 % Key name: SSH
    Usage: General Purpose Key
    Key data:

@@ -17,7 +17,7 @@ interface GigabitEthernet0/0/0/0.56
  encapsulation dot1q 56
 !
 
-router isis fuck
+router isis djohn
  log ad ch
  is-type level-2-only
  net 49.0001.0000.0005.00

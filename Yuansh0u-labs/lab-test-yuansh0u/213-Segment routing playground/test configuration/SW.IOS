@@ -1,7 +1,7 @@
 ﻿enable
  config 
 
-hostname FUCKER-L2-SW
+hostname djohnER-L2-SW
 
  VLAN 2 
  VLAN 12 

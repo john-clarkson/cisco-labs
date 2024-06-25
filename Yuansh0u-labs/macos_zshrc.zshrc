@@ -82,11 +82,11 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
-    thefuck
+    thedjohn
     zsh-syntax-highlighting
     zsh-autosuggestions
 )
-$(thefuck --alias)
+$(thedjohn --alias)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -183,4 +183,4 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 [[  ]] && source <(octant completion zsh)
 [[  ]] && source <(iperf3 completion zsh)
 
-eval $(thefuck --alias)
+eval $(thedjohn --alias)

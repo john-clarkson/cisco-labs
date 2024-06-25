@@ -6,7 +6,7 @@
    local
     allocate for host-routes
   !
-router isis fuck
+router isis djohn
  is-type level-2-only
  net 49.0001.0000.0002.00
  address-family ipv4 unicast
@@ -35,7 +35,7 @@ segment-routing
 address-family ipv4
  100.64.1.2/32 2
 !
-router isis fuck
+router isis djohn
  address-family ipv4 unicast
  segment-routing prefix-sid-map advertise-local
  commit
@@ -154,7 +154,7 @@ RP/0/0/CPU0:XR-P1#
 
 ##After changing default
 
-RP/0/0/CPU0:XR-P1(config)#router isis fuck
+RP/0/0/CPU0:XR-P1(config)#router isis djohn
 RP/0/0/CPU0:XR-P1(config-isis)#address-family ipv4
 RP/0/0/CPU0:XR-P1(config-isis-af)#segment-routing mpls sr-prefer 
 RP/0/0/CPU0:XR-P1(config-isis-af)#commit

@@ -50,7 +50,7 @@ root@VPC1-U002:/# find . |grep index.html
 root@VPC1-U002:/# nano./var/lib/docker/aufs/diff/f46179b478b9a2dacbbf85ac91640dee4e57ef7c2dac6b1a3c8d522feafe64bd/usr/share/nginx/html/index.html
 <html>
 <head>
-<title>FUCK!!!Welcome to nginx!</title>
+<title>djohn!!!Welcome to nginx!</title>
 <style>
     body {
         width: 35em;
@@ -404,17 +404,17 @@ ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP grou
     inet 192.168.80.155/24
 #
 #create docker-bridge with IP settings
-root@localhost:/etc/default# docker network create FUCK-BR2 --subnet 123.123.123.0/24 --gateway 123.123.123.1
+root@localhost:/etc/default# docker network create djohn-BR2 --subnet 123.123.123.0/24 --gateway 123.123.123.1
 43f3e14dc65eaf70b2df2c2b7213538335c5619418b26188a221d9660af3350c
 root@localhost:/etc/default# 
 root@localhost:/etc/default# 
 root@localhost:/etc/default# 
 root@localhost:/etc/default# docker network inspect 
-bridge    FUCK-BR   FUCK-BR2  host      none      
-root@localhost:/etc/default# docker network inspect FUCK-BR2
+bridge    djohn-BR   djohn-BR2  host      none      
+root@localhost:/etc/default# docker network inspect djohn-BR2
 [
     {
-        "Name": "FUCK-BR2",
+        "Name": "djohn-BR2",
         "Id": "43f3e14dc65eaf70b2df2c2b7213538335c5619418b26188a221d9660af3350c",
         "Created": "2018-09-07T03:12:53.372525371-07:00",
         "Scope": "local",
@@ -458,12 +458,12 @@ ip route add default via 192.168.80.2 dev br-981a89a08ba7
 docker run --name debiandjohn3 -it debian /bin/bash
 
 ##create container with network allocation with static IP address!
-docker run --name docker-nginx-FUCK-BR2 --net FUCK-BR --ip 172.17.0.253 -d nginx 
+docker run --name docker-nginx-djohn-BR2 --net djohn-BR --ip 172.17.0.253 -d nginx 
 docker run --name BASE-NETWORK-UBUNTU001 -it --net BASE-NETWORK-BR --ip 192.168.255.1 -d debian /bin/bash
 
 ##start 
-docker start docker-nginx-FUCK-BR
-docker start docker-nginx-FUCK-BR2
+docker start docker-nginx-djohn-BR
+docker start docker-nginx-djohn-BR2
 docker start debiandjohn
 docker start debiandjohn2
 docker start debiandjohn3

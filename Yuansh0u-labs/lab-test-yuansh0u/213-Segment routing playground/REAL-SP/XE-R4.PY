@@ -17,7 +17,7 @@ segment-routing mpls
 !
 interface Loopback0
  ip address 100.64.1.4 255.255.255.255
- ip router isis fuck
+ ip router isis djohn
 !
 
 !
@@ -31,28 +31,28 @@ interface GigabitEthernet2
 interface GigabitEthernet2.914
  encapsulation dot1Q 914
  ip address 169.254.14.4 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  mpls traffic-eng tunnels
  isis network point-to-point 
 !
 interface GigabitEthernet2.924
  encapsulation dot1Q 924
  ip address 169.254.24.4 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  mpls traffic-eng tunnels
  isis network point-to-point 
 !
 interface GigabitEthernet2.945
  encapsulation dot1Q 945
  ip address 169.254.45.4 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  mpls traffic-eng tunnels
  isis network point-to-point 
 !
 interface GigabitEthernet2.947
  encapsulation dot1Q 947
  ip address 169.254.47.4 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  mpls traffic-eng tunnels
  isis network point-to-point 
 !
@@ -63,7 +63,7 @@ interface GigabitEthernet3
  no mop enabled
  no mop sysid
 !
-router isis fuck
+router isis djohn
  net 49.0001.0000.0004.00
  is-type level-2-only
  metric-style wide

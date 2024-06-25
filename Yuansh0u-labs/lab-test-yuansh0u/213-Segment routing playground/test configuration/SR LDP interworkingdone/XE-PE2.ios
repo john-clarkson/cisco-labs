@@ -129,7 +129,7 @@ interface GigabitEthernet1
 interface GigabitEthernet1.112
  encapsulation dot1Q 112
  ip address 169.254.112.2 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  isis network point-to-point 
 !
 interface GigabitEthernet1.200
@@ -140,13 +140,13 @@ interface GigabitEthernet1.200
 interface GigabitEthernet1.222
  encapsulation dot1Q 222
  ip address 169.254.222.2 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  isis network point-to-point 
 !
 interface GigabitEthernet1.224
  encapsulation dot1Q 224
  ip address 169.254.224.2 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  isis network point-to-point 
 !
 interface GigabitEthernet2
@@ -164,7 +164,7 @@ interface GigabitEthernet4
  shutdown 
  negotiation auto
 !
-router isis fuck
+router isis djohn
  net 49.0001.0000.0022.00
  is-type level-2-only
  metric-style wide

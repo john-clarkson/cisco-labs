@@ -153,7 +153,7 @@ redundancy
 !         
 interface Loopback0
  ip address 100.64.1.7 255.255.255.255
- ip router isis fuck
+ ip router isis djohn
 !
 interface GigabitEthernet1
  ip address 150.1.87.7 255.255.0.0
@@ -170,7 +170,7 @@ interface GigabitEthernet2
 interface GigabitEthernet2.67
  encapsulation dot1Q 67
  ip address 169.254.67.7 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  shutdown
  mpls traffic-eng tunnels
  isis network point-to-point 
@@ -178,14 +178,14 @@ interface GigabitEthernet2.67
 interface GigabitEthernet2.947
  encapsulation dot1Q 947
  ip address 169.254.47.7 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  mpls traffic-eng tunnels
  isis network point-to-point 
 !
 interface GigabitEthernet2.957
  encapsulation dot1Q 957
  ip address 169.254.57.7 255.255.255.0
- ip router isis fuck
+ ip router isis djohn
  mpls traffic-eng tunnels
  isis network point-to-point 
 !
@@ -196,7 +196,7 @@ interface GigabitEthernet3
  no mop enabled
  no mop sysid
 !
-router isis fuck
+router isis djohn
  net 49.0001.0000.0007.00
  is-type level-2-only
  metric-style wide
